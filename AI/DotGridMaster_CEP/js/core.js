@@ -490,12 +490,12 @@ var DotGridMaster = DotGridMaster || {};
         marginBottom: params.marginBottom, marginLeft: params.marginLeft
       });
       previewLines = result.guides.map(function (g) {
-        return { orientation: g.orientation, position: g.position, color: '#0D99FF', opacity: 30 };
+        return { orientation: g.orientation, position: g.position, color: '#0D99FF', opacity: 60 };
       });
     } else if (type === 'composition') {
       var compResult = GM.Calculator.calculateComposition(params.type, GM.currentDocInfo.width, GM.currentDocInfo.height);
       previewLines = compResult.lines.map(function (l) {
-        return { x1: l.x1, y1: l.y1, x2: l.x2, y2: l.y2, color: '#FF6B00', opacity: 30 };
+        return { x1: l.x1, y1: l.y1, x2: l.x2, y2: l.y2, color: '#FF6B00', opacity: 60 };
       });
     }
     if (previewLines.length > 0) {

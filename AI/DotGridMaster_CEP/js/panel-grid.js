@@ -24,7 +24,7 @@
     showCellOverlay: true,
     showGutterGuides: true,
     overlayColor: '#0D99FF',
-    overlayOpacity: 20
+    overlayOpacity: 35
   };
 
   function _saveState() {
