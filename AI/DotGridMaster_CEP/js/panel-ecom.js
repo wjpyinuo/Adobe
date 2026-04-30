@@ -1,5 +1,5 @@
 /**
- * DotGridMaster Panel — 电商
+ * DotGuide Panel — 电商
  * 依赖：core.js, ui-components.js
  *
  * BUG-5 修复: 统一字段名为 w/h（与 JSX 端一致）
@@ -566,4 +566,4 @@
     ctx.fillText(tpl.width + '×' + tpl.height, w / 2, h - 4);
   }
 
-})(DotGridMaster);
+})(DotGuide);
