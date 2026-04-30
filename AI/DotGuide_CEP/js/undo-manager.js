@@ -8,7 +8,7 @@
  *
  * BUG-3 修复说明:
  * - UndoManager 是前端唯一的撤销入口
- * - 前端记录操作时，同步推送到后端 _dotgridmasterUndoStack
+ * - 前端记录操作时，同步推送到后端 _dotguideUndoStack
  * - 撤销时优先使用前端栈（因为有完整的操作数据用于重做）
  * - 底部按钮统一走 UndoManager，不再 fallback 到后端
  */

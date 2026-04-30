@@ -1,5 +1,0 @@
-<Extension Id="com.dotguide.panel">
-  <HostList>
-    <Host Name="ILST" Port="8088"/>
-  </HostList>
-</Extension>

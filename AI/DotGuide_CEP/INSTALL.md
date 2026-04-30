@@ -13,7 +13,7 @@ chmod +x setup.sh && ./setup.sh
 ```
 
 脚本自动完成：
-1. 设置 CEP 调试模式（CSXS 9/10/11/12）
+1. 设置 CEP 调试模式（CSXS 11/12/13/14/15）
 2. 将插件复制到 Adobe CEP 扩展目录
 
 安装后重启 Illustrator → **窗口 → 扩展 → DotGuide**
@@ -37,8 +37,6 @@ chmod +x setup.sh && ./setup.sh
 打开注册表编辑器（`regedit`），依次创建以下键值：
 
 ```
-HKCU\SOFTWARE\Adobe\CSXS.9    → PlayerDebugMode (REG_SZ) = 1
-HKCU\SOFTWARE\Adobe\CSXS.10   → PlayerDebugMode (REG_SZ) = 1
 HKCU\SOFTWARE\Adobe\CSXS.11   → PlayerDebugMode (REG_SZ) = 1
 HKCU\SOFTWARE\Adobe\CSXS.12   → PlayerDebugMode (REG_SZ) = 1
 HKCU\SOFTWARE\Adobe\CSXS.13   → PlayerDebugMode (REG_SZ) = 1
@@ -55,8 +53,6 @@ reg add "HKCU\SOFTWARE\Adobe\CSXS.11" /v PlayerDebugMode /t REG_SZ /d 1 /f
 
 打开终端执行：
 ```bash
-defaults write com.adobe.CSXS.9 PlayerDebugMode 1
-defaults write com.adobe.CSXS.10 PlayerDebugMode 1
 defaults write com.adobe.CSXS.11 PlayerDebugMode 1
 defaults write com.adobe.CSXS.12 PlayerDebugMode 1
 defaults write com.adobe.CSXS.13 PlayerDebugMode 1

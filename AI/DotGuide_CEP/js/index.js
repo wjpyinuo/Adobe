@@ -26,7 +26,7 @@
   var _uiBuilt = false;
 
   function buildUI() {
-    var root = document.getElementById('dotgridmaster-root');
+    var root = document.getElementById('dotguide-root');
     if (!root) return;
 
     if (!_uiBuilt) {
