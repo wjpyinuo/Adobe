@@ -48,7 +48,6 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 }
 
 /* 滚动条 */
