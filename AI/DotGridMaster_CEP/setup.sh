@@ -2,7 +2,7 @@
 set -e
 
 echo "=========================================="
-echo "  DotGridMaster CEP 安装脚本 (macOS)"
+echo "  DotGuide CEP 安装脚本 (macOS)"
 echo "=========================================="
 echo ""
 
@@ -17,7 +17,7 @@ echo "    ✓ 已设置 CSXS 9-15 PlayerDebugMode=1"
 echo ""
 echo "[2/2] 安装到 CEP 扩展目录..."
 
-TARGET="$HOME/Library/Application Support/Adobe/CEP/extensions/com.dotgridmaster.cep"
+TARGET="$HOME/Library/Application Support/Adobe/CEP/extensions/com.dotguide.cep"
 
 if [ -d "$TARGET" ]; then
     echo "    发现旧版本，正在清除..."
@@ -33,5 +33,5 @@ echo "    ✓ 已安装到 $TARGET"
 echo ""
 echo "=========================================="
 echo "  安装完成！请重启 Illustrator"
-echo "  窗口 → 扩展 → DotGridMaster"
+echo "  窗口 → 扩展 → DotGuide"
 echo "=========================================="
