@@ -189,7 +189,11 @@ function _removeLayerByName(name) {
   try {
     var doc = app.activeDocument;
     var layer = doc.layers.getByName(name);
+    // 先解锁图层内所有子项，再解锁图层本身
     layer.locked = false;
+    for (var i = 0; i < layer.pageItems.length; i++) {
+      try { layer.pageItems[i].locked = false; } catch (e) {}
+    }
     layer.remove();
   } catch (e) {
     // 图层不存在，忽略
@@ -213,6 +217,7 @@ function getOrCreateLayer(name) {
 function clearLayerContents(layer) {
   layer.locked = false;
   for (var i = layer.pageItems.length - 1; i >= 0; i--) {
+    try { layer.pageItems[i].locked = false; } catch (e) {}
     layer.pageItems[i].remove();
   }
 }
