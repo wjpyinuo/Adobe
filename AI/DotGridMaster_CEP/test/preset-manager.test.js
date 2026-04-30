@@ -1,5 +1,5 @@
 /**
- * DotGridMaster PresetManager 单元测试
+ * DotGuide PresetManager 单元测试
  * 测试 core.js 中 GM.PresetManager 的逻辑
  */
 
@@ -23,7 +23,7 @@ function createPresetManager() {
     _presets = _getBuiltInPresets();
     var saved = null;
     try {
-      var val = mockStorage.getItem('dotgridmaster_custom_presets');
+      var val = mockStorage.getItem('dotguide_custom_presets');
       saved = val ? JSON.parse(val) : null;
     } catch (e) { saved = null; }
     if (saved) _customPresets = saved;
@@ -40,7 +40,7 @@ function createPresetManager() {
     preset.id = 'custom_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
     preset.isBuiltIn = false;
     _customPresets[category].push(preset);
-    mockStorage.setItem('dotgridmaster_custom_presets', JSON.stringify(_customPresets));
+    mockStorage.setItem('dotguide_custom_presets', JSON.stringify(_customPresets));
     return preset;
   }
 
@@ -49,7 +49,7 @@ function createPresetManager() {
     _customPresets[category] = _customPresets[category].filter(
       function (p) { return p.id !== presetId; }
     );
-    mockStorage.setItem('dotgridmaster_custom_presets', JSON.stringify(_customPresets));
+    mockStorage.setItem('dotguide_custom_presets', JSON.stringify(_customPresets));
   }
 
   function _getBuiltInPresets() {
@@ -159,7 +159,7 @@ describe('PresetManager 自定义预设', () => {
 
   it('save 应持久化到 localStorage', () => {
     pm.save('grid', { name: '测试' });
-    var stored = JSON.parse(mockStorage.getItem('dotgridmaster_custom_presets'));
+    var stored = JSON.parse(mockStorage.getItem('dotguide_custom_presets'));
     assert.ok(stored.grid);
     assert.equal(stored.grid.length, 1);
     assert.equal(stored.grid[0].name, '测试');
