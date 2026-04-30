@@ -296,10 +296,13 @@ function clearAllGuides() {
     }
     var doc = app.activeDocument;
 
-    // AI 的 guides 集合需要倒序删除
+    // 清除原生参考线
     for (var i = doc.guides.length - 1; i >= 0; i--) {
       doc.guides[i].remove();
     }
+
+    // 清除 DotGridMaster 创建的参考线图层
+    _removeLayerByName('DotGridMaster_Guides');
 
     _pushUndoRecord('guides', { action: 'clear' });
     return JSON.stringify({ success: true, cleared: true });
@@ -363,60 +366,62 @@ function addGuides(guidesJSON) {
     var abHeight = abTop - abBottom;
 
     var addedCount = 0;
-    var extend = 100; // 参考线超出画板的长度
+
+    // 创建参考线（使用可见路径 + 尝试原生参考线）
+    var layer = getOrCreateLayer('DotGridMaster_Guides');
+    clearLayerContents(layer);
+
+    // 设置参考线样式颜色
+    var guideColor = new RGBColor();
+    guideColor.red = 13; guideColor.green = 153; guideColor.blue = 255;
 
     for (var i = 0; i < guides.length; i++) {
       var g = guides[i];
       var pos = g.position;
 
-      // 验证位置有效性
       if (typeof pos !== 'number' || isNaN(pos)) continue;
 
       try {
-        var guidePath = doc.pathItems.add();
+        // 创建可见路径作为参考线
+        var guidePath = layer.pathItems.add();
         guidePath.name = GM_GUIDE_PREFIX + g.orientation + '_' + Math.round(pos);
 
         if (g.orientation === 'horizontal') {
-          // 水平参考线
-          // 用户坐标 y=0 在画板顶部，AI 坐标 y=abTop 在画板顶部
           var aiY = abTop - pos;
           guidePath.setEntirePath([
-            [abLeft - extend, aiY],
-            [abRight + extend, aiY]
+            [abLeft - 200, aiY],
+            [abRight + 200, aiY]
           ]);
         } else {
-          // 垂直参考线
-          // 用户坐标 x=0 在画板左边，AI 坐标 x=abLeft 在画板左边
           var aiX = abLeft + pos;
           guidePath.setEntirePath([
-            [aiX, abTop + extend],
-            [aiX, abBottom - extend]
+            [aiX, abTop + 200],
+            [aiX, abBottom - 200]
           ]);
         }
 
-        // 转换为参考线
-        guidePath.guides = true;
+        // 设置为蓝色虚线（可见）
+        guidePath.filled = false;
+        guidePath.stroked = true;
+        guidePath.strokeWidth = 0.5;
+        guidePath.strokeColor = guideColor;
+        guidePath.strokeDashes = [6, 3];
+        guidePath.opacity = 80;
+
+        // 尝试转为原生参考线（如果不支持则保持为可见路径）
+        try { guidePath.guides = true; } catch (eg) {}
+
         addedCount++;
       } catch (ge) {
-        // 单条参考线失败不影响其他
+        // 忽略单条失败
       }
     }
 
-    _pushUndoRecord('guides', { action: 'add', count: addedCount });
+    layer.printable = false;
+    layer.locked = true;
 
-    return JSON.stringify({
-      success: true,
-      count: addedCount,
-      debug: {
-        abRect: [abLeft, abTop, abRight, abBottom],
-        abSize: [abWidth, abHeight],
-        firstGuidePos: guides.length > 0 ? guides[0].position : null,
-        firstGuideOrientation: guides.length > 0 ? guides[0].orientation : null,
-        layerName: doc.activeLayer.name,
-        layerLocked: doc.activeLayer.locked,
-        totalPathItems: doc.pathItems.length
-      }
-    });
+    _pushUndoRecord('guides', { action: 'add', count: addedCount });
+    return JSON.stringify({ success: true, count: addedCount, method: 'fallback' });
   } catch (e) {
     return JSON.stringify({ success: false, error: e.message });
   }
@@ -870,6 +875,11 @@ _clearDotGridMasterGuides();
 _removeLayerByName(OVERLAY_LAYER_NAME);
 _removeLayerByName(COMPOSITION_LAYER_NAME);
 _removeLayerByName(PRINT_MARKS_LAYER_NAME);
+_removeLayerByName('DotGridMaster_Guides');
+_removeLayerByName(GRID_OVERLAY_LAYER_NAME);
+_removeLayerByName(ECOM_LAYER_NAME);
+_removeLayerByName(BASEGRID_LAYER_NAME);
+_removeLayerByName(PREVIEW_LAYER_NAME);
 
 _pushUndoRecord('all', { action: 'clear' });
 
