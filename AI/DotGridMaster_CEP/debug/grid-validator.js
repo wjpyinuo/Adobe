@@ -11,8 +11,8 @@ var GridDebugger = (function () {
 
   // 获取当前文档信息（兼容前端和调试环境）
   function _getDocInfo() {
-    if (typeof DotGridMaster !== 'undefined' && DotGridMaster.currentDocInfo) {
-      return DotGridMaster.currentDocInfo;
+    if (typeof DotGuide !== 'undefined' && DotGuide.currentDocInfo) {
+      return DotGuide.currentDocInfo;
     }
     if (typeof currentDocInfo !== 'undefined') {
       return currentDocInfo;
