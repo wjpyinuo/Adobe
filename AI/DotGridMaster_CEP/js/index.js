@@ -38,7 +38,7 @@
         'padding:10px 12px;border-bottom:1px solid var(--gm-border-default);' +
         'display:flex;align-items:center;justify-content:space-between;';
       header.innerHTML =
-        '<div style="font-size:13px;font-weight:600;">⊞ DotGridMaster</div>' +
+        '<div style="font-size:13px;font-weight:600;">⊞ DotGridMaster <span style="font-size:9px;font-weight:400;color:var(--gm-text-secondary);">v1.0.1</span></div>' +
         '<div id="doc-info" style="font-size:10px;color:var(--gm-text-secondary);">未检测到文档</div>';
       root.appendChild(header);
 
@@ -114,7 +114,7 @@
       undoBtn.id = 'btn-undo';
       undoBtn.textContent = '↩ 撤销';
       undoBtn.style.cssText =
-        'flex:1;padding:6px;border-radius:4px;' +
+        'flex:1;padding:6px;border-radius:4px;min-width:0;white-space:nowrap;' +
         'background:var(--gm-bg-tertiary);color:var(--gm-text-secondary);' +
         'font-size:11px;border:1px solid var(--gm-border-default);cursor:pointer;transition:all 0.15s;';
       undoBtn.addEventListener('mouseenter', function () { undoBtn.style.borderColor = 'var(--gm-accent-primary)'; undoBtn.style.color = 'var(--gm-accent-primary)'; });
@@ -131,7 +131,7 @@
       clearBtn.id = 'btn-clear-all';
       clearBtn.textContent = '✕ 清除全部';
       clearBtn.style.cssText =
-        'flex:1;padding:6px;border-radius:4px;' +
+        'flex:1;padding:6px;border-radius:4px;min-width:0;white-space:nowrap;' +
         'background:var(--gm-bg-tertiary);color:var(--gm-accent-danger);' +
         'font-size:11px;border:1px solid var(--gm-border-default);cursor:pointer;transition:all 0.15s;';
       clearBtn.addEventListener('mouseenter', function () { clearBtn.style.borderColor = 'var(--gm-accent-danger)'; clearBtn.style.background = 'rgba(255,59,48,0.1)'; });
@@ -237,3 +237,4 @@
   }
 
 })();
+
