@@ -1,5 +1,5 @@
 /**
- * DotGridMaster Panel — 印刷出血
+ * DotGuide Panel — 印刷出血
  * 依赖：core.js, ui-components.js
  */
 
@@ -181,4 +181,4 @@
     }
   }
 
-})(DotGridMaster);
+})(DotGuide);
