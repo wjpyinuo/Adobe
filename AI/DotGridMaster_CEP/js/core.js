@@ -226,20 +226,16 @@ var DotGridMaster = DotGridMaster || {};
       var totalGutterV = (rows - 1) * gV;
       var rowHeight = (availH - totalGutterV) / rows;
 
-      // 生成列的左右边界 guide（每个内容列等宽）
-      for (var c = 0; c < cols; c++) {
-        var colLeft = mL + c * (colWidth + gH);
-        var colRight = colLeft + colWidth;
-        guides.push({ orientation: 'vertical', position: colLeft });
-        guides.push({ orientation: 'vertical', position: colRight });
+      // 等宽区间法：7 条 guide 创建 6 个等宽区间
+      // 每个区间 = 内容列 + 间距份额，所有区间宽度相同
+      var zoneW = availW / cols;
+      for (var c = 0; c <= cols; c++) {
+        guides.push({ orientation: 'vertical', position: mL + c * zoneW });
       }
 
-      // 生成行的上下边界 guide（每个内容行等高）
-      for (var r = 0; r < rows; r++) {
-        var rowTop = mT + r * (rowHeight + gV);
-        var rowBottom = rowTop + rowHeight;
-        guides.push({ orientation: 'horizontal', position: rowTop });
-        guides.push({ orientation: 'horizontal', position: rowBottom });
+      var zoneH = availH / rows;
+      for (var r = 0; r <= rows; r++) {
+        guides.push({ orientation: 'horizontal', position: mT + r * zoneH });
       }
 
       return { guides: guides, meta: { colWidth: colWidth, rowHeight: rowHeight } };
