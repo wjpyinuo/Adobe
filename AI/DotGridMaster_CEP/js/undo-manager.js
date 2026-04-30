@@ -31,7 +31,7 @@ var UndoManager = (function () {
   };
 
   function _getGM() {
-    if (!_GM) _GM = (typeof DotGridMaster !== 'undefined') ? DotGridMaster : null;
+    if (!_GM) _GM = (typeof DotGuide !== 'undefined') ? DotGuide : null;
     return _GM;
   }
 
@@ -157,7 +157,7 @@ var UndoManager = (function () {
    */
   function _executeUndo(entry) {
     var gm = _getGM();
-    if (!gm) return Promise.reject(new Error('DotGridMaster not loaded'));
+    if (!gm) return Promise.reject(new Error('DotGuide not loaded'));
     var ha = gm.HostAdapter;
 
     switch (entry.type) {
@@ -191,7 +191,7 @@ var UndoManager = (function () {
    */
   function _executeRedo(entry) {
     var gm = _getGM();
-    if (!gm) return Promise.reject(new Error('DotGridMaster not loaded'));
+    if (!gm) return Promise.reject(new Error('DotGuide not loaded'));
     var ha = gm.HostAdapter;
 
     switch (entry.type) {
@@ -306,7 +306,7 @@ var UndoManager = (function () {
    * 不再简单替换 HostAdapter.undo，而是让按钮优先走 UndoManager
    */
   function init() {
-    var GM = (typeof DotGridMaster !== 'undefined') ? DotGridMaster : null;
+    var GM = (typeof DotGuide !== 'undefined') ? DotGuide : null;
     if (!GM) return;
 
     // 监听撤销状态变化，更新按钮状态
@@ -336,7 +336,7 @@ var UndoManager = (function () {
 
     // 不替换 HostAdapter.undo，保持其独立行为
     // 前端面板的撤销统一走 UndoManager
-    // 后端的 undoDotGridMaster 保持独立（供 ExtendScript 直接调用）
+    // 后端的 undoDotGuide 保持独立（供 ExtendScript 直接调用）
   }
 
   return {
