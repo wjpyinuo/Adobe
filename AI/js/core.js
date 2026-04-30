@@ -15,6 +15,12 @@ var GridMaster = GridMaster || {};
   // ============================
 
   var cs = new CSInterface();
+
+  // 检测是否为占位 stub（未下载正式 CSInterface.js）
+  if (cs.evalScript && cs.evalScript.toString().indexOf('EvalScript error') !== -1) {
+    console.warn('[GridMaster] CSInterface.js 未就绪，请运行 setup 脚本下载正式版本。');
+  }
+
   GM._csInterface = cs;
   GM.currentDocInfo = null;
   GM.currentTab = 'grid';
