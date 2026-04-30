@@ -24,10 +24,66 @@
     showCellOverlay: true,
     showGutterGuides: true,
     overlayColor: '#0D99FF',
-    overlayOpacity: 35
+    overlayOpacity: 15
   };
 
   function _saveState() {
+
+  /**
+   * 实时预览：根据当前显示选项状态，立即更新画布
+   * 无需点击"应用网格"即可看到效果
+   */
+  function _applyLivePreview() {
+    if (!GM.currentDocInfo) return;
+
+    var result = GM.Calculator.calculateGrid({
+      docWidth: GM.currentDocInfo.width, docHeight: GM.currentDocInfo.height,
+      docUnit: GM.currentDocInfo.unit || 'px',
+      columns: gridState.columns, rows: gridState.rows,
+      gutterH: gridState.gutterH, gutterV: gridState.gutterV,
+      marginTop: gridState.marginTop, marginRight: gridState.marginRight,
+      marginBottom: gridState.marginBottom, marginLeft: gridState.marginLeft
+    });
+
+    var gutterGuides = [];
+    if (gridState.showGutterGuides && (gridState.gutterH > 0 || gridState.gutterV > 0)) {
+      gutterGuides = _calcGutterGuides({
+        docWidth: GM.currentDocInfo.width, docHeight: GM.currentDocInfo.height,
+        columns: gridState.columns, rows: gridState.rows,
+        gutterH: gridState.gutterH, gutterV: gridState.gutterV,
+        marginTop: gridState.marginTop, marginRight: gridState.marginRight,
+        marginBottom: gridState.marginBottom, marginLeft: gridState.marginLeft
+      });
+    }
+
+    // 先全部清除
+    Promise.all([
+      GM.HostAdapter.clearGuides(),
+      GM.HostAdapter.clearGridOverlay(),
+      GM.HostAdapter.clearGutterGuides()
+    ]).then(function () {
+      var promises = [];
+
+      // 按开关状态决定是否添加
+      if (gridState.showGuides && result.guides.length > 0) {
+        promises.push(GM.HostAdapter.addGuides(result.guides));
+      }
+      if (gridState.showGutterGuides && gutterGuides.length > 0) {
+        promises.push(GM.HostAdapter.addGutterGuides(gutterGuides));
+      }
+      if (gridState.showCellOverlay) {
+        promises.push(GM.HostAdapter.addGridOverlay({
+          columns: gridState.columns, rows: gridState.rows,
+          gutterH: gridState.gutterH, gutterV: gridState.gutterV,
+          marginTop: gridState.marginTop, marginRight: gridState.marginRight,
+          marginBottom: gridState.marginBottom, marginLeft: gridState.marginLeft,
+          color: gridState.overlayColor, opacity: gridState.overlayOpacity
+        }));
+      }
+
+      return Promise.all(promises);
+    }).catch(function () {});
+  }
     GM.Storage.set('grid_state', gridState);
   }
 
@@ -144,7 +200,7 @@
     guideLabel.textContent = '显示参考线';
     guideRow.appendChild(guideLabel);
     guideRow.appendChild(GM.createToggleSwitch(gridState.showGuides, function (v) {
-      gridState.showGuides = v; _saveState();
+      gridState.showGuides = v; _saveState(); _applyLivePreview();
     }));
     optSection.appendChild(guideRow);
 
@@ -156,7 +212,7 @@
     gutterGuideLabel.textContent = '显示间距边界线';
     gutterGuideRow.appendChild(gutterGuideLabel);
     gutterGuideRow.appendChild(GM.createToggleSwitch(gridState.showGutterGuides, function (v) {
-      gridState.showGutterGuides = v; _saveState();
+      gridState.showGutterGuides = v; _saveState(); _applyLivePreview();
     }));
     optSection.appendChild(gutterGuideRow);
 
@@ -168,7 +224,7 @@
     overlayLabel.textContent = '显示色块';
     overlayRow.appendChild(overlayLabel);
     overlayRow.appendChild(GM.createToggleSwitch(gridState.showCellOverlay, function (v) {
-      gridState.showCellOverlay = v; _saveState();
+      gridState.showCellOverlay = v; _saveState(); _applyLivePreview();
     }));
     optSection.appendChild(overlayRow);
     container.appendChild(optSection);

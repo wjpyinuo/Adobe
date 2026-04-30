@@ -145,6 +145,20 @@
     var wrap = document.createElement('div');
     wrap.style.cssText = 'display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px;';
 
+    // 跟踪当前选中的预设 ID
+    var selectedId = null;
+
+    function _updateSelection() {
+      var btns = wrap.querySelectorAll('[data-preset-btn]');
+      for (var i = 0; i < btns.length; i++) {
+        var btn = btns[i];
+        var isSelected = btn.dataset.presetId === selectedId;
+        btn.style.background = isSelected ? 'var(--gm-accent-primary)' : 'var(--gm-bg-tertiary)';
+        btn.style.color = isSelected ? '#fff' : 'var(--gm-text-primary)';
+        btn.style.borderColor = isSelected ? 'var(--gm-accent-primary)' : 'var(--gm-border-default)';
+      }
+    }
+
     presets.forEach(function (preset) {
       var isCustom = !preset.isBuiltIn;
 
@@ -156,10 +170,26 @@
 
         var nameBtn = document.createElement('button');
         nameBtn.textContent = preset.name;
+        nameBtn.dataset.presetBtn = '1';
+        nameBtn.dataset.presetId = preset.id;
         nameBtn.style.cssText =
           'padding:4px 8px;font-size:10px;cursor:pointer;border:none;outline:none;' +
           'background:var(--gm-bg-tertiary);color:var(--gm-text-primary);transition:all 0.15s;';
+        nameBtn.addEventListener('mouseenter', function () {
+          if (nameBtn.dataset.presetId !== selectedId) {
+            nameBtn.style.background = 'var(--gm-bg-hover)';
+            group.style.borderColor = 'var(--gm-accent-primary)';
+          }
+        });
+        nameBtn.addEventListener('mouseleave', function () {
+          if (nameBtn.dataset.presetId !== selectedId) {
+            nameBtn.style.background = 'var(--gm-bg-tertiary)';
+            group.style.borderColor = 'var(--gm-border-default)';
+          }
+        });
         nameBtn.addEventListener('click', function () {
+          selectedId = preset.id;
+          _updateSelection();
           if (onSelect) onSelect(preset);
         });
 
@@ -181,6 +211,7 @@
           e.stopPropagation();
           GM.PresetManager.remove(category, preset.id);
           GM.showToast('已删除预设: ' + preset.name, 'info');
+          if (selectedId === preset.id) selectedId = null;
           if (onDelete) onDelete();
         });
 
@@ -188,23 +219,33 @@
         group.appendChild(delBtn);
         wrap.appendChild(group);
       } else {
-        // 内置预设：普通按钮
+        // 内置预设：带 hover 和选中效果
         var btn = document.createElement('button');
         btn.textContent = preset.name;
+        btn.dataset.presetBtn = '1';
+        btn.dataset.presetId = preset.id;
         btn.style.cssText =
           'padding:4px 8px;border-radius:3px;font-size:10px;cursor:pointer;' +
           'background:var(--gm-bg-tertiary);color:var(--gm-text-primary);' +
           'border:1px solid var(--gm-border-default);transition:all 0.15s;';
 
         btn.addEventListener('mouseenter', function () {
-          btn.style.borderColor = 'var(--gm-accent-primary)';
-          btn.style.color = 'var(--gm-accent-primary)';
+          if (btn.dataset.presetId !== selectedId) {
+            btn.style.borderColor = 'var(--gm-accent-primary)';
+            btn.style.color = 'var(--gm-accent-primary)';
+            btn.style.background = 'var(--gm-bg-hover)';
+          }
         });
         btn.addEventListener('mouseleave', function () {
-          btn.style.borderColor = 'var(--gm-border-default)';
-          btn.style.color = 'var(--gm-text-primary)';
+          if (btn.dataset.presetId !== selectedId) {
+            btn.style.borderColor = 'var(--gm-border-default)';
+            btn.style.color = 'var(--gm-text-primary)';
+            btn.style.background = 'var(--gm-bg-tertiary)';
+          }
         });
         btn.addEventListener('click', function () {
+          selectedId = preset.id;
+          _updateSelection();
           if (onSelect) onSelect(preset);
         });
         wrap.appendChild(btn);
@@ -213,11 +254,6 @@
 
     return wrap;
   };
-
-  // ============================
-  // Apply Button
-  // ============================
-
   GM.createApplyButton = function (text, onClick) {
     var btn = document.createElement('button');
     btn.textContent = text || '应用';
