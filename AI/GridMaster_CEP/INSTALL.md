@@ -28,6 +28,12 @@ chmod +x setup.sh && ./setup.sh
 
 **Windows：**
 
+方式 A：双击注册表文件（推荐）
+
+直接双击 `enable-debug.reg`，确认导入即可。
+
+方式 B：手动注册表编辑
+
 打开注册表编辑器（`regedit`），依次创建以下键值：
 
 ```
@@ -37,7 +43,7 @@ HKCU\SOFTWARE\Adobe\CSXS.11   → PlayerDebugMode (REG_SZ) = 1
 HKCU\SOFTWARE\Adobe\CSXS.12   → PlayerDebugMode (REG_SZ) = 1
 ```
 
-或以管理员身份运行 CMD：
+方式 C：CMD 命令行
 ```bat
 reg add "HKCU\SOFTWARE\Adobe\CSXS.11" /v PlayerDebugMode /t REG_SZ /d 1 /f
 ```
