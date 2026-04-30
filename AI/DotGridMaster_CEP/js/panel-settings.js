@@ -1,5 +1,5 @@
 /**
- * DotGridMaster Panel — 设置
+ * DotGuide Panel — 设置
  * 依赖：core.js, ui-components.js
  */
 
@@ -14,9 +14,9 @@
     var aboutCard = document.createElement('div');
     aboutCard.style.cssText = 'padding:12px;border-radius:4px;background:var(--gm-bg-secondary);border:1px solid var(--gm-border-default);margin-bottom:12px;';
     aboutCard.innerHTML =
-      '<div style="font-size:14px;font-weight:700;margin-bottom:4px;">⊞ DotGridMaster</div>' +
+      '<div style="font-size:14px;font-weight:700;margin-bottom:4px;">⊞ DotGuide</div>' +
       '<div style="font-size:10px;color:var(--gm-text-secondary);line-height:1.6;">' +
-      '版本: 1.0.1 (CEP)<br>引擎: DotGridMaster Core<br>兼容: Illustrator 2024+ (v28.0+)<br>架构: CEP + ExtendScript</div>';
+      '版本: 1.0.1 (CEP)<br>引擎: DotGuide Core<br>兼容: Illustrator 2024+ (v28.0+)<br>架构: CEP + ExtendScript</div>';
     aboutSection.appendChild(aboutCard);
     container.appendChild(aboutSection);
 
@@ -146,4 +146,4 @@
     container.appendChild(debugSection);
   };
 
-})(DotGridMaster);
+})(DotGuide);
