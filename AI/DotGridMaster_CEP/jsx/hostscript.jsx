@@ -1,10 +1,10 @@
 /**
- * DotGridMaster ExtendScript 宿主脚本 (修复版)
+ * DotGuide ExtendScript 宿主脚本 (修复版)
  * 运行在 Illustrator 的 ExtendScript 引擎中
  * 通过 CSInterface.evalScript() 从前端调用
  *
  * 修复清单:
- *   BUG-8: _clearDotGridMasterGuides 不再清除原生参考线
+ *   BUG-8: _clearDotGuideGuides 不再清除原生参考线
  *   BUG-9: _jsonStringify 处理特殊数值类型
  */
 
@@ -91,31 +91,31 @@ function jsonStringify(obj) {
 // 撤销系统
 // ============================
 
-var _dotgridmasterUndoStack = [];
+var _dotguideUndoStack = [];
 var _MAX_UNDO_STACK = 20;
 
 function _pushUndoRecord(actionType, details) {
-  _dotgridmasterUndoStack.push({
+  _dotguideUndoStack.push({
     type: actionType,
     details: details || {},
     timestamp: new Date().getTime()
   });
-  if (_dotgridmasterUndoStack.length > _MAX_UNDO_STACK) {
-    _dotgridmasterUndoStack.shift();
+  if (_dotguideUndoStack.length > _MAX_UNDO_STACK) {
+    _dotguideUndoStack.shift();
   }
 }
 
-function undoDotGridMaster() {
+function undoDotGuide() {
   try {
-    if (_dotgridmasterUndoStack.length === 0) {
-      return JSON.stringify({ success: false, error: 'No DotGridMaster actions to undo' });
+    if (_dotguideUndoStack.length === 0) {
+      return JSON.stringify({ success: false, error: 'No DotGuide actions to undo' });
     }
 
-    var lastAction = _dotgridmasterUndoStack.pop();
+    var lastAction = _dotguideUndoStack.pop();
 
     switch (lastAction.type) {
       case 'guides':
-        _clearDotGridMasterGuides();
+        _clearDotGuideGuides();
         break;
       case 'overlays':
         _removeLayerByName(OVERLAY_LAYER_NAME);
@@ -127,7 +127,7 @@ function undoDotGridMaster() {
         _removeLayerByName(PRINT_MARKS_LAYER_NAME);
         break;
       case 'all':
-        _clearDotGridMasterGuides();
+        _clearDotGuideGuides();
         _removeLayerByName(OVERLAY_LAYER_NAME);
         _removeLayerByName(COMPOSITION_LAYER_NAME);
         _removeLayerByName(PRINT_MARKS_LAYER_NAME);
@@ -137,7 +137,7 @@ function undoDotGridMaster() {
     return JSON.stringify({
       success: true,
       undone: lastAction.type,
-      remaining: _dotgridmasterUndoStack.length
+      remaining: _dotguideUndoStack.length
     });
   } catch (e) {
     return JSON.stringify({ success: false, error: e.message });
@@ -148,9 +148,9 @@ function getUndoState() {
   return JSON.stringify({
     success: true,
     data: {
-      count: _dotgridmasterUndoStack.length,
-      lastAction: _dotgridmasterUndoStack.length > 0
-        ? _dotgridmasterUndoStack[_dotgridmasterUndoStack.length - 1].type
+      count: _dotguideUndoStack.length,
+      lastAction: _dotguideUndoStack.length > 0
+        ? _dotguideUndoStack[_dotguideUndoStack.length - 1].type
         : null
     }
   });
@@ -277,19 +277,19 @@ function getDocumentInfo() {
 // 参考线管理
 // ============================
 
-var GM_GUIDE_PREFIX = 'DotGridMaster_';
+var GM_GUIDE_PREFIX = 'DotGuide_';
 
 /**
  * 清除所有参考线
- * BUG-8 修复: 仅清除 DotGridMaster 创建的参考线，保留用户原生参考线
+ * BUG-8 修复: 仅清除 DotGuide 创建的参考线，保留用户原生参考线
  */
 function clearAllGuides() {
   try {
     if (app.documents.length === 0) {
       return JSON.stringify({ success: false, error: 'No document open' });
     }
-    _clearDotGridMasterGuides();
-    _removeLayerByName('DotGridMaster_Guides');
+    _clearDotGuideGuides();
+    _removeLayerByName('DotGuide_Guides');
     _pushUndoRecord('guides', { action: 'clear' });
     return JSON.stringify({ success: true, cleared: true });
   } catch (e) {
@@ -298,10 +298,10 @@ function clearAllGuides() {
 }
 
 /**
- * BUG-8 修复: 仅清除带 DotGridMaster_ 前缀的路径参考线
+ * BUG-8 修复: 仅清除带 DotGuide_ 前缀的路径参考线
  * 不再清除 doc.guides 中的原生参考线
  */
-function _clearDotGridMasterGuides() {
+function _clearDotGuideGuides() {
   try {
     var doc = app.activeDocument;
     // 遍历所有图层中的 guide 路径，仅清除带前缀的
@@ -347,7 +347,7 @@ function addGuides(guidesJSON) {
 
     var addedCount = 0;
 
-    var layer = getOrCreateLayer('DotGridMaster_Guides');
+    var layer = getOrCreateLayer('DotGuide_Guides');
     clearLayerContents(layer);
 
     var guideColor = new RGBColor();
@@ -406,7 +406,7 @@ function addGuides(guidesJSON) {
 // 覆盖层管理
 // ============================
 
-var OVERLAY_LAYER_NAME = 'DotGridMaster_Overlays';
+var OVERLAY_LAYER_NAME = 'DotGuide_Overlays';
 
 function addOverlays(overlaysJSON) {
   try {
@@ -474,7 +474,7 @@ function clearOverlays() {
 // 构图辅助线
 // ============================
 
-var COMPOSITION_LAYER_NAME = 'DotGridMaster_Composition';
+var COMPOSITION_LAYER_NAME = 'DotGuide_Composition';
 
 function addCompositionLines(linesJSON) {
   try {
@@ -574,7 +574,7 @@ function addSpiralPath(pointsJSON, color, strokeWidth) {
 
     var rgb = hexToRGB(color || '#FF6B00');
     path.strokeColor = makeRGBColor(rgb.r, rgb.g, rgb.b);
-    path.name = 'DotGridMaster_Spiral';
+    path.name = 'DotGuide_Spiral';
 
     if (points.length >= 4) {
       for (var p = 0; p < path.pathPoints.length; p++) {
@@ -601,7 +601,7 @@ function clearComposition() {
 // 印刷标记
 // ============================
 
-var PRINT_MARKS_LAYER_NAME = 'DotGridMaster_PrintMarks';
+var PRINT_MARKS_LAYER_NAME = 'DotGuide_PrintMarks';
 
 function addPrintMarks(marksJSON) {
   try {
@@ -792,12 +792,12 @@ function clearAll() {
       return JSON.stringify({ success: false, error: 'No document open' });
     }
 
-    _clearDotGridMasterGuides();
+    _clearDotGuideGuides();
 
     _removeLayerByName(OVERLAY_LAYER_NAME);
     _removeLayerByName(COMPOSITION_LAYER_NAME);
     _removeLayerByName(PRINT_MARKS_LAYER_NAME);
-    _removeLayerByName('DotGridMaster_Guides');
+    _removeLayerByName('DotGuide_Guides');
     _removeLayerByName(GRID_OVERLAY_LAYER_NAME);
     _removeLayerByName(ECOM_LAYER_NAME);
     _removeLayerByName(BASEGRID_LAYER_NAME);
@@ -806,7 +806,7 @@ function clearAll() {
 
     _pushUndoRecord('all', { action: 'clear' });
 
-    return JSON.stringify({ success: true, message: 'All DotGridMaster content cleared' });
+    return JSON.stringify({ success: true, message: 'All DotGuide content cleared' });
   } catch (e) {
     return JSON.stringify({ success: false, error: e.message });
   }
@@ -816,7 +816,7 @@ function clearAll() {
 // 高级功能：网格覆盖层
 // ============================
 
-var GRID_OVERLAY_LAYER_NAME = 'DotGridMaster_GridOverlay';
+var GRID_OVERLAY_LAYER_NAME = 'DotGuide_GridOverlay';
 
 function addGridOverlay(gridJSON) {
   try {
@@ -904,7 +904,7 @@ function clearGridOverlay() {
 // 间距边界辅助线（独立图层，更醒目的样式）
 // ============================
 
-var GUTTER_GUIDES_LAYER_NAME = 'DotGridMaster_GutterGuides';
+var GUTTER_GUIDES_LAYER_NAME = 'DotGuide_GutterGuides';
 
 function addGutterGuides(guidesJSON) {
   try {
@@ -1074,7 +1074,7 @@ function addColorBar() {
 // 高级功能：8pt 基准网格
 // ============================
 
-var BASEGRID_LAYER_NAME = 'DotGridMaster_BaseGrid';
+var BASEGRID_LAYER_NAME = 'DotGuide_BaseGrid';
 
 function addBaseGrid(optionsJSON) {
   try {
@@ -1173,7 +1173,7 @@ function healthCheck() {
 // 预览图层
 // ============================
 
-var PREVIEW_LAYER_NAME = 'DotGridMaster_Preview';
+var PREVIEW_LAYER_NAME = 'DotGuide_Preview';
 
 function addPreviewLines(linesJSON) {
   try {
@@ -1239,7 +1239,7 @@ function clearPreviewLayer() {
 // 电商功能区绘制
 // ============================
 
-var ECOM_LAYER_NAME = 'DotGridMaster_Ecom';
+var ECOM_LAYER_NAME = 'DotGuide_Ecom';
 
 function clearEcom() {
   _removeLayerByName(ECOM_LAYER_NAME);
@@ -1346,7 +1346,7 @@ function applyPrintMarks(paramsJSON) {
     var abTop = abRect[1];
     var abRight = abRect[2];
     var abBottom = abRect[3];
-    var layer = getOrCreateLayer('DotGridMaster_PrintMarks');
+    var layer = getOrCreateLayer('DotGuide_PrintMarks');
     clearLayerContents(layer);
 
     var params = {};
@@ -1432,7 +1432,7 @@ function diagnosticTest() {
     var abRect = doc.artboards[abIndex].artboardRect;
 
     // BUG-4 修复: 使用独立图层，测试后自动清除
-    var layer = getOrCreateLayer('DotGridMaster_Diag');
+    var layer = getOrCreateLayer('DotGuide_Diag');
     clearLayerContents(layer);
 
     var rect = layer.pathItems.rectangle(abRect[1] - 50, abRect[0] + 50, 200, 100);
@@ -1442,7 +1442,7 @@ function diagnosticTest() {
     rgb.red = 255; rgb.green = 0; rgb.blue = 0;
     rect.fillColor = rgb;
     rect.opacity = 50;
-    rect.name = 'DotGridMaster_DIAG_TEST';
+    rect.name = 'DotGuide_DIAG_TEST';
 
     var result = JSON.stringify({
       success: true,
