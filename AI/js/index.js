@@ -1949,9 +1949,8 @@ selectedPreset: null
 
     // 仅应用安全区域
     var safeOnlyBtn = document.createElement('button');
-    safeOnlyBtn.textContent = '🛡 仅应用安全区
-safeOnlyBtn.textContent = '🛡 仅应用安全区域';
-safeOnlyBtn.style.cssText =
+    safeOnlyBtn.textContent = '🛡 仅应用安全区域';
+    safeOnlyBtn.style.cssText =
 'width:100%;padding:7px;border-radius:4px;font-size:11px;margin-top:4px;' +
 'background:var(--gm-bg-tertiary);color:var(--gm-text-secondary);' +
 'border:1px solid var(--gm-border-default);cursor:pointer;transition:all 0.15s;';
@@ -2968,6 +2967,14 @@ var preset = uiState.selectedPreset;
     PresetManager.init();
     buildUI();
 
+    // 初始化 P3 模块
+    if (typeof UndoManager !== 'undefined' && UndoManager.init) {
+      UndoManager.init();
+    }
+    if (typeof PerformanceMonitor !== 'undefined' && PerformanceMonitor.init) {
+      PerformanceMonitor.init();
+    }
+
     // 延迟刷新文档信息（等待 AI 完全加载）
     setTimeout(refreshDocInfo, 1000);
   }
@@ -3013,6 +3020,7 @@ var preset = uiState.selectedPreset;
     Calculator: Calculator,
     Storage: Storage,
     PresetManager: PresetManager,
+    _csInterface: cs,
     get currentDocInfo() { return currentDocInfo; },
     get currentTab() { return currentTab; }
   };
