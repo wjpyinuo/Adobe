@@ -140,32 +140,75 @@
   // Preset List (button chips)
   // ============================
 
-  GM.createPresetList = function (category, onSelect) {
+  GM.createPresetList = function (category, onSelect, onDelete) {
     var presets = GM.PresetManager.getAll(category);
     var wrap = document.createElement('div');
     wrap.style.cssText = 'display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px;';
 
     presets.forEach(function (preset) {
-      var btn = document.createElement('button');
-      btn.textContent = preset.name;
-      btn.style.cssText =
-        'padding:4px 8px;border-radius:3px;font-size:10px;cursor:pointer;' +
-        'background:var(--gm-bg-tertiary);color:var(--gm-text-primary);' +
-        'border:1px solid var(--gm-border-default);transition:all 0.15s;';
+      var isCustom = !preset.isBuiltIn;
 
-      btn.addEventListener('mouseenter', function () {
-        btn.style.borderColor = 'var(--gm-accent-primary)';
-        btn.style.color = 'var(--gm-accent-primary)';
-      });
-      btn.addEventListener('mouseleave', function () {
-        btn.style.borderColor = 'var(--gm-border-default)';
-        btn.style.color = 'var(--gm-text-primary)';
-      });
-      btn.addEventListener('click', function () {
-        if (onSelect) onSelect(preset);
-      });
+      if (isCustom) {
+        // 自定义预设：带删除按钮的分组
+        var group = document.createElement('div');
+        group.style.cssText = 'display:inline-flex;align-items:center;border-radius:3px;overflow:hidden;' +
+          'border:1px solid var(--gm-border-default);transition:all 0.15s;';
 
-      wrap.appendChild(btn);
+        var nameBtn = document.createElement('button');
+        nameBtn.textContent = preset.name;
+        nameBtn.style.cssText =
+          'padding:4px 8px;font-size:10px;cursor:pointer;border:none;outline:none;' +
+          'background:var(--gm-bg-tertiary);color:var(--gm-text-primary);transition:all 0.15s;';
+        nameBtn.addEventListener('click', function () {
+          if (onSelect) onSelect(preset);
+        });
+
+        var delBtn = document.createElement('button');
+        delBtn.textContent = '×';
+        delBtn.title = '删除此预设';
+        delBtn.style.cssText =
+          'padding:4px 6px;font-size:11px;cursor:pointer;border:none;outline:none;font-weight:700;' +
+          'background:var(--gm-bg-tertiary);color:var(--gm-text-secondary);transition:all 0.15s;border-left:1px solid var(--gm-border-default);';
+        delBtn.addEventListener('mouseenter', function () {
+          delBtn.style.background = 'rgba(255,59,48,0.2)';
+          delBtn.style.color = 'var(--gm-accent-danger)';
+        });
+        delBtn.addEventListener('mouseleave', function () {
+          delBtn.style.background = 'var(--gm-bg-tertiary)';
+          delBtn.style.color = 'var(--gm-text-secondary)';
+        });
+        delBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          GM.PresetManager.remove(category, preset.id);
+          GM.showToast('已删除预设: ' + preset.name, 'info');
+          if (onDelete) onDelete();
+        });
+
+        group.appendChild(nameBtn);
+        group.appendChild(delBtn);
+        wrap.appendChild(group);
+      } else {
+        // 内置预设：普通按钮
+        var btn = document.createElement('button');
+        btn.textContent = preset.name;
+        btn.style.cssText =
+          'padding:4px 8px;border-radius:3px;font-size:10px;cursor:pointer;' +
+          'background:var(--gm-bg-tertiary);color:var(--gm-text-primary);' +
+          'border:1px solid var(--gm-border-default);transition:all 0.15s;';
+
+        btn.addEventListener('mouseenter', function () {
+          btn.style.borderColor = 'var(--gm-accent-primary)';
+          btn.style.color = 'var(--gm-accent-primary)';
+        });
+        btn.addEventListener('mouseleave', function () {
+          btn.style.borderColor = 'var(--gm-border-default)';
+          btn.style.color = 'var(--gm-text-primary)';
+        });
+        btn.addEventListener('click', function () {
+          if (onSelect) onSelect(preset);
+        });
+        wrap.appendChild(btn);
+      }
     });
 
     return wrap;
@@ -248,3 +291,4 @@
   };
 
 })(DotGridMaster);
+
