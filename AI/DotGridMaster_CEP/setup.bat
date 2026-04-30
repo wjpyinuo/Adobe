@@ -1,7 +1,7 @@
 @echo off
 chcp 437 >nul 2>&1
 echo ==========================================
-echo   DotGridMaster CEP Setup (Windows)
+echo   DotGuide CEP Setup (Windows)
 echo ==========================================
 echo.
 
@@ -16,7 +16,7 @@ echo     [OK] CSXS 9-15 PlayerDebugMode=1
 echo.
 echo [2/2] Installing to CEP extensions directory...
 
-set "TARGET=%APPDATA%\Adobe\CEP\extensions\com.dotgridmaster.cep"
+set "TARGET=%APPDATA%\Adobe\CEP\extensions\com.dotguide.cep"
 
 if exist "%TARGET%" (
     echo     Removing old version...
@@ -30,7 +30,7 @@ echo     [OK] Installed to %TARGET%
 echo.
 echo ==========================================
 echo   Done! Restart Illustrator.
-echo   Window ^> Extensions ^> DotGridMaster
+echo   Window ^> Extensions ^> DotGuide
 echo ==========================================
 echo.
 pause
