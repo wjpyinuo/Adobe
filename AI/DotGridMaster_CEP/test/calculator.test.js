@@ -1,5 +1,5 @@
 /**
- * DotGridMaster Calculator 单元测试 (BUG-4 修复版)
+ * DotGuide Calculator 单元测试 (BUG-4 修复版)
  * 测试 core.js 中 Calculator 的纯计算逻辑
  *
  * 修复: 网格间距(gutter)现在正确参与参考线位置计算
