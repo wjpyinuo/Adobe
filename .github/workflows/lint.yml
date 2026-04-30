@@ -3,16 +3,16 @@ name: CI
 on:
   push:
     paths:
-      - 'AI/GridMaster_CEP/js/**'
-      - 'AI/GridMaster_CEP/test/**'
-      - 'AI/GridMaster_CEP/package.json'
-      - 'AI/GridMaster_CEP/.eslintrc.json'
+      - 'AI/DotGridMaster_CEP/js/**'
+      - 'AI/DotGridMaster_CEP/test/**'
+      - 'AI/DotGridMaster_CEP/package.json'
+      - 'AI/DotGridMaster_CEP/.eslintrc.json'
   pull_request:
     paths:
-      - 'AI/GridMaster_CEP/js/**'
-      - 'AI/GridMaster_CEP/test/**'
-      - 'AI/GridMaster_CEP/package.json'
-      - 'AI/GridMaster_CEP/.eslintrc.json'
+      - 'AI/DotGridMaster_CEP/js/**'
+      - 'AI/DotGridMaster_CEP/test/**'
+      - 'AI/DotGridMaster_CEP/package.json'
+      - 'AI/DotGridMaster_CEP/.eslintrc.json'
 
 jobs:
   lint:
@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: AI/GridMaster_CEP
+        working-directory: AI/DotGridMaster_CEP
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: AI/GridMaster_CEP
+        working-directory: AI/DotGridMaster_CEP
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

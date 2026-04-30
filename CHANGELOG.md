@@ -1,6 +1,6 @@
 # Changelog
 
-本文件记录 GridMaster CEP 的主要变更。
+本文件记录 DotGridMaster CEP 的主要变更。
 
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
@@ -21,3 +21,9 @@
 - 一键安装脚本：setup.bat (Windows) / setup.sh (macOS)
 - 调试支持：Chrome DevTools 远程调试 (.debug 端口 8088)
 - enable-debug.reg：Windows 双击一键导入调试注册表
+
+## [1.0.1] - 2026-05-01
+
+### 变更
+- 项目更名为 DotGridMaster_CEP（原 GridMaster_CEP）
+- 更新所有命名空间、配置、文档中的项目名称
