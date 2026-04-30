@@ -404,7 +404,19 @@ function addGuides(guidesJSON) {
 
     _pushUndoRecord('guides', { action: 'add', count: addedCount });
 
-    return JSON.stringify({ success: true, count: addedCount });
+    return JSON.stringify({
+      success: true,
+      count: addedCount,
+      debug: {
+        abRect: [abLeft, abTop, abRight, abBottom],
+        abSize: [abWidth, abHeight],
+        firstGuidePos: guides.length > 0 ? guides[0].position : null,
+        firstGuideOrientation: guides.length > 0 ? guides[0].orientation : null,
+        layerName: doc.activeLayer.name,
+        layerLocked: doc.activeLayer.locked,
+        totalPathItems: doc.pathItems.length
+      }
+    });
   } catch (e) {
     return JSON.stringify({ success: false, error: e.message });
   }
@@ -1403,6 +1415,46 @@ try {
 var doc = app.documents.add(DocumentColorSpace.RGB, width, height);
 if (name) doc.name = name;
 return JSON.stringify({ success: true, data: { name: doc.name, width: width, height: height } });
+} catch (e) {
+return JSON.stringify({ success: false, error: e.message });
+}
+}
+
+// ============================
+// 诊断测试
+// ============================
+
+/**
+ * 创建一个红色矩形来验证 ExtendScript 实际执行
+ */
+function diagnosticTest() {
+try {
+if (app.documents.length === 0) {
+return JSON.stringify({ success: false, error: 'No document open' });
+}
+var doc = app.activeDocument;
+var abIndex = doc.artboards.getActiveArtboardIndex();
+var abRect = doc.artboards[abIndex].artboardRect;
+
+var layer = doc.activeLayer;
+var rect = layer.pathItems.rectangle(abRect[1] - 50, abRect[0] + 50, 200, 100);
+rect.filled = true;
+rect.stroked = false;
+var rgb = new RGBColor();
+rgb.red = 255; rgb.green = 0; rgb.blue = 0;
+rect.fillColor = rgb;
+rect.opacity = 50;
+rect.name = 'DotGridMaster_DIAG_TEST';
+
+return JSON.stringify({
+success: true,
+data: {
+layerName: layer.name,
+layerLocked: layer.locked,
+abRect: abRect,
+rectCreated: true
+}
+});
 } catch (e) {
 return JSON.stringify({ success: false, error: e.message });
 }

@@ -80,8 +80,14 @@
       });
       return GM.HostAdapter.clearGuides().then(function () {
         return GM.HostAdapter.addGuides(result.guides);
-      }).then(function () {
-        GM.showToast('网格已应用 (' + result.guides.length + ' 条参考线)', 'success');
+      }).then(function (r) {
+        var msg = '网格已应用 (' + result.guides.length + ' 条参考线)';
+        if (r && r.debug) {
+          msg += '\n画板: ' + JSON.stringify(r.debug.abSize);
+          msg += ' 图层: ' + r.debug.layerName;
+          msg += ' 锁定: ' + r.debug.layerLocked;
+        }
+        GM.showToast(msg, 'success');
       });
     }));
 

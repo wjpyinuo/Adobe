@@ -100,6 +100,7 @@ var DotGridMaster = DotGridMaster || {};
     undo: function () { return callHost('undoDotGridMaster', []); },
     getUndoState: function () { return callHost('getUndoState', []); },
     healthCheck: function () { return callHost('healthCheck', []); },
+    diagnosticTest: function () { return callHost('diagnosticTest', []); },
     addGridOverlay: function (opts) { return callHost('addGridOverlay', [JSON.stringify(opts)]); },
     clearGridOverlay: function () { return callHost('clearGridOverlay', []); },
     addBaseGrid: function (options) { return callHost('addBaseGrid', [JSON.stringify(options)]); },

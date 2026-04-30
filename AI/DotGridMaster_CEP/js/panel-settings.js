@@ -105,6 +105,20 @@
       }).catch(function (err) { GM.showToast('连接失败: ' + err.message, 'error'); });
     });
     debugSection.appendChild(testBtn);
+
+    var diagBtn = document.createElement('button');
+    diagBtn.textContent = '🔴 诊断测试（创建红色矩形）';
+    diagBtn.style.cssText = refreshBtn.style.cssText;
+    diagBtn.addEventListener('click', function () {
+      GM.HostAdapter.diagnosticTest().then(function (result) {
+        if (result && result.rectCreated) {
+          GM.showToast('诊断: 图层=' + result.layerName + ' 锁定=' + result.layerLocked + ' 画板=' + JSON.stringify(result.abRect), 'success');
+        } else {
+          GM.showToast('诊断失败: ' + JSON.stringify(result), 'error');
+        }
+      }).catch(function (err) { GM.showToast('诊断错误: ' + err.message, 'error'); });
+    });
+    debugSection.appendChild(diagBtn);
     container.appendChild(debugSection);
   };
 
