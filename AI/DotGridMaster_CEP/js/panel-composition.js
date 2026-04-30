@@ -1,5 +1,5 @@
 /**
- * DotGridMaster Panel — 构图
+ * DotGuide Panel — 构图
  * 依赖：core.js, ui-components.js
  *
  * BUG-6 修复: 黄金螺旋算法使用标准对数螺旋
@@ -153,5 +153,4 @@
     return points;
   }
 
-})(DotGridMaster);
-
+})(DotGuide);
