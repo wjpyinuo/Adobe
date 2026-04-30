@@ -420,6 +420,10 @@
     var scaleY = GM.currentDocInfo.height / tpl.height;
     var promises = [];
 
+    // 先清除旧内容（防止重复叠加）
+    promises.push(GM.HostAdapter.clearGuides());
+    promises.push(GM.HostAdapter.clearEcom());
+
     if (state.safeZone && tpl.safeZone) {
       var sz = tpl.safeZone;
       promises.push(GM.HostAdapter.addGuides([
@@ -456,12 +460,17 @@
     var scaleX = GM.currentDocInfo.width / tpl.width;
     var scaleY = GM.currentDocInfo.height / tpl.height;
     var sz = tpl.safeZone;
-    GM.HostAdapter.addGuides([
-      { orientation: 'horizontal', position: sz.top * scaleY },
-      { orientation: 'horizontal', position: GM.currentDocInfo.height - sz.bottom * scaleY },
-      { orientation: 'vertical', position: sz.left * scaleX },
-      { orientation: 'vertical', position: GM.currentDocInfo.width - sz.right * scaleX }
-    ]).then(function () { GM.showToast('安全区域参考线已应用', 'success'); })
+    Promise.all([
+      GM.HostAdapter.clearGuides(),
+      GM.HostAdapter.clearEcom()
+    ]).then(function () {
+      return GM.HostAdapter.addGuides([
+        { orientation: 'horizontal', position: sz.top * scaleY },
+        { orientation: 'horizontal', position: GM.currentDocInfo.height - sz.bottom * scaleY },
+        { orientation: 'vertical', position: sz.left * scaleX },
+        { orientation: 'vertical', position: GM.currentDocInfo.width - sz.right * scaleX }
+      ]);
+    }).then(function () { GM.showToast('安全区域参考线已应用', 'success'); })
     .catch(function (err) { GM.showToast('应用失败: ' + err.message, 'error'); });
   }
 

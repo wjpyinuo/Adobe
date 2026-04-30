@@ -142,47 +142,50 @@
         marginBottom: gridState.marginBottom, marginLeft: gridState.marginLeft
       });
 
-      var promises = [];
-      // 先清除旧内容（防止重复叠加）
-      promises.push(GM.HostAdapter.clearGuides());
-      promises.push(GM.HostAdapter.clearGridOverlay());
+      // 先清除旧内容（串行，确保清除完成后再添加）
+      return Promise.all([
+        GM.HostAdapter.clearGuides(),
+        GM.HostAdapter.clearGridOverlay()
+      ]).then(function () {
+        var promises = [];
 
-      // 添加参考线
-      if (gridState.showGuides && result.guides.length > 0) {
-        promises.push(GM.HostAdapter.addGuides(result.guides));
-      }
+        // 添加参考线
+        if (gridState.showGuides && result.guides.length > 0) {
+          promises.push(GM.HostAdapter.addGuides(result.guides));
+        }
 
-      // 添加单元格覆盖层（可视化间距）
-      if (gridState.showCellOverlay) {
-        promises.push(GM.HostAdapter.addGridOverlay({
-          columns: gridState.columns,
-          rows: gridState.rows,
-          gutterH: gridState.gutterH,
-          gutterV: gridState.gutterV,
-          marginTop: gridState.marginTop,
-          marginRight: gridState.marginRight,
-          marginBottom: gridState.marginBottom,
-          marginLeft: gridState.marginLeft,
-          color: gridState.overlayColor,
-          opacity: gridState.overlayOpacity
-        }));
-      }
+        // 添加单元格覆盖层（可视化间距）
+        if (gridState.showCellOverlay) {
+          promises.push(GM.HostAdapter.addGridOverlay({
+            columns: gridState.columns,
+            rows: gridState.rows,
+            gutterH: gridState.gutterH,
+            gutterV: gridState.gutterV,
+            marginTop: gridState.marginTop,
+            marginRight: gridState.marginRight,
+            marginBottom: gridState.marginBottom,
+            marginLeft: gridState.marginLeft,
+            color: gridState.overlayColor,
+            opacity: gridState.overlayOpacity
+          }));
+        }
 
-      // 记录撤销
-      if (typeof UndoManager !== 'undefined') {
-        UndoManager.record(
-          UndoManager.ActionTypes.ADD_GRID,
-          { guides: result.guides, gridParams: {
-            columns: gridState.columns, rows: gridState.rows,
-            gutterH: gridState.gutterH, gutterV: gridState.gutterV,
-            marginTop: gridState.marginTop, marginRight: gridState.marginRight,
-            marginBottom: gridState.marginBottom, marginLeft: gridState.marginLeft
-          }},
-          '网格 ' + gridState.columns + '×' + gridState.rows
-        );
-      }
+        return Promise.all(promises);
+      }).then(function () {
+        // 记录撤销
+        if (typeof UndoManager !== 'undefined') {
+          UndoManager.record(
+            UndoManager.ActionTypes.ADD_GRID,
+            { guides: result.guides, gridParams: {
+              columns: gridState.columns, rows: gridState.rows,
+              gutterH: gridState.gutterH, gutterV: gridState.gutterV,
+              marginTop: gridState.marginTop, marginRight: gridState.marginRight,
+              marginBottom: gridState.marginBottom, marginLeft: gridState.marginLeft
+            }},
+            '网格 ' + gridState.columns + '×' + gridState.rows
+          );
+        }
 
-      return Promise.all(promises).then(function () {
         var msg = '网格已应用: ' + gridState.columns + '×' + gridState.rows;
         if (gridState.gutterH > 0 || gridState.gutterV > 0) {
           msg += ' (间距 ' + gridState.gutterH + '/' + gridState.gutterV + ')';

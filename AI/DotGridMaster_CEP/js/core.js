@@ -122,6 +122,7 @@ var DotGridMaster = DotGridMaster || {};
     addEcomZones: function (rects, color, opacity) { return callHost('addEcomZones', [JSON.stringify(rects), color || '#FF6B00', opacity || 12]); },
     addEcomFunctionZones: function (zones) { return callHost('addEcomFunctionZones', [JSON.stringify(zones)]); },
     addEcomLabels: function (labels) { return callHost('addEcomLabels', [JSON.stringify(labels)]); },
+    clearEcom: function () { return callHost('clearEcom', []); },
     applyPrintMarks: function (params) { return callHost('applyPrintMarks', [JSON.stringify(params)]); }
   };
 

@@ -69,27 +69,30 @@
     container.appendChild(GM.createApplyButton('✦ 应用构图辅助线', function () {
       if (!GM.currentDocInfo) { GM.showToast('请先打开文档', 'warning'); return; }
       var result = GM.Calculator.calculateComposition(compositionState.type, GM.currentDocInfo.width, GM.currentDocInfo.height);
-      var promises = [];
-      promises.push(GM.HostAdapter.clearComposition());
 
-      if (compositionState.showAsGuides &&
-        (compositionState.type === 'rule-of-thirds' || compositionState.type === 'golden-ratio' || compositionState.type === 'center-cross')) {
-        var guides = [];
-        result.lines.forEach(function (line) {
-          if (line.x1 === line.x2) guides.push({ orientation: 'vertical', position: line.x1 });
-          else if (line.y1 === line.y2) guides.push({ orientation: 'horizontal', position: line.y1 });
-        });
-        promises.push(GM.HostAdapter.addGuides(guides));
-      }
+      // 先清除旧内容（串行，确保清除完成后再添加）
+      return GM.HostAdapter.clearComposition().then(function () {
+        var promises = [];
 
-      if (compositionState.type === 'golden-spiral') {
-        var spiralPoints = _buildSpiralPoints(GM.currentDocInfo.width, GM.currentDocInfo.height);
-        promises.push(GM.HostAdapter.addSpiralPath(spiralPoints, compositionState.color, 0.75));
-      } else if (compositionState.type === 'diagonal' || compositionState.showAsPaths) {
-        promises.push(GM.HostAdapter.addCompositionLines(result.lines));
-      }
+        if (compositionState.showAsGuides &&
+          (compositionState.type === 'rule-of-thirds' || compositionState.type === 'golden-ratio' || compositionState.type === 'center-cross')) {
+          var guides = [];
+          result.lines.forEach(function (line) {
+            if (line.x1 === line.x2) guides.push({ orientation: 'vertical', position: line.x1 });
+            else if (line.y1 === line.y2) guides.push({ orientation: 'horizontal', position: line.y1 });
+          });
+          promises.push(GM.HostAdapter.addGuides(guides));
+        }
 
-      return Promise.all(promises).then(function () {
+        if (compositionState.type === 'golden-spiral') {
+          var spiralPoints = _buildSpiralPoints(GM.currentDocInfo.width, GM.currentDocInfo.height);
+          promises.push(GM.HostAdapter.addSpiralPath(spiralPoints, compositionState.color, 0.75));
+        } else if (compositionState.type === 'diagonal' || compositionState.showAsPaths) {
+          promises.push(GM.HostAdapter.addCompositionLines(result.lines));
+        }
+
+        return Promise.all(promises);
+      }).then(function () {
         GM.showToast('构图辅助线已应用', 'success');
       });
     }));

@@ -1148,6 +1148,11 @@ function clearPreviewLayer() {
 
 var ECOM_LAYER_NAME = 'DotGridMaster_Ecom';
 
+function clearEcom() {
+  _removeLayerByName(ECOM_LAYER_NAME);
+  return JSON.stringify({ success: true });
+}
+
 function addEcomZones(rectsJSON, color, opacity) {
   try {
     var doc = app.activeDocument;
