@@ -127,6 +127,7 @@
     // 应用按钮
     container.appendChild(GM.createApplyButton('✦ 应用印刷标记', function () {
       if (!GM.currentDocInfo) { GM.showToast('请先打开文档', 'warning'); return; }
+      GM.Units.checkUnit('mm', '印刷标记');
       return GM.HostAdapter.applyPrintMarks({
         bleed: { top: printState.bleedTop, right: printState.bleedRight, bottom: printState.bleedBottom, left: printState.bleedLeft },
         marks: { trim: printState.trimMarks, registration: printState.registrationMarks, colorBar: printState.colorBar },

@@ -138,6 +138,51 @@ var DotGridMaster = DotGridMaster || {};
   };
 
   // ============================
+  // 文档单位工具
+  // ============================
+
+  GM.Units = {
+    // 单位转换表（到 pt）
+    TO_PT: {
+      px: 0.75,      // 1px = 0.75pt
+      pt: 1,
+      mm: 2.83465,
+      cm: 28.3465,
+      in: 72,
+      pica: 12
+    },
+
+    /**
+     * 获取文档单位
+     */
+    getDocUnit: function () {
+      if (!GM.currentDocInfo) return 'px';
+      return GM.currentDocInfo.unit || 'px';
+    },
+
+    /**
+     * 将值从源单位转换到目标单位
+     */
+    convert: function (value, fromUnit, toUnit) {
+      var fromFactor = this.TO_PT[fromUnit] || 1;
+      var toFactor = this.TO_PT[toUnit] || 1;
+      return value * fromFactor / toFactor;
+    },
+
+    /**
+     * 检查文档单位是否与预期单位匹配，不匹配时显示警告
+     */
+    checkUnit: function (expectedUnit, featureName) {
+      var docUnit = this.getDocUnit();
+      if (docUnit !== expectedUnit && docUnit !== 'unknown') {
+        GM.showToast('⚠ 文档单位为 ' + docUnit + '，' + (featureName || '此功能') + ' 假设单位为 ' + expectedUnit, 'warning');
+        return false;
+      }
+      return true;
+    }
+  };
+
+  // ============================
   // 计算引擎
   // ============================
 
@@ -322,7 +367,7 @@ var DotGridMaster = DotGridMaster || {};
 
     save: function (category, preset) {
       if (!this._customPresets[category]) this._customPresets[category] = [];
-      preset.id = 'custom_' + Date.now();
+      preset.id = 'custom_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
       preset.isBuiltIn = false;
       this._customPresets[category].push(preset);
       GM.Storage.set('custom_presets', this._customPresets);

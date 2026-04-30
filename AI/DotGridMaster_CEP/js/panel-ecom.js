@@ -382,6 +382,7 @@
     // 应用按钮
     container.appendChild(GM.createApplyButton('✦ 应用电商辅助线', function () {
       if (!GM.currentDocInfo) { GM.showToast('请先打开文档', 'warning'); return; }
+      GM.Units.checkUnit('px', '电商模板');
       return _applyEcomTemplate(tpl, ecomState);
     }));
 

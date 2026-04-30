@@ -226,6 +226,11 @@
     // 初始化 P3 模块
     if (typeof UndoManager !== 'undefined' && UndoManager.init) UndoManager.init();
     if (typeof PerfMonitor !== 'undefined' && PerfMonitor.setEnabled) PerfMonitor.setEnabled(false);
+    if (typeof BatchProcessor !== 'undefined' && BatchProcessor.init) BatchProcessor.init();
+
+    // 初始化预览系统（默认关闭，用户可在设置中开启）
+    var previewEnabled = GM.Storage.get('preview_enabled');
+    GM.setPreviewEnabled(!!previewEnabled);
 
     // 延迟刷新文档信息
     setTimeout(GM.refreshDocInfo, 1000);

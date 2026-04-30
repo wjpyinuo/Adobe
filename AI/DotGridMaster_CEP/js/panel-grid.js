@@ -32,10 +32,10 @@
 
     // 列/行设置
     var gridSection = GM.createSection('网格设置');
-    gridSection.appendChild(GM.createNumberInput('列数', gridState.columns, 1, 100, 1, function (v) { gridState.columns = v; }).el);
-    gridSection.appendChild(GM.createNumberInput('行数', gridState.rows, 1, 100, 1, function (v) { gridState.rows = v; }).el);
-    gridSection.appendChild(GM.createNumberInput('列间距', gridState.gutterH, 0, 500, 1, function (v) { gridState.gutterH = v; }).el);
-    gridSection.appendChild(GM.createNumberInput('行间距', gridState.gutterV, 0, 500, 1, function (v) { gridState.gutterV = v; }).el);
+    gridSection.appendChild(GM.createNumberInput('列数', gridState.columns, 1, 100, 1, function (v) { gridState.columns = v; GM.triggerPreview('grid', gridState); }).el);
+    gridSection.appendChild(GM.createNumberInput('行数', gridState.rows, 1, 100, 1, function (v) { gridState.rows = v; GM.triggerPreview('grid', gridState); }).el);
+    gridSection.appendChild(GM.createNumberInput('列间距', gridState.gutterH, 0, 500, 1, function (v) { gridState.gutterH = v; GM.triggerPreview('grid', gridState); }).el);
+    gridSection.appendChild(GM.createNumberInput('行间距', gridState.gutterV, 0, 500, 1, function (v) { gridState.gutterV = v; GM.triggerPreview('grid', gridState); }).el);
     container.appendChild(gridSection);
 
     // 边距设置

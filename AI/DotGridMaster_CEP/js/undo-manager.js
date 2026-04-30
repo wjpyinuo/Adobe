@@ -253,8 +253,40 @@ var UndoManager = (function () {
     };
   }
 
+  /**
+   * 初始化：将 UndoManager 集成到 DotGridMaster 主流程
+   */
+  function init() {
+    var GM = (typeof DotGridMaster !== 'undefined') ? DotGridMaster : null;
+    if (!GM) return;
+
+    // 监听撤销状态变化，更新按钮状态
+    onChange(function (state) {
+      var undoBtn = document.getElementById('btn-undo');
+      if (undoBtn) {
+        undoBtn.disabled = !state.canUndo;
+        undoBtn.style.opacity = state.canUndo ? '1' : '0.4';
+        if (state.canUndo) {
+          undoBtn.textContent = '↩ 撤销 (' + state.undoCount + ')';
+        } else {
+          undoBtn.textContent = '↩ 撤销';
+        }
+      }
+    });
+
+    // 替换底部撤销按钮的处理逻辑
+    var originalUndo = GM.HostAdapter.undo;
+    GM.HostAdapter.undo = function () {
+      if (_undoStack.length > 0) {
+        return undo();
+      }
+      return originalUndo.call(GM.HostAdapter);
+    };
+  }
+
   return {
     ActionTypes: ActionTypes,
+    init: init,
     record: record,
     undo: undo,
     redo: redo,

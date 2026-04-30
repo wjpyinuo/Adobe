@@ -94,6 +94,7 @@
       // 应用按钮
       container.appendChild(GM.createApplyButton('✦ 应用 UI 安全区', function () {
         if (!GM.currentDocInfo) { GM.showToast('请先打开文档', 'warning'); return; }
+        GM.Units.checkUnit('pt', 'UI 安全区');
         var result = GM.Calculator.calculateUISafeZone(preset, GM.currentDocInfo.width, GM.currentDocInfo.height);
         return Promise.all([GM.HostAdapter.clearGuides(), GM.HostAdapter.clearOverlays()]).then(function () {
           return Promise.all([GM.HostAdapter.addGuides(result.guides), GM.HostAdapter.addOverlays(result.overlays)]);

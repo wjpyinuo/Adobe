@@ -46,11 +46,11 @@ function _jsonStringify(value, indent, currentIndent) {
   }
   if (type === 'string') {
     return '"' + value
-      .replace(/\/g, '\')
-      .replace(/"/g, '\"')
-      .replace(/\n/g, '\n')
-      .replace(/\r/g, '\r')
-      .replace(/\t/g, '\t') + '"';
+      .replace(/\\/g, '\\\\')
+      .replace(/"/g, '\\"')
+      .replace(/\n/g, '\\n')
+      .replace(/\r/g, '\\r')
+      .replace(/\t/g, '\\t') + '"';
   }
 
   // Array
@@ -141,8 +141,7 @@ function undoDotGridMaster() {
       remaining: _dotgridmasterUndoStack.length
     });
   } catch (e) {
-alert("DotGridMaster Error: " + e.message);
-    return JSON.stringify({ success: false, error: e.message });
+return JSON.stringify({ success: false, error: e.message });
   }
 }
 
@@ -297,10 +296,8 @@ function clearAllGuides() {
     }
     var doc = app.activeDocument;
 
-    // 清除原生参考线
-    for (var i = doc.guides.length - 1; i >= 0; i--) {
-      doc.guides[i].remove();
-    }
+    // 仅清除 DotGridMaster 创建的参考线路径（保留用户手动创建的原生参考线）
+    _clearDotGridMasterGuides();
 
     // 清除 DotGridMaster 创建的参考线图层
     _removeLayerByName('DotGridMaster_Guides');
@@ -308,8 +305,7 @@ function clearAllGuides() {
     _pushUndoRecord('guides', { action: 'clear' });
     return JSON.stringify({ success: true, cleared: true });
   } catch (e) {
-alert("DotGridMaster Error: " + e.message);
-    return JSON.stringify({ success: false, error: e.message });
+return JSON.stringify({ success: false, error: e.message });
   }
 }
 
@@ -425,8 +421,7 @@ function addGuides(guidesJSON) {
     _pushUndoRecord('guides', { action: 'add', count: addedCount });
     return JSON.stringify({ success: true, count: addedCount, method: 'fallback' });
   } catch (e) {
-alert("DotGridMaster Error: " + e.message);
-    return JSON.stringify({ success: false, error: e.message });
+return JSON.stringify({ success: false, error: e.message });
   }
 }
 
@@ -497,8 +492,7 @@ function addOverlays(overlaysJSON) {
 
     return JSON.stringify({ success: true, count: overlays.length });
   } catch (e) {
-alert("DotGridMaster Error: " + e.message);
-    return JSON.stringify({ success: false, error: e.message });
+return JSON.stringify({ success: false, error: e.message });
   }
 }
 
@@ -577,8 +571,7 @@ function addCompositionLines(linesJSON) {
 
     return JSON.stringify({ success: true, count: lines.length });
   } catch (e) {
-alert("DotGridMaster Error: " + e.message);
-    return JSON.stringify({ success: false, error: e.message });
+return JSON.stringify({ success: false, error: e.message });
   }
 }
 
@@ -640,7 +633,6 @@ layer.locked = true;
 
 return JSON.stringify({ success: true, pointCount: points.length });
 } catch (e) {
-alert("DotGridMaster Error: " + e.message);
 return JSON.stringify({ success: false, error: e.message });
 }
 }
@@ -718,7 +710,6 @@ _pushUndoRecord('printmarks', { action: 'add', count: marks.length });
 
 return JSON.stringify({ success: true, count: marks.length });
 } catch (e) {
-alert("DotGridMaster Error: " + e.message);
 return JSON.stringify({ success: false, error: e.message });
 }
 }
@@ -836,7 +827,6 @@ bottom: rect[3]
 
 return JSON.stringify({ success: true, data: boards });
 } catch (e) {
-alert("DotGridMaster Error: " + e.message);
 return JSON.stringify({ success: false, error: e.message });
 }
 }
@@ -859,7 +849,6 @@ doc.artboards.setActiveArtboardIndex(index);
 
 return JSON.stringify({ success: true, activeIndex: index });
 } catch (e) {
-alert("DotGridMaster Error: " + e.message);
 return JSON.stringify({ success: false, error: e.message });
 }
 }
@@ -894,7 +883,6 @@ _pushUndoRecord('all', { action: 'clear' });
 
 return JSON.stringify({ success: true, message: 'All DotGridMaster content cleared' });
 } catch (e) {
-alert("DotGridMaster Error: " + e.message);
 return JSON.stringify({ success: false, error: e.message });
 }
 }
@@ -983,7 +971,6 @@ layer.locked = true;
 
 return JSON.stringify({ success: true, count: count, colWidth: colWidth, rowHeight: rowHeight });
 } catch (e) {
-alert("DotGridMaster Error: " + e.message);
 return JSON.stringify({ success: false, error: e.message });
 }
 }
@@ -1082,7 +1069,6 @@ rect.name = 'ColorBar_' + col.label;
 
 return JSON.stringify({ success: true, count: colors.length });
 } catch (e) {
-alert("DotGridMaster Error: " + e.message);
 return JSON.stringify({ success: false, error: e.message });
 }
 }
@@ -1164,7 +1150,6 @@ layer.locked = true;
 
 return JSON.stringify({ success: true, count: lineCount, gridSize: gridSize });
 } catch (e) {
-alert("DotGridMaster Error: " + e.message);
 return JSON.stringify({ success: false, error: e.message });
 }
 }
@@ -1195,7 +1180,6 @@ timestamp: new Date().getTime()
 };
 return JSON.stringify({ success: true, data: info });
 } catch (e) {
-alert("DotGridMaster Error: " + e.message);
 return JSON.stringify({ success: false, error: e.message });
 }
 }
@@ -1250,7 +1234,6 @@ layer.printable = false;
 layer.locked = true;
 return JSON.stringify({ success: true, count: count });
 } catch (e) {
-alert("DotGridMaster Error: " + e.message);
 return JSON.stringify({ success: false, error: e.message });
 }
 }
@@ -1297,7 +1280,6 @@ layer.printable = false;
 layer.locked = true;
 return JSON.stringify({ success: true, count: rects.length });
 } catch (e) {
-alert("DotGridMaster Error: " + e.message);
 return JSON.stringify({ success: false, error: e.message });
 }
 }
@@ -1325,7 +1307,6 @@ layer.printable = false;
 layer.locked = true;
 return JSON.stringify({ success: true, count: labels.length });
 } catch (e) {
-alert("DotGridMaster Error: " + e.message);
 return JSON.stringify({ success: false, error: e.message });
 }
 }
@@ -1358,7 +1339,6 @@ layer.printable = false;
 layer.locked = true;
 return JSON.stringify({ success: true, count: zones.length });
 } catch (e) {
-alert("DotGridMaster Error: " + e.message);
 return JSON.stringify({ success: false, error: e.message });
 }
 }
@@ -1430,7 +1410,6 @@ layer.locked = true;
 _pushUndoRecord('printmarks', { action: 'add' });
 return JSON.stringify({ success: true });
 } catch (e) {
-alert("DotGridMaster Error: " + e.message);
 return JSON.stringify({ success: false, error: e.message });
 }
 }
@@ -1445,7 +1424,6 @@ var doc = app.documents.add(DocumentColorSpace.RGB, width, height);
 if (name) doc.name = name;
 return JSON.stringify({ success: true, data: { name: doc.name, width: width, height: height } });
 } catch (e) {
-alert("DotGridMaster Error: " + e.message);
 return JSON.stringify({ success: false, error: e.message });
 }
 }
@@ -1488,7 +1466,6 @@ rectCreated: true
 }
 });
 } catch (e) {
-alert("DotGridMaster Error: " + e.message);
 return JSON.stringify({ success: false, error: e.message });
 }
 }

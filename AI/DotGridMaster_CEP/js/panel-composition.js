@@ -9,7 +9,8 @@
   var compositionState = {
     type: 'rule-of-thirds',
     color: '#FF6B00',
-    showAsGuides: true
+    showAsGuides: true,
+    showAsPaths: false
   };
 
   GM.renderCompositionPanel = function (container) {
@@ -79,7 +80,11 @@
         promises.push(GM.HostAdapter.addGuides(guides));
       }
 
-      if (compositionState.type === 'diagonal' || compositionState.type === 'golden-spiral' || compositionState.showAsPaths) {
+      if (compositionState.type === 'golden-spiral') {
+        // 黄金螺旋使用平滑曲线绘制
+        var spiralPoints = _buildSpiralPoints(GM.currentDocInfo.width, GM.currentDocInfo.height);
+        promises.push(GM.HostAdapter.addSpiralPath(spiralPoints, compositionState.color, 0.75));
+      } else if (compositionState.type === 'diagonal' || compositionState.showAsPaths) {
         promises.push(GM.HostAdapter.addCompositionLines(result.lines));
       }
 
@@ -88,5 +93,27 @@
       });
     }));
   };
+
+
+
+  // 构建黄金螺旋控制点
+  function _buildSpiralPoints(w, h) {
+    var phi = 1.618033988749895;
+    var points = [];
+    var x = 0, y = 0, cw = w, ch = h;
+    var steps = 100;
+
+    for (var i = 0; i < steps; i++) {
+      var t = i / steps;
+      var angle = t * Math.PI * 2 * 2; // 2 full rotations
+      var radius = Math.pow(phi, angle / (Math.PI * 2)) * 10;
+      var cx = w / 2 + radius * Math.cos(angle) * (w / h);
+      var cy = h / 2 + radius * Math.sin(angle);
+      if (cx >= 0 && cx <= w && cy >= 0 && cy <= h) {
+        points.push({ x: cx, y: cy });
+      }
+    }
+    return points;
+  }
 
 })(DotGridMaster);

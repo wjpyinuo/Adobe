@@ -7,11 +7,10 @@ echo.
 
 :: Step 1: Enable CEP debug mode
 echo [1/2] Enabling CEP debug mode...
-reg add "HKCU\SOFTWARE\Adobe\CSXS.9"  /v PlayerDebugMode /t REG_SZ /d 1 /f >nul 2>&1
-reg add "HKCU\SOFTWARE\Adobe\CSXS.10" /v PlayerDebugMode /t REG_SZ /d 1 /f >nul 2>&1
-reg add "HKCU\SOFTWARE\Adobe\CSXS.11" /v PlayerDebugMode /t REG_SZ /d 1 /f >nul 2>&1
-reg add "HKCU\SOFTWARE\Adobe\CSXS.12" /v PlayerDebugMode /t REG_SZ /d 1 /f >nul 2>&1
-echo     [OK] CSXS 9/10/11/12 PlayerDebugMode=1
+for %%v in (9 10 11 12 13 14 15) do (
+    reg add "HKCU\SOFTWARE\Adobe\CSXS.%%v" /v PlayerDebugMode /t REG_SZ /d 1 /f >nul 2>&1
+)
+echo     [OK] CSXS 9-15 PlayerDebugMode=1
 
 :: Step 2: Copy to CEP extensions directory
 echo.

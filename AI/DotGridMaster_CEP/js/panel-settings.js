@@ -18,6 +18,27 @@
     aboutSection.appendChild(aboutCard);
     container.appendChild(aboutSection);
 
+    // 实时预览
+    var previewSection = GM.createSection('实时预览');
+    var previewRow = document.createElement('div');
+    previewRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
+    var previewLabel = document.createElement('span');
+    previewLabel.style.cssText = 'font-size:11px;color:var(--gm-text-secondary);';
+    previewLabel.textContent = '启用实时预览（网格/构图）';
+    previewRow.appendChild(previewLabel);
+    var previewToggle = GM.createToggleSwitch(!!GM.Storage.get('preview_enabled'), function (v) {
+      GM.setPreviewEnabled(v);
+      GM.showToast(v ? '实时预览已开启' : '实时预览已关闭', 'info');
+    });
+    previewRow.appendChild(previewToggle);
+    previewSection.appendChild(previewRow);
+
+    var previewHint = document.createElement('div');
+    previewHint.style.cssText = 'font-size:9px;color:var(--gm-text-tertiary);margin-bottom:6px;';
+    previewHint.textContent = '开启后，修改网格/构图参数时会在画布上实时预览效果（300ms 防抖）';
+    previewSection.appendChild(previewHint);
+    container.appendChild(previewSection);
+
     // 批量操作
     var batchSection = GM.createSection('批量操作');
     var batchAllBtn = document.createElement('button');

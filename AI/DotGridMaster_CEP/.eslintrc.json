@@ -7,21 +7,29 @@
     "CSInterface": "readonly",
     "DotGridMaster": "readonly",
     "UndoManager": "readonly",
-    "PerformanceMonitor": "readonly",
     "BatchProcessor": "readonly",
     "app": "readonly",
     "RulerUnits": "readonly",
     "DocumentColorSpace": "readonly",
     "RGBColor": "readonly",
-    "CMYKColor": "readonly"
+    "CMYKColor": "readonly",
+    "PerfMonitor": "readonly"
   },
   "parserOptions": {
     "ecmaVersion": 5
   },
   "rules": {
-    "no-unused-vars": ["warn", { "args": "none" }],
+    "no-unused-vars": [
+      "warn",
+      {
+        "args": "none"
+      }
+    ],
     "no-console": "off",
-    "semi": ["error", "always"],
+    "semi": [
+      "error",
+      "always"
+    ],
     "no-undef": "error",
     "no-redeclare": "warn"
   }
