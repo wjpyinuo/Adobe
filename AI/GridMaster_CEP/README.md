@@ -43,7 +43,7 @@ gridmaster-cep/
 │   └── style.css                 ← 主题系统（CSS 变量）
 │
 ├── js/
-│   ├── CSInterface.js            ← Adobe 桥接库（需下载，见下方说明）
+│   ├── CSInterface.js            ← Adobe CEP 官方桥接库（已内置）
 │   ├── themeManager.js           ← 宿主主题同步
 │   ├── core.js                   ← 核心基础设施（命名空间、桥接、计算引擎、预设、存储）
 │   ├── ui-components.js          ← 通用 UI 组件工厂
@@ -78,11 +78,17 @@ gridmaster-cep/
 
 ## 三、快速开始
 
-### 1. CSInterface.js
+### 1. 安装
 
-已内置，无需额外操作。
+```bash
+# Windows
+setup.bat
 
-如需更新到最新版本，可从 https://github.com/Adobe-CEP/CEP-Resources 下载 `CEP_11.x/CSInterface.js` 覆盖 `js/CSInterface.js`。
+# macOS
+chmod +x setup.sh && ./setup.sh
+```
+
+脚本会自动设置 CEP 调试模式并将插件复制到扩展目录。
 
 ### 2. 重启 Illustrator
 
