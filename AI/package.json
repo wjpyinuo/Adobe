@@ -1,0 +1,22 @@
+{
+  "name": "gridmaster-cep",
+  "version": "1.0.0",
+  "description": "GridMaster — Adobe Illustrator CEP 插件（网格/构图/电商/印刷/UI）",
+  "private": true,
+  "scripts": {
+    "lint": "eslint js/*.js --fix",
+    "lint:check": "eslint js/*.js",
+    "package": "ZXPSignCmd -sign gridmaster-cep gridmaster-cep.zxp cert.p12 password"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wjpyinuo/Adobe.git"
+  }
+}

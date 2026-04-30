@@ -4,6 +4,16 @@
 
 ---
 
+## 效果预览
+
+<!-- TODO: 替换为实际截图 -->
+<!-- ![网格面板](docs/screenshots/grid-panel.png) -->
+<!-- ![构图辅助](docs/screenshots/composition.png) -->
+<!-- ![电商模板](docs/screenshots/ecom-template.png) -->
+<!-- ![印刷标记](docs/screenshots/print-marks.png) -->
+
+---
+
 ## 一、背景
 
 | 宿主 | UXP 支持 | 说明 |
@@ -20,22 +30,32 @@
 ```
 gridmaster-cep/
 ├── CSXS/
-│   └── manifest.xml              ← CEP 清单
+│   └── manifest.xml              ← CEP 清单（仅 Illustrator）
 ├── .debug                        ← 调试端口（ILST:8088）
-├── index.html                    ← 面板入口
+├── index.html                    ← 面板入口（脚本加载顺序）
 ├── setup.bat / setup.sh          ← 一键安装脚本
+├── package.json                  ← 项目配置 & lint 脚本
+├── .eslintrc.json                ← ESLint 规则
 │
 ├── css/
-│   └── style.css                 ← 主题系统
+│   └── style.css                 ← 主题系统（CSS 变量）
 │
 ├── js/
 │   ├── CSInterface.js            ← Adobe 桥接库（需下载，见下方说明）
 │   ├── themeManager.js           ← 宿主主题同步
-│   ├── index.js                  ← 主逻辑（3,020 行，含全部功能模块）
+│   ├── core.js                   ← 核心基础设施（命名空间、桥接、计算引擎、预设、存储）
+│   ├── ui-components.js          ← 通用 UI 组件工厂
+│   ├── panel-grid.js             ← 网格面板
+│   ├── panel-composition.js      ← 构图面板
+│   ├── panel-ecom.js             ← 电商面板（含平台数据库）
+│   ├── panel-print.js            ← 印刷出血面板
+│   ├── panel-ui.js               ← UI 设备安全区面板
+│   ├── panel-settings.js         ← 设置面板
 │   ├── undo-manager.js           ← 撤销/重做系统
 │   ├── batch-processor.js        ← 批处理引擎
 │   ├── performance-monitor.js    ← 性能监控
-│   └── preset-manager.js         ← 预设管理
+│   ├── preset-manager.js         ← 预设管理
+│   └── index.js                  ← 主入口（UI 构建、Tab 路由、初始化）
 │
 ├── jsx/
 │   ├── hostscript.jsx            ← ExtendScript 宿主脚本（41 个函数）
@@ -76,19 +96,29 @@ chmod +x setup.sh && ./setup.sh
 
 Chrome 访问 `http://localhost:8088`
 
+### 4. 开发（可选）
+
+```bash
+cd AI
+npm install
+npm run lint        # 检查代码规范
+npm run lint -- --fix  # 自动修复
+```
+
 ---
 
 ## 四、功能模块
 
-| 模块 | 说明 |
-|------|------|
-| 网格引擎 | 列/行/间距/边距 → 参考线 |
-| 构图辅助 | 三分法/黄金分割/对角线/螺旋 |
-| 电商模板 | 淘宝/京东/拼多多/抖音/小红书安全区 |
-| 印刷出血 | 裁切标记/色标/注册标记 |
-| 撤销/重做 | 30 步历史，命令模式 |
-| 批处理 | 合并 ExtendScript 调用，减少通信开销 |
-| 预设管理 | 内置 + 自定义预设，支持导入/导出 |
+| 模块 | 文件 | 说明 |
+|------|------|------|
+| 网格引擎 | `panel-grid.js` | 列/行/间距/边距 → 参考线 |
+| 构图辅助 | `panel-composition.js` | 三分法/黄金分割/对角线/螺旋 |
+| 电商模板 | `panel-ecom.js` | 淘宝/京东/拼多多/抖音/小红书/微信安全区 |
+| 印刷出血 | `panel-print.js` | 裁切标记/色标/注册标记/出血可视化 |
+| UI 安全区 | `panel-ui.js` | iPhone/Android/iPad 状态栏/导航栏/标签栏 |
+| 撤销/重做 | `undo-manager.js` | 30 步历史，命令模式 |
+| 批处理 | `batch-processor.js` | 合并 ExtendScript 调用，减少通信开销 |
+| 预设管理 | `preset-manager.js` | 内置 + 自定义预设，支持导入/导出 |
 
 ---
 

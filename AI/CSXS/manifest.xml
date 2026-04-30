@@ -13,9 +13,6 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <HostList>
 <!-- Illustrator -->
 <Host Name="ILST" Version="[27.0,99.9]" />
-<!-- Photoshop（可选） -->
-<Host Name="PHXS" Version="[24.0,99.9]" />
-<Host Name="PHSP" Version="[24.0,99.9]" />
 </HostList>
 <LocaleList>
 <Locale Code="All" />
