@@ -15,7 +15,16 @@
 <script src="js/themeManager.js"></script>
 <!-- 核心计算引擎 -->
 <script src="lib/gridmaster-core.js"></script>
+
+<!-- P3 系统模块（独立 IIFE，不依赖 index.js 作用域） -->
+<script src="js/undo-manager.js"></script>
+<script src="js/performance-monitor.js"></script>
+<script src="js/preset-manager.js"></script>
+
 <!-- 面板主逻辑 -->
 <script src="js/index.js"></script>
+
+<!-- P3 批处理引擎（依赖 index.js 的 callHost/csInterface） -->
+<script src="js/batch-processor.js"></script>
 </body>
 </html>
