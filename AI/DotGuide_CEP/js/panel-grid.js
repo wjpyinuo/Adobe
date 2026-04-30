@@ -27,6 +27,12 @@
     overlayOpacity: 15
   };
 
+  // 修复: localStorage 中旧版 opacity 过高(35)，强制修正为合理范围
+  if (gridState.overlayOpacity > 20) {
+    gridState.overlayOpacity = 15;
+    GM.Storage.set('grid_state', gridState);
+  }
+
   function _saveState() {
 
   /**
@@ -34,7 +40,10 @@
    * 无需点击"应用网格"即可看到效果
    */
   function _applyLivePreview() {
-    if (!GM.currentDocInfo) return;
+    if (!GM.currentDocInfo) {
+      GM.showToast('请先打开文档', 'warning');
+      return;
+    }
 
     var result = GM.Calculator.calculateGrid({
       docWidth: GM.currentDocInfo.width, docHeight: GM.currentDocInfo.height,
@@ -56,7 +65,7 @@
       });
     }
 
-    // 先全部清除
+    // 先全部清除，再按当前开关状态重建
     Promise.all([
       GM.HostAdapter.clearGuides(),
       GM.HostAdapter.clearGridOverlay(),
@@ -64,7 +73,6 @@
     ]).then(function () {
       var promises = [];
 
-      // 按开关状态决定是否添加
       if (gridState.showGuides && result.guides.length > 0) {
         promises.push(GM.HostAdapter.addGuides(result.guides));
       }
@@ -82,7 +90,11 @@
       }
 
       return Promise.all(promises);
-    }).catch(function () {});
+    }).then(function () {
+      _saveState();
+    }).catch(function (err) {
+      console.error('[DotGuide] 实时预览失败:', err);
+    });
   }
     GM.Storage.set('grid_state', gridState);
   }
