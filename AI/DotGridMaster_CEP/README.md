@@ -1,8 +1,8 @@
-# DotGridMaster CEP — Illustrator 插件
+# DotGuide CEP — Illustrator 插件
 
 > 从 UXP 架构切换到 CEP 架构，适配 Illustrator 2024+
 >
-> 📂 仓库路径：`AI/DotGridMaster_CEP/`
+> 📂 仓库路径：`AI/DotGuide_CEP/`
 
 ---
 
@@ -32,7 +32,7 @@
 ## 二、项目结构
 
 ```
-dotgridmaster-cep/
+dotguide-cep/
 ├── CSXS/
 │   └── manifest.xml              ← CEP 清单（仅 Illustrator 2024+）
 ├── .debug                        ← 调试端口（ILST:8088）
@@ -94,7 +94,7 @@ chmod +x setup.sh && ./setup.sh
 
 ### 2. 重启 Illustrator
 
-菜单：**窗口 → 扩展 → DotGridMaster**
+菜单：**窗口 → 扩展 → DotGuide**
 
 ### 3. 调试
 
@@ -143,11 +143,11 @@ defaults write com.adobe.CSXS.11 PlayerDebugMode 1
 ## 六、打包发布
 
 ```bash
-ZXPSignCmd -sign dotgridmaster-cep dotgridmaster-cep.zxp cert.p12 password
+ZXPSignCmd -sign dotguide-cep dotguide-cep.zxp cert.p12 password
 ```
 
 打包前：删除 `.debug` 和 `debug/` 目录。
 
 ---
 
-*基于 DotGridMaster CEP 技术方案文档整理*
+*基于 DotGuide CEP 技术方案文档整理*
