@@ -1,4 +1,4 @@
-# DotGridMaster CEP 插件 — 完整功能清单
+# DotGuide CEP 插件 — 完整功能清单
 
 ---
 
@@ -122,7 +122,7 @@
 | 主题同步 | 自动读取 AI/PS 暗色/亮色主题并同步 CSS 变量 |
 | 文档信息 | 显示当前画板尺寸、名称、单位 |
 | 多画板支持 | 获取所有画板列表、切换活动画板 |
-| 一键清除 | 清除所有 DotGridMaster 创建的内容 |
+| 一键清除 | 清除所有 DotGuide 创建的内容 |
 | 健康检查 | 验证宿主连接状态 |
 | Toast 提示 | 操作反馈（成功/错误/警告/信息） |
 | 键盘快捷键 | Ctrl+Z 撤销、Ctrl+Shift+Z 重做、Ctrl+Shift+G 应用网格、Ctrl+Shift+D 清除全部、Ctrl+Shift+1~6 切换面板 |
@@ -142,7 +142,7 @@
 ### 参考线
 - `addGuides` — 批量添加参考线
 - `clearAllGuides` — 清除所有参考线
-- `_clearDotGridMasterGuides` — 仅清除 DotGridMaster 创建的参考线
+- `_clearDotGuideGuides` — 仅清除 DotGuide 创建的参考线
 
 ### 覆盖层
 - `addOverlays` — 添加半透明色块覆盖层
@@ -176,7 +176,7 @@
 - `clearPreviewLayer` — 清除预览图层
 
 ### 撤销
-- `undoDotGridMaster` — 撤销上一次操作
+- `undoDotGuide` — 撤销上一次操作
 - `getUndoState` — 获取撤销栈状态
 - `_pushUndoRecord` — 记录操作到撤销栈
 
@@ -193,7 +193,7 @@
 - `_removeLayerByName` — 按名称删除图层
 
 ### 总清除
-- `clearAll` — 一键清除所有 DotGridMaster 内容（参考线+覆盖层+构图线+印刷标记）
+- `clearAll` — 一键清除所有 DotGuide 内容（参考线+覆盖层+构图线+印刷标记）
 
 ---
 
@@ -233,7 +233,7 @@ iPhone 15 (393×852)、iPhone 15 Pro Max (430×932)、iPhone 16 (393×852)、iPh
 | `getAllArtboards()` | `getAllArtboards` |
 | `setActiveArtboard(index)` | `setActiveArtboard` |
 | `clearAll()` | `clearAll` |
-| `undo()` | `undoDotGridMaster` |
+| `undo()` | `undoDotGuide` |
 | `getUndoState()` | `getUndoState` |
 | `healthCheck()` | `healthCheck` |
 | `addGridOverlay(opts)` | `addGridOverlay` |
@@ -255,13 +255,13 @@ iPhone 15 (393×852)、iPhone 15 Pro Max (430×932)、iPhone 16 (393×852)、iPh
 
 | 图层名 | 用途 |
 |--------|------|
-| `DotGridMaster_Overlays` | 半透明覆盖层 |
-| `DotGridMaster_Composition` | 构图辅助线 |
-| `DotGridMaster_PrintMarks` | 印刷标记 |
-| `DotGridMaster_GridOverlay` | 网格色块覆盖 |
-| `DotGridMaster_BaseGrid` | 基础参考线网格 |
-| `DotGridMaster_Preview` | 实时预览线条 |
-| `DotGridMaster_Ecom` | 电商安全区/标签/功能区 |
+| `DotGuide_Overlays` | 半透明覆盖层 |
+| `DotGuide_Composition` | 构图辅助线 |
+| `DotGuide_PrintMarks` | 印刷标记 |
+| `DotGuide_GridOverlay` | 网格色块覆盖 |
+| `DotGuide_BaseGrid` | 基础参考线网格 |
+| `DotGuide_Preview` | 实时预览线条 |
+| `DotGuide_Ecom` | 电商安全区/标签/功能区 |
 
 ---
 
