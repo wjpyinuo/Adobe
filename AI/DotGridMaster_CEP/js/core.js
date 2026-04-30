@@ -194,6 +194,31 @@ var DotGridMaster = DotGridMaster || {};
       var gH = opts.gutterH || 0, gV = opts.gutterV || 0;
       var mT = opts.marginTop || 0, mR = opts.marginRight || 0;
       var mB = opts.marginBottom || 0, mL = opts.marginLeft || 0;
+
+      // 单位转换：用户输入的边距/间距可能是 mm，需要转为文档单位
+      var docUnit = opts.docUnit || 'px';
+      if (docUnit === 'pt') {
+        // 用户输入的数值假设是 mm，转为 pt (1mm = 2.83465pt)
+        var mmToPt = 2.83465;
+        gH = gH * mmToPt; gV = gV * mmToPt;
+        mT = mT * mmToPt; mR = mR * mmToPt;
+        mB = mB * mmToPt; mL = mL * mmToPt;
+      } else if (docUnit === 'mm') {
+        // 已经是 mm，无需转换
+      } else if (docUnit === 'px') {
+        // 用户输入假设是 px，无需转换
+      } else if (docUnit === 'in') {
+        var mmToIn = 1 / 25.4;
+        gH = gH * mmToIn; gV = gV * mmToIn;
+        mT = mT * mmToIn; mR = mR * mmToIn;
+        mB = mB * mmToIn; mL = mL * mmToIn;
+      } else if (docUnit === 'cm') {
+        var mmToCm = 0.1;
+        gH = gH * mmToCm; gV = gV * mmToCm;
+        mT = mT * mmToCm; mR = mR * mmToCm;
+        mB = mB * mmToCm; mL = mL * mmToCm;
+      }
+
       var guides = [];
       var availW = w - mL - mR, availH = h - mT - mB;
       var totalGutterH = (cols - 1) * gH;
@@ -450,6 +475,7 @@ var DotGridMaster = DotGridMaster || {};
     if (type === 'grid') {
       var result = GM.Calculator.calculateGrid({
         docWidth: GM.currentDocInfo.width, docHeight: GM.currentDocInfo.height,
+        docUnit: GM.currentDocInfo.unit || 'px',
         columns: params.columns, rows: params.rows,
         gutterH: params.gutterH, gutterV: params.gutterV,
         marginTop: params.marginTop, marginRight: params.marginRight,

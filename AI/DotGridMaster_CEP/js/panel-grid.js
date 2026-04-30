@@ -73,6 +73,7 @@
       if (!GM.currentDocInfo) { GM.showToast('请先打开文档', 'warning'); return; }
       var result = GM.Calculator.calculateGrid({
         docWidth: GM.currentDocInfo.width, docHeight: GM.currentDocInfo.height,
+        docUnit: GM.currentDocInfo.unit || 'px',
         columns: gridState.columns, rows: gridState.rows,
         gutterH: gridState.gutterH, gutterV: gridState.gutterV,
         marginTop: gridState.marginTop, marginRight: gridState.marginRight,

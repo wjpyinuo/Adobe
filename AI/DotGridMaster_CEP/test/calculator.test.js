@@ -17,6 +17,16 @@ const Calculator = {
     var gH = opts.gutterH || 0, gV = opts.gutterV || 0;
     var mT = opts.marginTop || 0, mR = opts.marginRight || 0;
     var mB = opts.marginBottom || 0, mL = opts.marginLeft || 0;
+
+    // Unit conversion (same as core.js)
+    var docUnit = opts.docUnit || 'px';
+    if (docUnit === 'pt') {
+      var mmToPt = 2.83465;
+      gH = gH * mmToPt; gV = gV * mmToPt;
+      mT = mT * mmToPt; mR = mR * mmToPt;
+      mB = mB * mmToPt; mL = mL * mmToPt;
+    }
+
     var guides = [];
     var availW = w - mL - mR, availH = h - mT - mB;
     var totalGutterH = (cols - 1) * gH;
@@ -363,5 +373,78 @@ describe('Calculator.calculateUISafeZone', () => {
 
     assert.equal(result.overlays.length, 3);
     assert.equal(result.guides.length, 3);
+  });
+});
+
+describe('Calculator.calculateGrid 单位转换', () => {
+  it('文档单位为 pt 时，mm 值应自动转换', () => {
+    // A4 文档: 210mm = 595.28pt, 297mm = 841.89pt
+    const docW = 595.28; // 210mm in pt
+    const docH = 841.89; // 297mm in pt
+    const result = Calculator.calculateGrid({
+      docWidth: docW, docHeight: docH,
+      docUnit: 'pt',
+      columns: 6, rows: 1,
+      gutterH: 20, gutterV: 0,  // 20mm → should become 56.69pt
+      marginTop: 0, marginRight: 0, marginBottom: 0, marginLeft: 0
+    });
+
+    const verticals = result.guides.filter(g => g.orientation === 'vertical');
+    assert.equal(verticals.length, 7);
+
+    // colWidth should be (595.28 - 5*56.693) / 6 = (595.28 - 283.465) / 6 = 51.97
+    const expectedGutter = 20 * 2.83465; // 56.693pt
+    const expectedColWidth = (docW - 5 * expectedGutter) / 6;
+    assert.ok(Math.abs(result.meta.colWidth - expectedColWidth) < 0.1);
+
+    // All columns should be equal width
+    for (let i = 1; i < verticals.length - 1; i++) {
+      const gap = verticals[i].position - verticals[i-1].position;
+      // Gap between guides = colWidth + gutter (except first/last)
+      if (i === 1) {
+        assert.ok(Math.abs(gap - (expectedColWidth + expectedGutter)) < 0.1);
+      }
+    }
+  });
+
+  it('文档单位为 mm 时，不需要转换', () => {
+    const result = Calculator.calculateGrid({
+      docWidth: 210, docHeight: 297,
+      docUnit: 'mm',
+      columns: 3, rows: 1,
+      gutterH: 10, gutterV: 0,
+      marginTop: 0, marginRight: 0, marginBottom: 0, marginLeft: 0
+    });
+
+    // colWidth = (210 - 2*10) / 3 = 63.33mm
+    assert.ok(Math.abs(result.meta.colWidth - 63.333) < 0.01);
+  });
+
+  it('默认单位 px 不做转换', () => {
+    const result = Calculator.calculateGrid({
+      docWidth: 1000, docHeight: 800,
+      columns: 4, rows: 1,
+      gutterH: 20, gutterV: 0,
+      marginTop: 0, marginRight: 0, marginBottom: 0, marginLeft: 0
+    });
+
+    // colWidth = (1000 - 3*20) / 4 = 235
+    assert.ok(Math.abs(result.meta.colWidth - 235) < 0.01);
+  });
+
+  it('带边距的 pt 文档应正确转换', () => {
+    const result = Calculator.calculateGrid({
+      docWidth: 595.28, docHeight: 841.89,
+      docUnit: 'pt',
+      columns: 2, rows: 1,
+      gutterH: 10, gutterV: 0,  // 10mm = 28.3465pt
+      marginTop: 10, marginRight: 10, marginBottom: 10, marginLeft: 10  // 10mm each
+    });
+
+    const verticals = result.guides.filter(g => g.orientation === 'vertical');
+    // First guide at marginLeft converted: 10 * 2.83465 = 28.35pt
+    assert.ok(Math.abs(verticals[0].position - 28.3465) < 0.1);
+    // Last guide at docWidth - marginRight: 595.28 - 28.3465 = 566.93pt
+    assert.ok(Math.abs(verticals[verticals.length-1].position - 566.9335) < 0.1);
   });
 });

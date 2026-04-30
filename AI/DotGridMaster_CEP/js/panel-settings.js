@@ -54,6 +54,7 @@
           return GM.HostAdapter.setActiveArtboard(board.index).then(function () {
             var result = GM.Calculator.calculateGrid({
               docWidth: board.width, docHeight: board.height,
+              docUnit: GM.currentDocInfo ? GM.currentDocInfo.unit : 'px',
               columns: 12, rows: 1, gutterH: 20, gutterV: 0,
               marginTop: 0, marginRight: 0, marginBottom: 0, marginLeft: 0
             });
