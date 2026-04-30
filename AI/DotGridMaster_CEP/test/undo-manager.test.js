@@ -1,5 +1,5 @@
 /**
- * DotGridMaster UndoManager 单元测试
+ * DotGuide UndoManager 单元测试
  * 测试 undo-manager.js 的撤销/重做逻辑
  */
 
