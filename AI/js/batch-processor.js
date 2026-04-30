@@ -177,11 +177,14 @@ getStatus: getStatus
 
 /**
 * 原始 Host 调用（不经过批处理）
+* 通过 GridMaster 全局对象访问 csInterface
 */
 function callHostRaw(script) {
 return new Promise(function (resolve, reject) {
-if (typeof csInterface !== 'undefined' && csInterface.evalScript) {
-csInterface.evalScript(script, function (result) {
+var cs = (typeof csInterface !== 'undefined') ? csInterface :
+(window.GridMaster && window.GridMaster._csInterface);
+if (cs && cs.evalScript) {
+cs.evalScript(script, function (result) {
 if (result === 'EvalScript error.' || result === 'undefined') {
 reject(new Error('EvalScript error'));
 } else {
@@ -196,19 +199,27 @@ reject(new Error('csInterface not available'));
 
 /**
 * 增强版 callHost：自动选择批处理或直接调用
-* 替换原有 callHost 函数
+* 在 index.js 加载后调用 BatchProcessor.init() 激活
 */
-var _originalCallHost = callHost;
+var _originalCallHost = null;
 
 // 需要立即执行的函数（不走批处理）
 var IMMEDIATE_FUNCTIONS = ['healthCheck', 'getDocumentInfo', 'getDocumentGuides'];
 
-callHost = function (fnName, args) {
-// 立即执行类函数不走批处理
-if (IMMEDIATE_FUNCTIONS.indexOf(fnName) !== -1) {
-return _originalCallHost(fnName, args);
+BatchProcessor.init = function () {
+if (window.GridMaster && window.GridMaster.HostAdapter) {
+_originalCallHost = function (fnName, args) {
+return window.GridMaster.HostAdapter[fnName].apply(null, args || []);
+};
 }
+};
 
-// 其他操作走批处理
+BatchProcessor.callHost = function (fnName, args) {
+if (!_originalCallHost) {
+BatchProcessor.init();
+}
+if (IMMEDIATE_FUNCTIONS.indexOf(fnName) !== -1) {
+return _originalCallHost ? _originalCallHost(fnName, args) : Promise.reject(new Error('BatchProcessor not initialized'));
+}
 return BatchProcessor.enqueue(fnName, args);
 };
