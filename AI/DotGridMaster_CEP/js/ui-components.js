@@ -1,6 +1,6 @@
 /**
- * DotGridMaster UI Components — 通用 UI 工厂函数
- * 依赖：core.js (DotGridMaster 命名空间)
+ * DotGuide UI Components — 通用 UI 工厂函数
+ * 依赖：core.js (DotGuide 命名空间)
  */
 
 (function (GM) {
@@ -290,5 +290,4 @@
     return toggle;
   };
 
-})(DotGridMaster);
-
+})(DotGuide);
