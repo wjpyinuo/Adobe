@@ -133,8 +133,8 @@ var UndoManager = (function () {
       case ActionTypes.ADD_GUIDES:
         return ha.clearGuides();
       case ActionTypes.ADD_GRID:
-        // 修复: 网格应用包含参考线+覆盖层，撤销时需全部清除
-        return Promise.all([ha.clearGuides(), ha.clearGridOverlay()]);
+        // 修复: 网格应用包含参考线+覆盖层+间距线，撤销时需全部清除
+        return Promise.all([ha.clearGuides(), ha.clearGridOverlay(), ha.clearGutterGuides()]);
       case ActionTypes.ADD_COMPOSITION:
         return ha.clearComposition();
       case ActionTypes.ADD_ECOM:
@@ -167,10 +167,13 @@ var UndoManager = (function () {
       case ActionTypes.ADD_GUIDES:
         return ha.addGuides(entry.data.guides);
       case ActionTypes.ADD_GRID:
-        // 修复: 网格应用使用的是 addGuides + addGridOverlay，重做应保持一致
+        // 修复: 网格应用使用的是 addGuides + addGridOverlay + addGutterGuides，重做应保持一致
         var redoPromises = [];
         if (entry.data.guides && entry.data.guides.length > 0) {
           redoPromises.push(ha.addGuides(entry.data.guides));
+        }
+        if (entry.data.gutterGuides && entry.data.gutterGuides.length > 0) {
+          redoPromises.push(ha.addGutterGuides(entry.data.gutterGuides));
         }
         if (entry.data.gridParams) {
           redoPromises.push(ha.addGridOverlay(entry.data.gridParams));

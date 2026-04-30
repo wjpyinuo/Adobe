@@ -24,7 +24,7 @@
     showCellOverlay: true,
     showGutterGuides: true,
     overlayColor: '#0D99FF',
-    overlayOpacity: 8
+    overlayOpacity: 20
   };
 
   function _saveState() {
@@ -221,19 +221,22 @@
         });
       }
 
-      // 合并所有参考线
-      var allGuides = result.guides.concat(gutterGuides);
-
       // 先清除旧内容（串行，确保清除完成后再添加）
       return Promise.all([
         GM.HostAdapter.clearGuides(),
-        GM.HostAdapter.clearGridOverlay()
+        GM.HostAdapter.clearGridOverlay(),
+        GM.HostAdapter.clearGutterGuides()
       ]).then(function () {
         var promises = [];
 
-        // 添加参考线（含间距边界线）
-        if (gridState.showGuides && allGuides.length > 0) {
-          promises.push(GM.HostAdapter.addGuides(allGuides));
+        // 添加参考线（不含间距边界线）
+        if (gridState.showGuides && result.guides.length > 0) {
+          promises.push(GM.HostAdapter.addGuides(result.guides));
+        }
+
+        // 添加间距边界辅助线（独立图层，橙色醒目）
+        if (gridState.showGutterGuides && gutterGuides.length > 0) {
+          promises.push(GM.HostAdapter.addGutterGuides(gutterGuides));
         }
 
         // 添加单元格覆盖层（可视化间距）
@@ -258,7 +261,7 @@
         if (typeof UndoManager !== 'undefined') {
           UndoManager.record(
             UndoManager.ActionTypes.ADD_GRID,
-            { guides: allGuides, gridParams: {
+            { guides: result.guides, gutterGuides: gutterGuides, gridParams: {
               columns: gridState.columns, rows: gridState.rows,
               gutterH: gridState.gutterH, gutterV: gridState.gutterV,
               marginTop: gridState.marginTop, marginRight: gridState.marginRight,
@@ -290,7 +293,8 @@
     clearBtn.addEventListener('click', function () {
       Promise.all([
         GM.HostAdapter.clearGuides(),
-        GM.HostAdapter.clearGridOverlay()
+        GM.HostAdapter.clearGridOverlay(),
+        GM.HostAdapter.clearGutterGuides()
       ]).then(function () {
         GM.showToast('网格已清除', 'success');
       }).catch(function (e) {

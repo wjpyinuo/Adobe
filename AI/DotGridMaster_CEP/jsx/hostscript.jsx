@@ -802,6 +802,7 @@ function clearAll() {
     _removeLayerByName(ECOM_LAYER_NAME);
     _removeLayerByName(BASEGRID_LAYER_NAME);
     _removeLayerByName(PREVIEW_LAYER_NAME);
+    _removeLayerByName(GUTTER_GUIDES_LAYER_NAME);
 
     _pushUndoRecord('all', { action: 'clear' });
 
@@ -896,6 +897,93 @@ function addGridOverlay(gridJSON) {
 
 function clearGridOverlay() {
   _removeLayerByName(GRID_OVERLAY_LAYER_NAME);
+  return JSON.stringify({ success: true });
+}
+
+// ============================
+// 间距边界辅助线（独立图层，更醒目的样式）
+// ============================
+
+var GUTTER_GUIDES_LAYER_NAME = 'DotGridMaster_GutterGuides';
+
+function addGutterGuides(guidesJSON) {
+  try {
+    if (app.documents.length === 0) {
+      return JSON.stringify({ success: false, error: 'No document open' });
+    }
+
+    var doc = app.activeDocument;
+    var guides = JSON.parse(guidesJSON);
+
+    if (!guides || guides.length === 0) {
+      return JSON.stringify({ success: true, count: 0 });
+    }
+
+    var abRect = getActiveArtboardRect();
+    var abLeft = abRect[0];
+    var abTop = abRect[1];
+    var abRight = abRect[2];
+    var abBottom = abRect[3];
+
+    var layer = getOrCreateLayer(GUTTER_GUIDES_LAYER_NAME);
+    clearLayerContents(layer);
+
+    // 橙色，更醒目
+    var gutterColor = new RGBColor();
+    gutterColor.red = 255; gutterColor.green = 107; gutterColor.blue = 0;
+
+    var addedCount = 0;
+
+    for (var i = 0; i < guides.length; i++) {
+      var g = guides[i];
+      var pos = g.position;
+
+      if (typeof pos !== 'number' || isNaN(pos)) continue;
+
+      try {
+        var guidePath = layer.pathItems.add();
+        guidePath.name = 'Gutter_' + g.orientation + '_' + Math.round(pos);
+
+        if (g.orientation === 'horizontal') {
+          var aiY = abTop - pos;
+          guidePath.setEntirePath([
+            [abLeft - 100, aiY],
+            [abRight + 100, aiY]
+          ]);
+        } else {
+          var aiX = abLeft + pos;
+          guidePath.setEntirePath([
+            [aiX, abTop + 100],
+            [aiX, abBottom - 100]
+          ]);
+        }
+
+        guidePath.filled = false;
+        guidePath.stroked = true;
+        guidePath.strokeWidth = 1.0;
+        guidePath.strokeColor = gutterColor;
+        guidePath.strokeDashes = [4, 2];
+        guidePath.opacity = 90;
+
+        try { guidePath.guides = true; } catch (eg) {}
+
+        addedCount++;
+      } catch (ge) {
+        // 忽略单条失败
+      }
+    }
+
+    layer.printable = false;
+    layer.locked = true;
+
+    return JSON.stringify({ success: true, count: addedCount });
+  } catch (e) {
+    return JSON.stringify({ success: false, error: e.message });
+  }
+}
+
+function clearGutterGuides() {
+  _removeLayerByName(GUTTER_GUIDES_LAYER_NAME);
   return JSON.stringify({ success: true });
 }
 

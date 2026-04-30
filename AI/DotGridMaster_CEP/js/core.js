@@ -113,6 +113,8 @@ var DotGridMaster = DotGridMaster || {};
     diagnosticTest: function () { return callHost('diagnosticTest', []); },
     addGridOverlay: function (opts) { return callHost('addGridOverlay', [JSON.stringify(opts)]); },
     clearGridOverlay: function () { return callHost('clearGridOverlay', []); },
+    addGutterGuides: function (guides) { return callHost('addGutterGuides', [JSON.stringify(guides)]); },
+    clearGutterGuides: function () { return callHost('clearGutterGuides', []); },
     addBaseGrid: function (options) { return callHost('addBaseGrid', [JSON.stringify(options)]); },
     clearBaseGrid: function () { return callHost('clearBaseGrid', []); },
     addColorBar: function () { return callHost('addColorBar', []); },
