@@ -2,7 +2,7 @@
 
 > 从 UXP 架构切换到 CEP 架构，适配 Illustrator 2024+
 >
-> 📂 仓库路径：`AI/GridMaster CEP/`
+> 📂 仓库路径：`AI/GridMaster_CEP/`
 
 ---
 
