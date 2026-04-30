@@ -19,7 +19,7 @@ echo ""
 echo "[2/5] 下载 CSInterface.js ..."
 mkdir -p js
 
-CSURL="https://raw.githubusercontent.com/nicoleKelworthy/CSInterface/master/CSInterface.js"
+CSURL="https://raw.githubusercontent.com/Adobe-CEP/CEP-Resources/master/CEP_11.x/CSInterface.js"
 
 if command -v curl &>/dev/null; then
     curl -sL -o "js/CSInterface.js" "$CSURL"

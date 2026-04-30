@@ -19,7 +19,7 @@ echo [2/5] 下载 CSInterface.js ...
 
 if not exist "js" mkdir js
 
-set CSURL=https://raw.githubusercontent.com/nicoleKelworthy/CSInterface/master/CSInterface.js
+set CSURL=https://raw.githubusercontent.com/Adobe-CEP/CEP-Resources/master/CEP_11.x/CSInterface.js
 
 :: 优先用 curl（Win10+ 内置）
 where curl >nul 2>&1
