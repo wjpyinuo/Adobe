@@ -8,7 +8,7 @@ echo ""
 
 # 1. 设置开发模式
 echo "[1/2] 设置 CEP 开发模式..."
-for v in 9 10 11 12 13 14 15; do
+for v in 11 12 13 14 15; do
     defaults write com.adobe.CSXS.$v PlayerDebugMode 1 2>/dev/null || true
 done
 echo "    ✓ 已设置 CSXS 9-15 PlayerDebugMode=1"

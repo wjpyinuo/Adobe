@@ -16,7 +16,7 @@
     aboutCard.innerHTML =
       '<div style="font-size:14px;font-weight:700;margin-bottom:4px;">⊞ DotGridMaster</div>' +
       '<div style="font-size:10px;color:var(--gm-text-secondary);line-height:1.6;">' +
-      '版本: 1.0.0 (CEP)<br>引擎: DotGridMaster Core<br>兼容: Illustrator 2023+<br>架构: CEP + ExtendScript</div>';
+      '版本: 1.0.1 (CEP)<br>引擎: DotGridMaster Core<br>兼容: Illustrator 2024+ (v28.0+)<br>架构: CEP + ExtendScript</div>';
     aboutSection.appendChild(aboutCard);
     container.appendChild(aboutSection);
 

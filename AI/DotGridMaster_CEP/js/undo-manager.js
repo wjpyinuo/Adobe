@@ -56,8 +56,39 @@ var UndoManager = (function () {
     _undoStack.push(entry);
     if (_undoStack.length > MAX_HISTORY) _undoStack.shift();
     _redoStack = [];
+
+    // BUG-15 修复: 同步推送到后端撤销栈（如果可用）
+    try {
+      var gm = _getGM();
+      if (gm && gm.callHost) {
+        var backendType = _mapToBackendType(type);
+        if (backendType) {
+          gm.callHost('_pushUndoRecord', [backendType, JSON.stringify({ label: label })]).catch(function () {});
+        }
+      }
+    } catch (e) {
+      // 后端同步失败不影响前端撤销
+    }
+
     _notifyChange();
     return entry.id;
+  }
+
+  /**
+   * 前端操作类型映射到后端撤销类型
+   */
+  function _mapToBackendType(frontendType) {
+    var map = {
+      'add_guides': 'guides',
+      'clear_guides': 'guides',
+      'add_grid': 'guides',
+      'add_composition': 'composition',
+      'add_ecom': 'overlays',
+      'add_print': 'printmarks',
+      'add_overlay': 'overlays',
+      'clear_all': 'all'
+    };
+    return map[frontendType] || null;
   }
 
   /**

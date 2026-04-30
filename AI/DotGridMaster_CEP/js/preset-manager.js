@@ -4,7 +4,8 @@
  *
  * 依赖：core.js (GM.PresetManager 已在 core.js 中定义)
  *
- * 注意：独立的 PresetManager 模块已移除，统一使用 GM.PresetManager
+ * 注意：此文件仅追加 core.js 中未包含的额外预设，不重复定义已有预设。
+ * 核心预设定义在 core.js GM.PresetManager._getBuiltInPresets() 中。
  */
 
 (function () {
@@ -16,7 +17,7 @@
     return;
   }
 
-  // 额外的内置预设（扩展 core.js 中已有的预设）
+  // 额外的内置预设（仅追加 core.js 中未包含的预设）
   var extraGridPresets = [
     { id: '__builtin_web_12col', name: 'Web 12列栅格', isBuiltIn: true, columns: 12, rows: 1, gutterH: 0, gutterV: 0, marginTop: 0, marginRight: 0, marginBottom: 0, marginLeft: 0 },
     { id: '__builtin_bootstrap', name: 'Bootstrap 栅格', isBuiltIn: true, columns: 12, rows: 1, gutterH: 30, gutterV: 0, marginTop: 0, marginRight: 15, marginBottom: 0, marginLeft: 15 },
@@ -30,11 +31,17 @@
   for (var i = 0; i < existing.length; i++) {
     existingIds[existing[i].id] = true;
   }
+  var added = 0;
   for (var j = 0; j < extraGridPresets.length; j++) {
     if (!existingIds[extraGridPresets[j].id]) {
       existing.push(extraGridPresets[j]);
+      added++;
     }
   }
   GM.PresetManager._presets.grid = existing;
+
+  if (added > 0) {
+    console.log('[DotGridMaster] preset-manager.js: 追加了 ' + added + ' 个额外网格预设');
+  }
 
 })();

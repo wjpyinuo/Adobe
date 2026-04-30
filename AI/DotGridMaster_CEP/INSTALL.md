@@ -41,6 +41,9 @@ HKCU\SOFTWARE\Adobe\CSXS.9    → PlayerDebugMode (REG_SZ) = 1
 HKCU\SOFTWARE\Adobe\CSXS.10   → PlayerDebugMode (REG_SZ) = 1
 HKCU\SOFTWARE\Adobe\CSXS.11   → PlayerDebugMode (REG_SZ) = 1
 HKCU\SOFTWARE\Adobe\CSXS.12   → PlayerDebugMode (REG_SZ) = 1
+HKCU\SOFTWARE\Adobe\CSXS.13   → PlayerDebugMode (REG_SZ) = 1
+HKCU\SOFTWARE\Adobe\CSXS.14   → PlayerDebugMode (REG_SZ) = 1
+HKCU\SOFTWARE\Adobe\CSXS.15   → PlayerDebugMode (REG_SZ) = 1
 ```
 
 方式 C：CMD 命令行
@@ -56,6 +59,9 @@ defaults write com.adobe.CSXS.9 PlayerDebugMode 1
 defaults write com.adobe.CSXS.10 PlayerDebugMode 1
 defaults write com.adobe.CSXS.11 PlayerDebugMode 1
 defaults write com.adobe.CSXS.12 PlayerDebugMode 1
+defaults write com.adobe.CSXS.13 PlayerDebugMode 1
+defaults write com.adobe.CSXS.14 PlayerDebugMode 1
+defaults write com.adobe.CSXS.15 PlayerDebugMode 1
 ```
 
 ### 第 2 步：复制插件到扩展目录

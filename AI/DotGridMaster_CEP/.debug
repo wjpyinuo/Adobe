@@ -1,0 +1,5 @@
+<Extension Id="com.dotgridmaster.panel">
+  <HostList>
+    <Host Name="ILST" Port="8088"/>
+  </HostList>
+</Extension>

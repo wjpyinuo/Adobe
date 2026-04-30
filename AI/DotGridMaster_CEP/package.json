@@ -1,6 +1,6 @@
 {
   "name": "dotgridmaster-cep",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "DotGridMaster — Adobe Illustrator CEP 插件（网格/构图/电商/印刷/UI）",
   "private": true,
   "scripts": {
@@ -13,7 +13,7 @@
     "eslint": "^8.0.0"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "license": "MIT",
   "repository": {

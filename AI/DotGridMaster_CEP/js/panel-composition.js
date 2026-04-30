@@ -95,6 +95,14 @@
 
         return Promise.all(promises);
       }).then(function () {
+        // 记录撤销（BUG-3 修复）
+        if (typeof UndoManager !== 'undefined') {
+          UndoManager.record(
+            UndoManager.ActionTypes.ADD_COMPOSITION,
+            { type: compositionState.type, lines: result.lines, showAsGuides: compositionState.showAsGuides, showAsPaths: compositionState.showAsPaths },
+            '构图: ' + (modeNames[compositionState.type] || compositionState.type)
+          );
+        }
         GM.showToast('构图辅助线已应用', 'success');
       });
     }));

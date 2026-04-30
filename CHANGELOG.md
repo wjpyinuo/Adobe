@@ -31,12 +31,17 @@
 - 统一 PresetManager 实现，删除重复定义
 - manifest.xml 版本范围对齐 Illustrator 2024+ (v28.0+)
 - 键盘快捷键改为 Ctrl+Shift+1~6 避免与宿主冲突
+- 安装脚本 CSXS 版本范围统一为 11-15
+- enable-debug.reg 对齐 CSXS 11-15
+- package.json engines 要求 Node >= 18（匹配 --test 标志）
+- 删除死文件 lib/dotgridmaster-core.js
 
 ### 新增
 - UI 设备预设：iPhone 16 / iPhone 16 Pro / iPhone 16 Pro Max / Pixel 9 / iPad Air M2
 - 印刷面板：CMYK 色标独立调用按钮
 - 构图预设：黄金螺旋添加到预设列表
 - .debug 调试端口配置文件
+- CSS 变量 --gm-text-tertiary（#666666）
 
 ### 修复
 - BUG-A: 重做(undo→redo)网格操作调用错误的宿主函数
@@ -48,4 +53,14 @@
 - ISSUE-5: diagnosticTest() 生产代码中使用 alert() 弹窗
 - ISSUE-6: Ctrl+1~6 快捷键与宿主冲突
 - ISSUE-7: 黄金螺旋未暴露到构图预设列表
+- ISSUE-8: 构图面板应用操作未记录撤销（无法撤销构图辅助线）
+- ISSUE-9: diagnosticTest() 在用户文档活动图层上残留红色矩形
+- ISSUE-10: CSS 变量 --gm-text-tertiary 未定义导致样式回退
+- ISSUE-11: package.json 版本号 1.0.0 未同步更新为 1.0.1
+- ISSUE-12: manifest.xml 版本号未同步更新
+- ISSUE-13: settings 面板版本信息硬编码为 1.0.0 / Illustrator 2023+
+- ISSUE-14: debug/grid-validator.js 重复代码块和未定义 DEBUG 依赖
+- ISSUE-15: UndoManager 前后端撤销栈未同步（record() 未推送后端）
+- ISSUE-16: preset-manager.test.js 内置预设数据与 core.js 不一致
+- ISSUE-17: enable-debug.reg 包含 CSXS 9/10（低于最低运行时要求）
 - 微信小程序 Banner 尺寸更新为 750×560

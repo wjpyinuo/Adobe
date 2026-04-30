@@ -1431,7 +1431,10 @@ function diagnosticTest() {
     var abIndex = doc.artboards.getActiveArtboardIndex();
     var abRect = doc.artboards[abIndex].artboardRect;
 
-    var layer = doc.activeLayer;
+    // BUG-4 修复: 使用独立图层，测试后自动清除
+    var layer = getOrCreateLayer('DotGridMaster_Diag');
+    clearLayerContents(layer);
+
     var rect = layer.pathItems.rectangle(abRect[1] - 50, abRect[0] + 50, 200, 100);
     rect.filled = true;
     rect.stroked = false;
@@ -1441,8 +1444,7 @@ function diagnosticTest() {
     rect.opacity = 50;
     rect.name = 'DotGridMaster_DIAG_TEST';
 
-    // 仅返回诊断数据，不弹窗（由前端 Toast 展示）
-    return JSON.stringify({
+    var result = JSON.stringify({
       success: true,
       data: {
         layerName: layer.name,
@@ -1451,6 +1453,11 @@ function diagnosticTest() {
         rectCreated: true
       }
     });
+
+    // 清除诊断图层
+    try { layer.remove(); } catch (e) {}
+
+    return result;
   } catch (e) {
     return JSON.stringify({ success: false, error: e.message });
   }

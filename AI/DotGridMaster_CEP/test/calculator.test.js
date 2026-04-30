@@ -10,6 +10,9 @@ const assert = require('node:assert/strict');
 
 // ============================================================
 // 从 core.js 提取的 Calculator 逻辑（修复版）
+// 注意：此实现必须与 core.js GM.Calculator 保持同步
+// 由于 CEP 扩展无法在 Node.js 测试中 import 浏览器 JS，
+// 故在此复制纯计算逻辑。修改时请同步更新 core.js。
 // ============================================================
 
 const Calculator = {

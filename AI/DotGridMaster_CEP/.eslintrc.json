@@ -1,22 +1,24 @@
 {
   "env": {
     "browser": true,
-    "es6": false
+    "es6": true
   },
   "globals": {
     "CSInterface": "readonly",
-    "DotGridMaster": "readonly",
-    "UndoManager": "readonly",
+    "DotGridMaster": "writable",
+    "UndoManager": "writable",
+    "PerfMonitor": "writable",
     "app": "readonly",
     "RulerUnits": "readonly",
     "DocumentColorSpace": "readonly",
     "RGBColor": "readonly",
     "CMYKColor": "readonly",
-    "PerfMonitor": "readonly"
+    "Promise": "readonly"
   },
   "parserOptions": {
-    "ecmaVersion": 5
+    "ecmaVersion": 2020
   },
+  "ignorePatterns": ["CSInterface.js"],
   "rules": {
     "no-unused-vars": [
       "warn",
