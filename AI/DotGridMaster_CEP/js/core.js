@@ -1,11 +1,11 @@
 /**
- * DotGridMaster Core — 共享基础设施
+ * DotGuide Core — 共享基础设施
  * 提供：命名空间、CSInterface 桥接、存储、计算器、预设管理、Toast
  *
  * 加载顺序：CSInterface.js → themeManager.js → core.js
  */
 
-var DotGridMaster = DotGridMaster || {};
+var DotGuide = DotGuide || {};
 
 (function (GM) {
   'use strict';
@@ -18,7 +18,7 @@ var DotGridMaster = DotGridMaster || {};
 
   // 检测是否为占位 stub（未下载正式 CSInterface.js）
   if (cs.evalScript && cs.evalScript.toString().indexOf('EvalScript error') !== -1) {
-    console.warn('[DotGridMaster] CSInterface.js 未就绪，请运行 setup 脚本下载正式版本。');
+    console.warn('[DotGuide] CSInterface.js 未就绪，请运行 setup 脚本下载正式版本。');
   }
 
   GM._csInterface = cs;
@@ -107,7 +107,7 @@ var DotGridMaster = DotGridMaster || {};
     getAllArtboards: function () { return callHost('getAllArtboards', []); },
     setActiveArtboard: function (index) { return callHost('setActiveArtboard', [index]); },
     clearAll: function () { return callHost('clearAll', []); },
-    undo: function () { return callHost('undoDotGridMaster', []); },
+    undo: function () { return callHost('undoDotGuide', []); },
     getUndoState: function () { return callHost('getUndoState', []); },
     healthCheck: function () { return callHost('healthCheck', []); },
     diagnosticTest: function () { return callHost('diagnosticTest', []); },
@@ -135,18 +135,18 @@ var DotGridMaster = DotGridMaster || {};
   GM.Storage = {
     get: function (key) {
       try {
-        var val = localStorage.getItem('dotgridmaster_' + key);
+        var val = localStorage.getItem('dotguide_' + key);
         return val ? JSON.parse(val) : null;
       } catch (e) { return null; }
     },
     set: function (key, value) {
       try {
-        localStorage.setItem('dotgridmaster_' + key, JSON.stringify(value));
+        localStorage.setItem('dotguide_' + key, JSON.stringify(value));
         return true;
       } catch (e) { return false; }
     },
     remove: function (key) {
-      localStorage.removeItem('dotgridmaster_' + key);
+      localStorage.removeItem('dotguide_' + key);
     }
   };
 
@@ -563,4 +563,4 @@ var DotGridMaster = DotGridMaster || {};
     });
   };
 
-})(DotGridMaster);
+})(DotGuide);
