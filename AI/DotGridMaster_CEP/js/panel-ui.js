@@ -16,7 +16,7 @@
     presetSection.appendChild(GM.createPresetList('ui', function (preset) {
       uiState.selectedPreset = preset;
       GM.renderUIPanel(container);
-    }));
+    }, function () { GM.renderUIPanel(container); }));
     container.appendChild(presetSection);
 
     if (uiState.selectedPreset) {
@@ -124,3 +124,4 @@
   };
 
 })(DotGridMaster);
+
