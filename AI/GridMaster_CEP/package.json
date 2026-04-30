@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint js/*.js --fix",
     "lint:check": "eslint js/*.js",
-    "package": "ZXPSignCmd -sign gridmaster-cep gridmaster-cep.zxp cert.p12 password"
+    "package": "ZXPSignCmd -sign gridmaster-cep gridmaster-cep.zxp ${ZXP_CERT:-cert.p12} ${ZXP_PASS:-password}",
+    "test": "node --test test/*.test.js"
   },
   "devDependencies": {
     "eslint": "^8.0.0"

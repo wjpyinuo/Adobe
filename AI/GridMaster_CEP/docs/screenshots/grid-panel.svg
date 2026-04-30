@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="420" viewBox="0 0 280 420">
+  <defs>
+    <style>
+      .bg { fill: #1e1e1e; }
+      .panel-header { fill: #2d2d2d; }
+      .text-primary { fill: #e0e0e0; font-family: -apple-system, sans-serif; font-size: 11px; }
+      .text-secondary { fill: #888; font-family: -apple-system, sans-serif; font-size: 10px; }
+      .text-label { fill: #aaa; font-family: -apple-system, sans-serif; font-size: 9px; }
+      .input-bg { fill: #3a3a3a; rx: 3; }
+      .btn-primary { fill: #0D99FF; rx: 4; }
+      .btn-text { fill: #fff; font-family: -apple-system, sans-serif; font-size: 10px; font-weight: 600; }
+      .divider { stroke: #444; stroke-width: 1; }
+      .grid-line { stroke: #0D99FF; stroke-width: 0.5; opacity: 0.6; }
+      .preset-row { fill: #2a2a2a; rx: 3; }
+    </style>
+  </defs>
+  <rect class="bg" width="280" height="420"/>
+  <rect class="panel-header" width="280" height="28" y="0"/>
+  <text class="text-primary" x="12" y="18" font-weight="600">▦ 网格面板</text>
+  <text class="text-secondary" x="220" y="18">1000×800</text>
+
+  <!-- 预设选择 -->
+  <text class="text-label" x="12" y="48">预设</text>
+  <rect class="preset-row" x="12" y="54" width="256" height="24"/>
+  <text class="text-primary" x="20" y="70">12列网格</text>
+  <text class="text-secondary" x="240" y="70">▾</text>
+
+  <!-- 列/行 -->
+  <text class="text-label" x="12" y="98">列</text>
+  <rect class="input-bg" x="12" y="102" width="60" height="22"/>
+  <text class="text-primary" x="36" y="117">12</text>
+  <text class="text-label" x="86" y="98">行</text>
+  <rect class="input-bg" x="86" y="102" width="60" height="22"/>
+  <text class="text-primary" x="110" y="117">1</text>
+  <text class="text-label" x="160" y="98">列间距</text>
+  <rect class="input-bg" x="160" y="102" width="54" height="22"/>
+  <text class="text-primary" x="180" y="117">20</text>
+  <text class="text-label" x="228" y="98">行间距</text>
+  <rect class="input-bg" x="228" y="102" width="40" height="22"/>
+  <text class="text-primary" x="242" y="117">0</text>
+
+  <!-- 边距 -->
+  <text class="text-label" x="12" y="145">上边距</text>
+  <rect class="input-bg" x="12" y="149" width="54" height="22"/>
+  <text class="text-primary" x="32" y="164">0</text>
+  <text class="text-label" x="80" y="145">右边距</text>
+  <rect class="input-bg" x="80" y="149" width="54" height="22"/>
+  <text class="text-primary" x="100" y="164">0</text>
+  <text class="text-label" x="148" y="145">下边距</text>
+  <rect class="input-bg" x="148" y="149" width="54" height="22"/>
+  <text class="text-primary" x="168" y="164">0</text>
+  <text class="text-label" x="216" y="145">左边距</text>
+  <rect class="input-bg" x="216" y="149" width="52" height="22"/>
+  <text class="text-primary" x="236" y="164">0</text>
+
+  <line class="divider" x1="12" y1="182" x2="268" y2="182"/>
+
+  <!-- 预览区域 -->
+  <text class="text-label" x="12" y="198">预览</text>
+  <rect fill="#252525" x="12" y="204" width="256" height="140" rx="4"/>
+  <!-- 网格线预览 -->
+  <line class="grid-line" x1="33" y1="204" x2="33" y2="344"/>
+  <line class="grid-line" x1="54" y1="204" x2="54" y2="344"/>
+  <line class="grid-line" x1="75" y1="204" x2="75" y2="344"/>
+  <line class="grid-line" x1="96" y1="204" x2="96" y2="344"/>
+  <line class="grid-line" x1="117" y1="204" x2="117" y2="344"/>
+  <line class="grid-line" x1="138" y1="204" x2="138" y2="344"/>
+  <line class="grid-line" x1="159" y1="204" x2="159" y2="344"/>
+  <line class="grid-line" x1="180" y1="204" x2="180" y2="344"/>
+  <line class="grid-line" x1="201" y1="204" x2="201" y2="344"/>
+  <line class="grid-line" x1="222" y1="204" x2="222" y2="344"/>
+  <line class="grid-line" x1="243" y1="204" x2="243" y2="344"/>
+  <line class="grid-line" x1="268" y1="204" x2="268" y2="344"/>
+  <line class="grid-line" x1="12" y1="204" x2="268" y2="204"/>
+  <line class="grid-line" x1="12" y1="344" x2="268" y2="344"/>
+
+  <!-- 按钮 -->
+  <rect class="btn-primary" x="12" y="358" width="120" height="28"/>
+  <text class="btn-text" x="44" y="376">应用网格</text>
+  <rect fill="#3a3a3a" x="142" y="358" width="56" height="28" rx="4"/>
+  <text class="text-primary" x="156" y="376" text-anchor="middle" font-size="10">预览</text>
+  <rect fill="#3a3a3a" x="208" y="358" width="60" height="28" rx="4"/>
+  <text class="text-primary" x="230" y="376" text-anchor="middle" font-size="10">清除</text>
+
+  <!-- 底部状态栏 -->
+  <rect fill="#252525" x="0" y="396" width="280" height="24"/>
+  <text class="text-secondary" x="12" y="412">就绪</text>
+  <text class="text-secondary" x="200" y="412">↶ ↷ ⏱</text>
+</svg>

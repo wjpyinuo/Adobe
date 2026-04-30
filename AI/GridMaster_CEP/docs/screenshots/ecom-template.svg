@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="420" viewBox="0 0 280 420">
+  <defs>
+    <style>
+      .bg { fill: #1e1e1e; }
+      .panel-header { fill: #2d2d2d; }
+      .text-primary { fill: #e0e0e0; font-family: -apple-system, sans-serif; font-size: 11px; }
+      .text-secondary { fill: #888; font-family: -apple-system, sans-serif; font-size: 10px; }
+      .text-label { fill: #aaa; font-family: -apple-system, sans-serif; font-size: 9px; }
+      .btn-primary { fill: #FF3B30; rx: 4; }
+      .btn-text { fill: #fff; font-family: -apple-system, sans-serif; font-size: 10px; font-weight: 600; }
+      .divider { stroke: #444; stroke-width: 1; }
+    </style>
+  </defs>
+  <rect class="bg" width="280" height="420"/>
+  <rect class="panel-header" width="280" height="28" y="0"/>
+  <text class="text-primary" x="12" y="18" font-weight="600">🛒 电商模板</text>
+
+  <!-- 平台选择 -->
+  <text class="text-label" x="12" y="48">平台</text>
+  <rect fill="#FF3B30" opacity="0.15" x="12" y="54" width="50" height="24" rx="3" stroke="#FF3B30" stroke-width="0.5"/>
+  <text fill="#FF3B30" x="22" y="70" font-family="-apple-system,sans-serif" font-size="10" font-weight="600">淘宝</text>
+  <rect fill="#2a2a2a" x="68" y="54" width="42" height="24" rx="3"/>
+  <text class="text-primary" x="74" y="70" font-size="10">京东</text>
+  <rect fill="#2a2a2a" x="116" y="54" width="56" height="24" rx="3"/>
+  <text class="text-primary" x="122" y="70" font-size="10">拼多多</text>
+  <rect fill="#2a2a2a" x="178" y="54" width="42" height="24" rx="3"/>
+  <text class="text-primary" x="184" y="70" font-size="10">抖音</text>
+  <rect fill="#2a2a2a" x="226" y="54" width="42" height="24" rx="3"/>
+  <text class="text-primary" x="232" y="70" font-size="10">小红书</text>
+
+  <!-- 模板选择 -->
+  <text class="text-label" x="12" y="100">模板</text>
+  <rect fill="#3a3a3a" x="12" y="106" width="256" height="22" rx="3"/>
+  <text class="text-primary" x="20" y="121">淘宝主图 800×800</text>
+  <text class="text-secondary" x="250" y="121">▾</text>
+
+  <line class="divider" x1="12" y1="140" x2="268" y2="140"/>
+
+  <!-- 安全区预览 -->
+  <text class="text-label" x="12" y="158">安全区预览</text>
+  <rect fill="#252525" x="30" y="164" width="220" height="180" rx="4"/>
+
+  <!-- 800x800 画板示意 -->
+  <rect fill="#333" x="50" y="174" width="180" height="160" rx="2"/>
+
+  <!-- 顶部遮挡区 -->
+  <rect fill="#FF3B30" opacity="0.2" x="50" y="174" width="180" height="12"/>
+  <text fill="#FF3B30" x="120" y="183" font-family="-apple-system,sans-serif" font-size="7" text-anchor="middle">顶部遮挡 50px</text>
+
+  <!-- 底部遮挡区 -->
+  <rect fill="#FF3B30" opacity="0.2" x="50" y="310" width="180" height="24"/>
+  <text fill="#FF3B30" x="120" y="326" font-family="-apple-system,sans-serif" font-size="7" text-anchor="middle">底部遮挡 110px（标题/价格）</text>
+
+  <!-- 左右边距 -->
+  <rect fill="#FF6B00" opacity="0.12" x="50" y="186" width="8" height="124"/>
+  <rect fill="#FF6B00" opacity="0.12" x="222" y="186" width="8" height="124"/>
+
+  <!-- 安全区 -->
+  <rect fill="none" x="58" y="186" width="164" height="124" stroke="#34c759" stroke-width="0.8" stroke-dasharray="3,2"/>
+  <text fill="#34c759" x="140" y="252" font-family="-apple-system,sans-serif" font-size="8" text-anchor="middle">安全内容区</text>
+
+  <!-- 信息 -->
+  <line class="divider" x1="12" y1="356" x2="268" y2="356"/>
+  <text class="text-label" x="12" y="374">尺寸：800 × 800 px</text>
+  <text class="text-label" x="12" y="390">安全区：上50 右30 下110 左30</text>
+
+  <!-- 按钮 -->
+  <rect class="btn-primary" x="12" y="400" width="120" height="28" rx="4"/>
+  <text class="btn-text" x="38" y="418">应用安全区</text>
+  <rect fill="#3a3a3a" x="142" y="400" width="56" height="28" rx="4"/>
+  <text class="text-primary" x="156" y="418" text-anchor="middle" font-size="10">清除</text>
+</svg>

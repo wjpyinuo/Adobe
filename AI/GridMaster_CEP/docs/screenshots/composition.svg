@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="420" viewBox="0 0 280 420">
+  <defs>
+    <style>
+      .bg { fill: #1e1e1e; }
+      .panel-header { fill: #2d2d2d; }
+      .text-primary { fill: #e0e0e0; font-family: -apple-system, sans-serif; font-size: 11px; }
+      .text-secondary { fill: #888; font-family: -apple-system, sans-serif; font-size: 10px; }
+      .text-label { fill: #aaa; font-family: -apple-system, sans-serif; font-size: 9px; }
+      .btn-primary { fill: #FF6B00; rx: 4; }
+      .btn-text { fill: #fff; font-family: -apple-system, sans-serif; font-size: 10px; font-weight: 600; }
+      .divider { stroke: #444; stroke-width: 1; }
+      .comp-line { stroke: #FF6B00; stroke-width: 0.8; opacity: 0.7; }
+      .preset-active { fill: #FF6B00; opacity: 0.15; rx: 3; stroke: #FF6B00; stroke-width: 0.5; }
+      .preset-inactive { fill: #2a2a2a; rx: 3; }
+    </style>
+  </defs>
+  <rect class="bg" width="280" height="420"/>
+  <rect class="panel-header" width="280" height="28" y="0"/>
+  <text class="text-primary" x="12" y="18" font-weight="600">◇ 构图辅助</text>
+
+  <!-- 构图类型选择 -->
+  <text class="text-label" x="12" y="48">构图类型</text>
+
+  <rect class="preset-active" x="12" y="54" width="80" height="28"/>
+  <text fill="#FF6B00" x="28" y="72" font-family="-apple-system,sans-serif" font-size="10" font-weight="600">三分法</text>
+
+  <rect class="preset-inactive" x="100" y="54" width="80" height="28"/>
+  <text class="text-primary" x="112" y="72" font-size="10">黄金分割</text>
+
+  <rect class="preset-inactive" x="188" y="54" width="80" height="28"/>
+  <text class="text-primary" x="206" y="72" font-size="10">对角线</text>
+
+  <rect class="preset-inactive" x="12" y="90" width="80" height="28"/>
+  <text class="text-primary" x="26" y="108" font-size="10">中心十字</text>
+
+  <rect class="preset-inactive" x="100" y="90" width="80" height="28"/>
+  <text class="text-primary" x="118" y="108" font-size="10">螺旋</text>
+
+  <line class="divider" x1="12" y1="130" x2="268" y2="130"/>
+
+  <!-- 预览区域 -->
+  <text class="text-label" x="12" y="148">预览</text>
+  <rect fill="#252525" x="12" y="154" width="256" height="180" rx="4"/>
+
+  <!-- 三分法网格线 -->
+  <line class="comp-line" x1="97" y1="154" x2="97" y2="334"/>
+  <line class="comp-line" x1="181" y1="154" x2="181" y2="334"/>
+  <line class="comp-line" x1="12" y1="214" x2="268" y2="214"/>
+  <line class="comp-line" x1="12" y1="274" x2="268" y2="274"/>
+
+  <!-- 交叉点标记 -->
+  <circle cx="97" cy="214" r="4" fill="none" stroke="#FF6B00" stroke-width="1" opacity="0.8"/>
+  <circle cx="181" cy="214" r="4" fill="none" stroke="#FF6B00" stroke-width="1" opacity="0.8"/>
+  <circle cx="97" cy="274" r="4" fill="none" stroke="#FF6B00" stroke-width="1" opacity="0.8"/>
+  <circle cx="181" cy="274" r="4" fill="none" stroke="#FF6B00" stroke-width="1" opacity="0.8"/>
+
+  <!-- 选项 -->
+  <line class="divider" x1="12" y1="348" x2="268" y2="348"/>
+
+  <text class="text-label" x="12" y="366">叠加模式</text>
+  <rect fill="#3a3a3a" x="12" y="372" width="120" height="22" rx="3"/>
+  <text class="text-primary" x="20" y="387">参考线</text>
+  <text class="text-secondary" x="120" y="387">▾</text>
+
+  <!-- 按钮 -->
+  <rect class="btn-primary" x="12" y="400" width="120" height="28" rx="4"/>
+  <text class="btn-text" x="40" y="418">应用构图</text>
+  <rect fill="#3a3a3a" x="142" y="400" width="56" height="28" rx="4"/>
+  <text class="text-primary" x="156" y="418" text-anchor="middle" font-size="10">清除</text>
+</svg>

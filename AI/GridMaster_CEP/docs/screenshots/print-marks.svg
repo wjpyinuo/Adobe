@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="420" viewBox="0 0 280 420">
+  <defs>
+    <style>
+      .bg { fill: #1e1e1e; }
+      .panel-header { fill: #2d2d2d; }
+      .text-primary { fill: #e0e0e0; font-family: -apple-system, sans-serif; font-size: 11px; }
+      .text-secondary { fill: #888; font-family: -apple-system, sans-serif; font-size: 10px; }
+      .text-label { fill: #aaa; font-family: -apple-system, sans-serif; font-size: 9px; }
+      .btn-primary { fill: #FF2D55; rx: 4; }
+      .btn-text { fill: #fff; font-family: -apple-system, sans-serif; font-size: 10px; font-weight: 600; }
+      .divider { stroke: #444; stroke-width: 1; }
+    </style>
+  </defs>
+  <rect class="bg" width="280" height="420"/>
+  <rect class="panel-header" width="280" height="28" y="0"/>
+  <text class="text-primary" x="12" y="18" font-weight="600">🖨 印刷出血</text>
+
+  <!-- 预设 -->
+  <text class="text-label" x="12" y="48">纸张预设</text>
+  <rect fill="#3a3a3a" x="12" y="54" width="256" height="22" rx="3"/>
+  <text class="text-primary" x="20" y="69">A4 (210×297mm)</text>
+  <text class="text-secondary" x="250" y="69">▾</text>
+
+  <!-- 出血值 -->
+  <text class="text-label" x="12" y="98">出血 (mm)</text>
+  <rect fill="#3a3a3a" x="12" y="104" width="60" height="22" rx="3"/>
+  <text class="text-primary" x="36" y="119">3</text>
+  <text class="text-label" x="86" y="98">安全边距</text>
+  <rect fill="#3a3a3a" x="86" y="104" width="60" height="22" rx="3"/>
+  <text class="text-primary" x="110" y="119">6</text>
+
+  <!-- 选项 -->
+  <line class="divider" x1="12" y1="138" x2="268" y2="138"/>
+
+  <text class="text-label" x="12" y="156">输出标记</text>
+  <rect fill="#3a3a3a" x="12" y="162" width="10" height="10" rx="2"/>
+  <text class="text-primary" x="28" y="171">裁切标记</text>
+  <rect fill="#3a3a3a" x="120" y="162" width="10" height="10" rx="2"/>
+  <text class="text-primary" x="136" y="171">色标</text>
+  <rect fill="#3a3a3a" x="12" y="180" width="10" height="10" rx="2"/>
+  <text class="text-primary" x="28" y="189">注册标记</text>
+  <rect fill="#3a3a3a" x="120" y="180" width="10" height="10" rx="2"/>
+  <text class="text-primary" x="136" y="189">出血可视化</text>
+
+  <line class="divider" x1="12" y1="202" x2="268" y2="202"/>
+
+  <!-- 预览 -->
+  <text class="text-label" x="12" y="220">预览</text>
+  <rect fill="#252525" x="30" y="226" width="220" height="140" rx="4"/>
+
+  <!-- 画板 -->
+  <rect fill="#fff" opacity="0.05" x="70" y="246" width="140" height="100"/>
+
+  <!-- 出血区（红色半透明） -->
+  <rect fill="#FF2D55" opacity="0.15" x="70" y="246" width="140" height="5"/>
+  <rect fill="#FF2D55" opacity="0.15" x="70" y="341" width="140" height="5"/>
+  <rect fill="#FF2D55" opacity="0.15" x="70" y="251" width="5" height="90"/>
+  <rect fill="#FF2D55" opacity="0.15" x="205" y="251" width="5" height="90"/>
+
+  <!-- 安全边距线 -->
+  <line stroke="#34c759" stroke-width="0.5" stroke-dasharray="2,2" x1="78" y1="254" x2="197" y2="254"/>
+  <line stroke="#34c759" stroke-width="0.5" stroke-dasharray="2,2" x1="78" y1="336" x2="197" y2="336"/>
+  <line stroke="#34c759" stroke-width="0.5" stroke-dasharray="2,2" x1="78" y1="254" x2="78" y2="336"/>
+  <line stroke="#34c759" stroke-width="0.5" stroke-dasharray="2,2" x1="197" y1="254" x2="197" y2="336"/>
+
+  <!-- 裁切标记 -->
+  <line stroke="#e0e0e0" stroke-width="0.5" x1="60" y1="246" x2="68" y2="246"/>
+  <line stroke="#e0e0e0" stroke-width="0.5" x1="70" y1="236" x2="70" y2="244"/>
+  <line stroke="#e0e0e0" stroke-width="0.5" x1="212" y1="246" x2="220" y2="246"/>
+  <line stroke="#e0e0e0" stroke-width="0.5" x1="210" y1="236" x2="210" y2="244"/>
+  <line stroke="#e0e0e0" stroke-width="0.5" x1="60" y1="346" x2="68" y2="346"/>
+  <line stroke="#e0e0e0" stroke-width="0.5" x1="70" y1="348" x2="70" y2="356"/>
+  <line stroke="#e0e0e0" stroke-width="0.5" x1="212" y1="346" x2="220" y2="346"/>
+  <line stroke="#e0e0e0" stroke-width="0.5" x1="210" y1="348" x2="210" y2="356"/>
+
+  <!-- 注册标记 -->
+  <circle cx="54" cy="296" r="4" fill="none" stroke="#e0e0e0" stroke-width="0.5"/>
+  <line stroke="#e0e0e0" stroke-width="0.3" x1="50" y1="296" x2="58" y2="296"/>
+  <line stroke="#e0e0e0" stroke-width="0.3" x1="54" y1="292" x2="54" y2="300"/>
+
+  <!-- 按钮 -->
+  <rect class="btn-primary" x="12" y="380" width="120" height="28" rx="4"/>
+  <text class="btn-text" x="34" y="398">应用印刷标记</text>
+  <rect fill="#3a3a3a" x="142" y="380" width="56" height="28" rx="4"/>
+  <text class="text-primary" x="156" y="398" text-anchor="middle" font-size="10">清除</text>
+</svg>

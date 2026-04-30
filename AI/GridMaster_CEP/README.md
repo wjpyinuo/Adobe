@@ -8,11 +8,13 @@
 
 ## 效果预览
 
-<!-- TODO: 替换为实际截图 -->
-<!-- ![网格面板](docs/screenshots/grid-panel.png) -->
-<!-- ![构图辅助](docs/screenshots/composition.png) -->
-<!-- ![电商模板](docs/screenshots/ecom-template.png) -->
-<!-- ![印刷标记](docs/screenshots/print-marks.png) -->
+| 网格面板 | 构图辅助 |
+|----------|----------|
+| ![网格面板](docs/screenshots/grid-panel.png) | ![构图辅助](docs/screenshots/composition.png) |
+
+| 电商模板 | 印刷标记 |
+|----------|----------|
+| ![电商模板](docs/screenshots/ecom-template.png) | ![印刷标记](docs/screenshots/print-marks.png) |
 
 ---
 
