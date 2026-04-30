@@ -37,11 +37,20 @@ var GridMaster = GridMaster || {};
         for (var i = 0; i < args.length; i++) {
           var arg = args[i];
           if (typeof arg === 'string') {
-            parts.push("'" + arg.replace(/'/g, "\\'") + "'");
+            parts.push("'" + arg
+              .replace(/\\/g, '\\\\')
+              .replace(/'/g, "\\'")
+              .replace(/\n/g, '\\n')
+              .replace(/\r/g, '\\r')
+              .replace(/\t/g, '\\t') + "'");
           } else if (typeof arg === 'number') {
             parts.push(String(arg));
           } else {
-            parts.push("'" + JSON.stringify(arg).replace(/'/g, "\\'") + "'");
+            parts.push("'" + JSON.stringify(arg)
+              .replace(/\\/g, '\\\\')
+              .replace(/'/g, "\\'")
+              .replace(/\n/g, '\\n')
+              .replace(/\r/g, '\\r') + "'");
           }
         }
         argsStr = parts.join(',');

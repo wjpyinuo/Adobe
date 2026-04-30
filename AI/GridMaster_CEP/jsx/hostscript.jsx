@@ -21,7 +21,10 @@ if (typeof JSON.stringify !== 'function') {
 if (typeof JSON.parse !== 'function') {
   JSON.parse = function (text) {
     // ExtendScript 中使用 eval 解析 JSON
-    // 注意：生产环境应做安全检查，但 CEP 内部通信可接受
+    // 基本安全校验：仅允许 JSON 合法字符
+    if (/[^,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]/.test(text.replace(/"(\\.|[^"\\])*"/g, ''))) {
+      throw new Error('Invalid JSON');
+    }
     return eval('(' + text + ')');
   };
 }

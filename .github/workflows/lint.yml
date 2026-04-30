@@ -1,0 +1,27 @@
+name: Lint
+
+on:
+  push:
+    paths:
+      - 'AI/GridMaster_CEP/js/**'
+      - 'AI/GridMaster_CEP/package.json'
+      - 'AI/GridMaster_CEP/.eslintrc.json'
+  pull_request:
+    paths:
+      - 'AI/GridMaster_CEP/js/**'
+      - 'AI/GridMaster_CEP/package.json'
+      - 'AI/GridMaster_CEP/.eslintrc.json'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: AI/GridMaster_CEP
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run lint:check
