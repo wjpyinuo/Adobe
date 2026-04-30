@@ -1,4 +1,4 @@
-/* DotGridMaster CEP 面板样式 */
+/* DotGuide CEP 面板样式 */
 
 :root {
   /* 默认暗色主题，会被 themeManager 动态覆盖 */
@@ -37,7 +37,7 @@ body {
   -webkit-user-select: none;
 }
 
-#dotgridmaster-root {
+#dotguide-root {
   width: 100%;
   min-height: 100vh;
   display: flex;
