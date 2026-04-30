@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ExtensionManifest Version="6.0"
-ExtensionBundleId="com.dotgridmaster.cep"
+ExtensionBundleId="com.dotguide.cep"
 ExtensionBundleVersion="1.0.1"
-ExtensionBundleName="DotGridMaster"
+ExtensionBundleName="DotGuide"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
 <ExtensionList>
-<Extension Id="com.dotgridmaster.panel" Version="1.0.1" />
+<Extension Id="com.dotguide.panel" Version="1.0.1" />
 </ExtensionList>
 
 <ExecutionEnvironment>
@@ -23,7 +23,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 </ExecutionEnvironment>
 
 <DispatchInfoList>
-<Extension Id="com.dotgridmaster.panel">
+<Extension Id="com.dotguide.panel">
 <DispatchInfo>
 <Resources>
 <MainPath>./index.html</MainPath>
@@ -38,11 +38,11 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 </Lifecycle>
 <UI>
 <Type>Panel</Type>
-<Menu>DotGridMaster</Menu>
+<Menu>DotGuide</Menu>
 <Geometry>
 <Size>
 <Height>600</Height>
-<Width>280</Width>
+<Width>300</Width>
 </Size>
 <MinSize>
 <Height>400</Height>
