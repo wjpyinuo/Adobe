@@ -107,8 +107,9 @@
       // 底部操作栏
       var footer = document.createElement('div');
       footer.style.cssText =
-        'padding:8px 10px 16px 10px;border-top:1px solid var(--gm-border-default);' +
-        'display:flex;gap:8px;flex-shrink:0;align-items:center;';
+        'padding:8px 10px 10px 10px;border-top:1px solid var(--gm-border-default);' +
+        'display:flex;gap:8px;flex-shrink:0;align-items:center;' +
+        'margin:0 0 4px 0;';
 
       var undoBtn = document.createElement('button');
       undoBtn.id = 'btn-undo';
@@ -132,10 +133,11 @@
       clearBtn.id = 'btn-clear-all';
       clearBtn.textContent = '✕ 清除全部';
       clearBtn.style.cssText =
-        'flex:1;padding:7px 10px;border-radius:4px;' +
+        'flex:1;padding:7px 10px;border-radius:6px;' +
         'background:rgba(255,59,48,0.12);color:var(--gm-accent-danger);' +
         'font-size:11px;border:1px solid var(--gm-accent-danger);cursor:pointer;transition:all 0.15s;' +
-        'white-space:nowrap;text-align:center;font-weight:500;';
+        'white-space:nowrap;text-align:center;font-weight:500;' +
+        'overflow:hidden;';
       clearBtn.addEventListener('mouseenter', function () { clearBtn.style.borderColor = 'var(--gm-accent-danger)'; clearBtn.style.background = 'rgba(255,59,48,0.1)'; });
       clearBtn.addEventListener('mouseleave', function () { clearBtn.style.borderColor = 'var(--gm-border-default)'; clearBtn.style.background = 'var(--gm-bg-tertiary)'; });
       clearBtn.addEventListener('click', function () {
