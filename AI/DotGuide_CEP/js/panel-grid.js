@@ -107,6 +107,51 @@
     });
   }
 
+
+  /**
+   * 计算间距边界辅助线
+   * 在每个间距的左右（或上下）边缘各加一条参考线
+   */
+  function _calcGutterGuides(opts) {
+    var w = opts.docWidth, h = opts.docHeight;
+    var cols = opts.columns || 1, rows = opts.rows || 1;
+    var gH = opts.gutterH || 0, gV = opts.gutterV || 0;
+    var mT = opts.marginTop || 0, mR = opts.marginRight || 0;
+    var mB = opts.marginBottom || 0, mL = opts.marginLeft || 0;
+
+    var guides = [];
+    if (gH <= 0 && gV <= 0) return guides;
+
+    var availW = w - mL - mR;
+    var availH = h - mT - mB;
+    var totalGutterH = (cols - 1) * gH;
+    var totalGutterV = (rows - 1) * gV;
+    var colWidth = (availW - totalGutterH) / cols;
+    var rowHeight = (availH - totalGutterV) / rows;
+
+    // 列间距边界（垂直线）
+    if (gH > 0 && cols > 1) {
+      var x = mL + colWidth;
+      for (var c = 0; c < cols - 1; c++) {
+        guides.push({ orientation: 'vertical', position: x });
+        guides.push({ orientation: 'vertical', position: x + gH });
+        x += colWidth + gH;
+      }
+    }
+
+    // 行间距边界（水平线）
+    if (gV > 0 && rows > 1) {
+      var y = mT + rowHeight;
+      for (var r = 0; r < rows - 1; r++) {
+        guides.push({ orientation: 'horizontal', position: y });
+        guides.push({ orientation: 'horizontal', position: y + gV });
+        y += rowHeight + gV;
+      }
+    }
+
+    return guides;
+  }
+
   GM.renderGridPanel = function (container) {
     // 清空容器，防止重复渲染
     container.innerHTML = '';

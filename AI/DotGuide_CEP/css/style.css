@@ -27,19 +27,25 @@
   box-sizing: border-box;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background: var(--gm-bg-primary);
   color: var(--gm-text-primary);
   font-family: 'Adobe Clean', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   font-size: var(--gm-font-size-md);
-  overflow-x: hidden;
+  overflow: hidden;
   user-select: none;
   -webkit-user-select: none;
 }
 
 #dotguide-root {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
