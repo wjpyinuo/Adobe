@@ -26,8 +26,17 @@ var DotGridMaster = DotGridMaster || {};
   GM.currentTab = 'grid';
 
   // ============================
-  // ExtendScript 桥接封装
+  // ExtendScript 桥接封装 (BUG-2 修复：改进参数转义)
   // ============================
+
+  function _escapeExtendScriptString(str) {
+    return str
+      .replace(/\\/g, '\\\\')
+      .replace(/'/g, "\\'")
+      .replace(/\n/g, '\\n')
+      .replace(/\r/g, '\\r')
+      .replace(/\t/g, '\\t');
+  }
 
   function callHost(funcName, args) {
     return new Promise(function (resolve, reject) {
@@ -37,20 +46,16 @@ var DotGridMaster = DotGridMaster || {};
         for (var i = 0; i < args.length; i++) {
           var arg = args[i];
           if (typeof arg === 'string') {
-            parts.push("'" + arg
-              .replace(/\\/g, '\\\\')
-              .replace(/'/g, "\\'")
-              .replace(/\n/g, '\\n')
-              .replace(/\r/g, '\\r')
-              .replace(/\t/g, '\\t') + "'");
-          } else if (typeof arg === 'number') {
+            parts.push("'" + _escapeExtendScriptString(arg) + "'");
+          } else if (typeof arg === 'number' && isFinite(arg)) {
             parts.push(String(arg));
+          } else if (typeof arg === 'boolean') {
+            parts.push(arg ? 'true' : 'false');
+          } else if (arg === null || arg === undefined) {
+            parts.push('null');
           } else {
-            parts.push("'" + JSON.stringify(arg)
-              .replace(/\\/g, '\\\\')
-              .replace(/'/g, "\\'")
-              .replace(/\n/g, '\\n')
-              .replace(/\r/g, '\\r') + "'");
+            // 对象/数组：先 JSON.stringify 再转义
+            parts.push("'" + _escapeExtendScriptString(JSON.stringify(arg)) + "'");
           }
         }
         argsStr = parts.join(',');
@@ -60,17 +65,22 @@ var DotGridMaster = DotGridMaster || {};
 
       cs.evalScript(script, function (result) {
         try {
-          if (result === 'EvalScript error.') {
-            reject(new Error('ExtendScript execution error'));
+          if (result === 'EvalScript error.' || result === 'undefined' || result === 'undefinedundefined') {
+            reject(new Error('ExtendScript execution error: ' + funcName));
             return;
           }
-          var parsed = JSON.parse(result);
-          if (parsed.success) {
-            resolve(parsed.data || parsed);
+          if (typeof result === 'string' && result.charAt(0) === '{') {
+            var parsed = JSON.parse(result);
+            if (parsed.success) {
+              resolve(parsed.data !== undefined ? parsed.data : parsed);
+            } else {
+              reject(new Error(parsed.error || 'Unknown host error'));
+            }
           } else {
-            reject(new Error(parsed.error || 'Unknown host error'));
+            resolve(result);
           }
         } catch (e) {
+          // 非 JSON 返回值，直接传递
           resolve(result);
         }
       });
@@ -152,26 +162,17 @@ var DotGridMaster = DotGridMaster || {};
       pica: 12
     },
 
-    /**
-     * 获取文档单位
-     */
     getDocUnit: function () {
       if (!GM.currentDocInfo) return 'px';
       return GM.currentDocInfo.unit || 'px';
     },
 
-    /**
-     * 将值从源单位转换到目标单位
-     */
     convert: function (value, fromUnit, toUnit) {
       var fromFactor = this.TO_PT[fromUnit] || 1;
       var toFactor = this.TO_PT[toUnit] || 1;
       return value * fromFactor / toFactor;
     },
 
-    /**
-     * 检查文档单位是否与预期单位匹配，不匹配时显示警告
-     */
     checkUnit: function (expectedUnit, featureName) {
       var docUnit = this.getDocUnit();
       if (docUnit !== expectedUnit && docUnit !== 'unknown') {
@@ -183,7 +184,7 @@ var DotGridMaster = DotGridMaster || {};
   };
 
   // ============================
-  // 计算引擎
+  // 计算引擎 (BUG-4 修复：间距正确参与 guide 位置计算)
   // ============================
 
   GM.Calculator = {
@@ -195,47 +196,53 @@ var DotGridMaster = DotGridMaster || {};
       var mT = opts.marginTop || 0, mR = opts.marginRight || 0;
       var mB = opts.marginBottom || 0, mL = opts.marginLeft || 0;
 
-      // 单位转换：用户输入的边距/间距可能是 mm，需要转为文档单位
+      // 单位转换
       var docUnit = opts.docUnit || 'px';
       if (docUnit === 'pt') {
-        // 用户输入的数值假设是 mm，转为 pt (1mm = 2.83465pt)
         var mmToPt = 2.83465;
-        gH = gH * mmToPt; gV = gV * mmToPt;
-        mT = mT * mmToPt; mR = mR * mmToPt;
-        mB = mB * mmToPt; mL = mL * mmToPt;
-      } else if (docUnit === 'mm') {
-        // 已经是 mm，无需转换
-      } else if (docUnit === 'px') {
-        // 用户输入假设是 px，无需转换
+        gH *= mmToPt; gV *= mmToPt;
+        mT *= mmToPt; mR *= mmToPt; mB *= mmToPt; mL *= mmToPt;
       } else if (docUnit === 'in') {
         var mmToIn = 1 / 25.4;
-        gH = gH * mmToIn; gV = gV * mmToIn;
-        mT = mT * mmToIn; mR = mR * mmToIn;
-        mB = mB * mmToIn; mL = mL * mmToIn;
+        gH *= mmToIn; gV *= mmToIn;
+        mT *= mmToIn; mR *= mmToIn; mB *= mmToIn; mL *= mmToIn;
       } else if (docUnit === 'cm') {
         var mmToCm = 0.1;
-        gH = gH * mmToCm; gV = gV * mmToCm;
-        mT = mT * mmToCm; mR = mR * mmToCm;
-        mB = mB * mmToCm; mL = mL * mmToCm;
+        gH *= mmToCm; gV *= mmToCm;
+        mT *= mmToCm; mR *= mmToCm; mB *= mmToCm; mL *= mmToCm;
       }
+      // 'mm' 和 'px' 无需转换
 
       var guides = [];
-      var availW = w - mL - mR, availH = h - mT - mB;
+      var availW = w - mL - mR;
+      var availH = h - mT - mB;
+
+      // 修复：间距正确参与列/行宽度计算
       var totalGutterH = (cols - 1) * gH;
       var colWidth = (availW - totalGutterH) / cols;
+
       var totalGutterV = (rows - 1) * gV;
       var rowHeight = (availH - totalGutterV) / rows;
 
-      // 等宽区间法：7 条 guide 创建 6 个等宽区间
-      // 每个区间 = 内容列 + 间距份额，所有区间宽度相同
-      var zoneW = availW / cols;
+      // 垂直参考线（列分隔）
+      // 每列的 guide 位置 = 边距 + 列宽累加 + 间距累加
+      var x = mL;
       for (var c = 0; c <= cols; c++) {
-        guides.push({ orientation: 'vertical', position: mL + c * zoneW });
+        guides.push({ orientation: 'vertical', position: x });
+        if (c < cols) {
+          x += colWidth;
+          if (c < cols - 1) x += gH; // 列间间距
+        }
       }
 
-      var zoneH = availH / rows;
+      // 水平参考线（行分隔）
+      var y = mT;
       for (var r = 0; r <= rows; r++) {
-        guides.push({ orientation: 'horizontal', position: mT + r * zoneH });
+        guides.push({ orientation: 'horizontal', position: y });
+        if (r < rows) {
+          y += rowHeight;
+          if (r < rows - 1) y += gV; // 行间间距
+        }
       }
 
       return { guides: guides, meta: { colWidth: colWidth, rowHeight: rowHeight } };
@@ -438,7 +445,7 @@ var DotGridMaster = DotGridMaster || {};
   };
 
   // ============================
-  // 实时预览系统
+  // 实时预览系统 (BUG-10 修复：Toast 定时器清理)
   // ============================
 
   var _previewDebounceTimer = null;
@@ -488,14 +495,23 @@ var DotGridMaster = DotGridMaster || {};
   }
 
   // ============================
-  // Toast 提示
+  // Toast 提示 (BUG-10 修复：定时器正确清理)
   // ============================
+
+  var _toastTimer = null;
+  var _toastFadeTimer = null;
 
   GM.showToast = function (message, type) {
     type = type || 'info';
     var colors = { success: '#34c759', error: '#ff3b30', warning: '#ffd60a', info: '#0d99ff' };
+
+    // 清理旧的定时器
+    if (_toastTimer) { clearTimeout(_toastTimer); _toastTimer = null; }
+    if (_toastFadeTimer) { clearTimeout(_toastFadeTimer); _toastFadeTimer = null; }
+
     var existing = document.querySelector('.gm-toast');
     if (existing) existing.remove();
+
     var toast = document.createElement('div');
     toast.className = 'gm-toast';
     toast.style.cssText =
@@ -505,9 +521,14 @@ var DotGridMaster = DotGridMaster || {};
       'background:' + (colors[type] || colors.info) + ';';
     toast.textContent = message;
     document.body.appendChild(toast);
-    setTimeout(function () {
+
+    _toastTimer = setTimeout(function () {
+      _toastTimer = null;
       toast.style.opacity = '0';
-      setTimeout(function () { toast.remove(); }, 300);
+      _toastFadeTimer = setTimeout(function () {
+        _toastFadeTimer = null;
+        if (toast.parentNode) toast.remove();
+      }, 300);
     }, 2000);
   };
 
