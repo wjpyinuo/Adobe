@@ -1,4 +1,4 @@
-# DotGridMaster CEP — 安装说明
+# DotGuide CEP — 安装说明
 
 ## 方式一：自动安装（推荐）
 
@@ -16,7 +16,7 @@ chmod +x setup.sh && ./setup.sh
 1. 设置 CEP 调试模式（CSXS 9/10/11/12）
 2. 将插件复制到 Adobe CEP 扩展目录
 
-安装后重启 Illustrator → **窗口 → 扩展 → DotGridMaster**
+安装后重启 Illustrator → **窗口 → 扩展 → DotGuide**
 
 ---
 
@@ -66,26 +66,26 @@ defaults write com.adobe.CSXS.15 PlayerDebugMode 1
 
 ### 第 2 步：复制插件到扩展目录
 
-将整个 `AI/DotGridMaster_CEP/` 文件夹复制到以下位置：
+将整个 `AI/DotGuide_CEP/` 文件夹复制到以下位置：
 
 **Windows：**
 ```
-%APPDATA%\Adobe\CEP\extensions\com.dotgridmaster.cep\
+%APPDATA%\Adobe\CEP\extensions\com.dotguide.cep\
 ```
 
 完整路径示例：
 ```
-C:\Users\你的用户名\AppData\Roaming\Adobe\CEP\extensions\com.dotgridmaster.cep\
+C:\Users\你的用户名\AppData\Roaming\Adobe\CEP\extensions\com.dotguide.cep\
 ```
 
 **macOS：**
 ```
-~/Library/Application Support/Adobe/CEP/extensions/com.dotgridmaster.cep/
+~/Library/Application Support/Adobe/CEP/extensions/com.dotguide.cep/
 ```
 
 完整路径示例：
 ```
-/Users/你的用户名/Library/Application Support/Adobe/CEP/extensions/com.dotgridmaster.cep/
+/Users/你的用户名/Library/Application Support/Adobe/CEP/extensions/com.dotguide.cep/
 ```
 
 ### 第 3 步：验证目录结构
@@ -93,7 +93,7 @@ C:\Users\你的用户名\AppData\Roaming\Adobe\CEP\extensions\com.dotgridmaster.
 复制完成后，扩展目录下应包含以下文件：
 
 ```
-com.dotgridmaster.cep/
+com.dotguide.cep/
 ├── CSXS/
 │   └── manifest.xml
 ├── css/
@@ -109,7 +109,7 @@ com.dotgridmaster.cep/
 
 ### 第 4 步：重启 Illustrator
 
-菜单 → **窗口 → 扩展 → DotGridMaster**
+菜单 → **窗口 → 扩展 → DotGuide**
 
 ---
 
@@ -130,18 +130,18 @@ ZXPSignCmd -selfSignedCert CN "Your Name" "Your Org" US cert.p12 yourPassword
 # 打包前先删除调试文件
 rm -rf .debug debug/
 
-ZXPSignCmd -sign AI/DotGridMaster_CEP dotgridmaster-cep.zxp cert.p12 yourPassword
+ZXPSignCmd -sign AI/DotGuide_CEP dotguide-cep.zxp cert.p12 yourPassword
 ```
 
 ### 3. 安装 ZXP
 
 **方式 A：使用 ZXPInstaller**
 1. 下载 [ZXPInstaller](https://zxpinstaller.com/)
-2. 拖入 `dotgridmaster-cep.zxp`
+2. 拖入 `dotguide-cep.zxp`
 
 **方式 B：使用 ExManCmd（Adobe 命令行工具）**
 ```bash
-ExManCmd /install dotgridmaster-cep.zxp
+ExManCmd /install dotguide-cep.zxp
 ```
 
 **方式 C：手动解压**
@@ -165,7 +165,7 @@ ExManCmd /install dotgridmaster-cep.zxp
 
 ## 常见问题
 
-### Q: 扩展菜单中看不到 DotGridMaster？
+### Q: 扩展菜单中看不到 DotGuide？
 
 - 确认已设置 `PlayerDebugMode = 1`
 - 确认插件放在正确的扩展目录下
@@ -181,5 +181,5 @@ ExManCmd /install dotgridmaster-cep.zxp
 ### Q: macOS 提示"无法验证开发者"？
 
 ```bash
-xattr -r -d com.apple.quarantine ~/Library/Application\ Support/Adobe/CEP/extensions/com.dotgridmaster.cep/
+xattr -r -d com.apple.quarantine ~/Library/Application\ Support/Adobe/CEP/extensions/com.dotguide.cep/
 ```
