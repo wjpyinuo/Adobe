@@ -1,5 +1,5 @@
 /**
- * DotGridMaster Units 工具单元测试
+ * DotGuide Units 工具单元测试
  * 测试 core.js 中 GM.Units 的单位转换逻辑
  */
 
