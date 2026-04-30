@@ -78,20 +78,11 @@ gridmaster-cep/
 
 ## 三、快速开始
 
-### 1. 获取 CSInterface.js
+### 1. CSInterface.js
 
-CSInterface.js 已内置在 `js/` 目录中（来源：Adobe CEP 官方仓库）。
+已内置，无需额外操作。
 
-如需更新到最新版本：
-```bash
-# Windows
-setup.bat
-
-# macOS
-chmod +x setup.sh && ./setup.sh
-```
-
-或手动下载：https://github.com/Adobe-CEP/CEP-Resources → `CEP_11.x/CSInterface.js`
+如需更新到最新版本，可从 https://github.com/Adobe-CEP/CEP-Resources 下载 `CEP_11.x/CSInterface.js` 覆盖 `js/CSInterface.js`。
 
 ### 2. 重启 Illustrator
 
