@@ -1,6 +1,8 @@
 /**
  * DotGridMaster Panel — 电商
  * 依赖：core.js, ui-components.js
+ *
+ * BUG-5 修复: 统一字段名为 w/h（与 JSX 端一致）
  */
 
 (function (GM) {
@@ -192,7 +194,6 @@
   // ============================
 
   GM.renderEcomPanel = function (container) {
-    // 平台选择
     var platformSection = GM.createSection('选择平台');
     var platformGrid = document.createElement('div');
     platformGrid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;';
@@ -237,7 +238,6 @@
     platformSection.appendChild(platformGrid);
     container.appendChild(platformSection);
 
-    // 模板列表
     if (ecomState.selectedPlatform) {
       var platform = ECOM_PLATFORMS[ecomState.selectedPlatform];
       var templateSection = GM.createSection(platform.name + ' 模板');
@@ -253,7 +253,6 @@
             'background:' + (isSelected ? 'var(--gm-accent-primary)' : 'var(--gm-bg-secondary)') + ';' +
             'border:1px solid ' + (isSelected ? 'var(--gm-accent-primary)' : 'var(--gm-border-default)') + ';';
 
-          // 缩略图
           var thumb = document.createElement('canvas');
           var thumbScale = 40 / Math.max(tpl.width, tpl.height);
           thumb.width = Math.round(tpl.width * thumbScale);
@@ -291,7 +290,6 @@
       container.appendChild(templateSection);
     }
 
-    // 选中模板后的操作
     if (ecomState.selectedTemplate) {
       _renderEcomTemplateOptions(container, ecomState.selectedTemplate);
     }
@@ -302,7 +300,6 @@
   // ============================
 
   function _renderEcomTemplateOptions(container, tpl) {
-    // Canvas 预览
     var previewSection = GM.createSection('模板预览');
     var canvasWrap = document.createElement('div');
     canvasWrap.style.cssText = 'display:flex;justify-content:center;margin-bottom:10px;';
@@ -317,7 +314,6 @@
     canvasWrap.appendChild(canvas);
     previewSection.appendChild(canvasWrap);
 
-    // 区域图例
     var legend = document.createElement('div');
     legend.style.cssText = 'display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;';
     for (var zi = 0; zi < tpl.zones.length; zi++) {
@@ -336,7 +332,6 @@
     previewSection.appendChild(legend);
     container.appendChild(previewSection);
 
-    // 选项
     var optionsSection = GM.createSection('选项');
 
     var safeRow = document.createElement('div');
@@ -358,7 +353,6 @@
     optionsSection.appendChild(labelRow);
     container.appendChild(optionsSection);
 
-    // 操作
     var actionsSection = GM.createSection('操作');
     var sizeHint = document.createElement('div');
     sizeHint.style.cssText = 'font-size:10px;color:var(--gm-text-tertiary);margin-bottom:8px;padding:6px;background:var(--gm-bg-tertiary);border-radius:3px;text-align:center;';
@@ -379,14 +373,12 @@
     actionsSection.appendChild(sizeHint);
     container.appendChild(actionsSection);
 
-    // 应用按钮
     container.appendChild(GM.createApplyButton('✦ 应用电商辅助线', function () {
       if (!GM.currentDocInfo) { GM.showToast('请先打开文档', 'warning'); return; }
       GM.Units.checkUnit('px', '电商模板');
       return _applyEcomTemplate(tpl, ecomState);
     }));
 
-    // 仅安全区域
     var safeOnlyBtn = document.createElement('button');
     safeOnlyBtn.textContent = '🛡 仅应用安全区域';
     safeOnlyBtn.style.cssText =
@@ -401,7 +393,6 @@
     });
     container.appendChild(safeOnlyBtn);
 
-    // 新建文档
     var newDocBtn = document.createElement('button');
     newDocBtn.textContent = '📄 以此尺寸新建文档';
     newDocBtn.style.cssText =
@@ -420,7 +411,7 @@
   }
 
   // ============================
-  // 应用逻辑
+  // 应用逻辑 (BUG-5 修复: 统一使用 w/h 字段名)
   // ============================
 
   function _applyEcomTemplate(tpl, state) {
@@ -429,7 +420,6 @@
     var scaleY = GM.currentDocInfo.height / tpl.height;
     var promises = [];
 
-    // 安全区域参考线
     if (state.safeZone && tpl.safeZone) {
       var sz = tpl.safeZone;
       promises.push(GM.HostAdapter.addGuides([
@@ -444,13 +434,13 @@
       ), state.safeZoneColor, state.safeZoneOpacity));
     }
 
-    // 功能区域
+    // BUG-5 修复: 使用 w/h 字段名（与 JSX 端 r.w || r.width 一致）
     var zoneRects = [], zoneLabels = [];
     for (var i = 0; i < tpl.zones.length; i++) {
       var zone = tpl.zones[i];
       var zx = zone.x * scaleX, zy = zone.y * scaleY;
       var zw = zone.w * scaleX, zh = zone.h * scaleY;
-      zoneRects.push({ x: zx, y: zy, width: zw, height: zh, color: zone.color, opacity: 6, strokeColor: zone.color, strokeWidth: 0.5, name: zone.name });
+      zoneRects.push({ x: zx, y: zy, w: zw, h: zh, color: zone.color, opacity: 6, strokeColor: zone.color, strokeWidth: 0.5, name: zone.name });
       if (state.showLabels) zoneLabels.push({ text: zone.name, x: zx + 4, y: zy + 12, size: 8, color: zone.color });
     }
     if (zoneRects.length > 0) promises.push(GM.HostAdapter.addEcomFunctionZones(zoneRects));
