@@ -181,8 +181,7 @@ getStatus: getStatus
 */
 function callHostRaw(script) {
 return new Promise(function (resolve, reject) {
-var cs = (typeof csInterface !== 'undefined') ? csInterface :
-(window.DotGridMaster && window.DotGridMaster._csInterface);
+var cs = (window.DotGridMaster && window.DotGridMaster._csInterface);
 if (cs && cs.evalScript) {
 cs.evalScript(script, function (result) {
 if (result === 'EvalScript error.' || result === 'undefined') {
@@ -209,7 +208,9 @@ var IMMEDIATE_FUNCTIONS = ['healthCheck', 'getDocumentInfo', 'getDocumentGuides'
 BatchProcessor.init = function () {
 if (window.DotGridMaster && window.DotGridMaster.HostAdapter) {
 _originalCallHost = function (fnName, args) {
-return window.DotGridMaster.HostAdapter[fnName].apply(null, args || []);
+var fn = window.DotGridMaster.HostAdapter[fnName];
+if (!fn) return Promise.reject(new Error('Unknown function: ' + fnName));
+return fn.apply(window.DotGridMaster.HostAdapter, args || []);
 };
 }
 };

@@ -175,17 +175,6 @@
   // ============================
 
   document.addEventListener('keydown', function (e) {
-    // Ctrl/Cmd + Z = 撤销
-    if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key === 'z') {
-      if (document.activeElement && document.activeElement.closest('#dotgridmaster-root')) {
-        e.preventDefault();
-        GM.HostAdapter.undo().then(function (r) {
-          if (r && r.undone) GM.showToast('已撤销: ' + r.undone, 'info');
-          else GM.showToast('没有可撤销的操作', 'warning');
-        }).catch(function (e) { GM.showToast('撤销失败: ' + e.message, 'error'); });
-      }
-    }
-
     // Ctrl/Cmd + Shift + G = 应用网格
     if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'G') {
       e.preventDefault();
@@ -236,7 +225,7 @@
 
     // 初始化 P3 模块
     if (typeof UndoManager !== 'undefined' && UndoManager.init) UndoManager.init();
-    if (typeof PerformanceMonitor !== 'undefined' && PerformanceMonitor.init) PerformanceMonitor.init();
+    if (typeof PerfMonitor !== 'undefined' && PerfMonitor.setEnabled) PerfMonitor.setEnabled(false);
 
     // 延迟刷新文档信息
     setTimeout(GM.refreshDocInfo, 1000);

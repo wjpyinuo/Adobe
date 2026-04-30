@@ -160,8 +160,6 @@ var DotGridMaster = DotGridMaster || {};
         if (c === 0) { x = mL; }
         else if (c === cols) { x = w - mR; }
         else {
-          x = mL + c * colWidth + (c - 1) * gH;
-          guides.push({ orientation: 'vertical', position: x });
           x = mL + c * colWidth + c * gH;
         }
         guides.push({ orientation: 'vertical', position: x });
@@ -172,8 +170,6 @@ var DotGridMaster = DotGridMaster || {};
         if (r === 0) { y = mT; }
         else if (r === rows) { y = h - mB; }
         else {
-          y = mT + r * rowHeight + (r - 1) * gV;
-          guides.push({ orientation: 'horizontal', position: y });
           y = mT + r * rowHeight + r * gV;
         }
         guides.push({ orientation: 'horizontal', position: y });

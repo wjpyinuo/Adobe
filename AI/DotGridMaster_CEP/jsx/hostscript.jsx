@@ -1247,7 +1247,9 @@ var abLeft = abRect[0];
 var abTop = abRect[1];
 for (var i = 0; i < rects.length; i++) {
 var r = rects[i];
-var rect = layer.pathItems.rectangle(abTop - r.y, abLeft + r.x, r.w, r.h);
+var rw = r.w || r.width || 0;
+var rh = r.h || r.height || 0;
+var rect = layer.pathItems.rectangle(abTop - r.y, abLeft + r.x, rw, rh);
 rect.filled = true;
 rect.stroked = false;
 var rgb = hexToRGB(color || '#FF6B00');
@@ -1277,7 +1279,7 @@ var lb = labels[i];
 var textFrame = layer.textFrames.add();
 textFrame.contents = lb.text || lb.name || '';
 textFrame.position = [abLeft + (lb.x || 0), abTop - (lb.y || 0)];
-textFrame.textRange.characterAttributes.size = lb.fontSize || 8;
+textFrame.textRange.characterAttributes.size = lb.fontSize || lb.size || 8;
 var rgb = hexToRGB(lb.color || '#FFFFFF');
 textFrame.textRange.characterAttributes.fillColor = makeRGBColor(rgb.r, rgb.g, rgb.b);
 }
@@ -1301,7 +1303,9 @@ var abLeft = abRect[0];
 var abTop = abRect[1];
 for (var i = 0; i < zones.length; i++) {
 var z = zones[i];
-var rect = layer.pathItems.rectangle(abTop - z.y, abLeft + z.x, z.w, z.h);
+var zw = z.w || z.width || 0;
+var zh = z.h || z.height || 0;
+var rect = layer.pathItems.rectangle(abTop - z.y, abLeft + z.x, zw, zh);
 rect.filled = true;
 rect.stroked = true;
 var fillRgb = hexToRGB(z.color || '#0D99FF');
@@ -1323,7 +1327,7 @@ return JSON.stringify({ success: false, error: e.message });
 // 印刷标记（完整版）
 // ============================
 
-function applyPrintMarks() {
+function applyPrintMarks(paramsJSON) {
 try {
 var doc = app.activeDocument;
 var abIndex = doc.artboards.getActiveArtboardIndex();
@@ -1334,39 +1338,57 @@ var abRight = abRect[2];
 var abBottom = abRect[3];
 var layer = getOrCreateLayer('DotGridMaster_PrintMarks');
 clearLayerContents(layer);
-var markLength = 10;
-var markOffset = 5;
-// 裁切标记（四角）
-var marks = [
-// 左上-水平
-[[abLeft - markOffset - markLength, abTop + markOffset], [abLeft - markOffset, abTop + markOffset]],
-// 左上-垂直
-[[abLeft - markOffset, abTop + markOffset + markLength], [abLeft - markOffset, abTop + markOffset]],
-// 右上-水平
-[[abRight + markOffset, abTop + markOffset], [abRight + markOffset + markLength, abTop + markOffset]],
-// 右上-垂直
-[[abRight + markOffset, abTop + markOffset + markLength], [abRight + markOffset, abTop + markOffset]],
-// 左下-水平
-[[abLeft - markOffset - markLength, abBottom - markOffset], [abLeft - markOffset, abBottom - markOffset]],
-// 左下-垂直
-[[abLeft - markOffset, abBottom - markOffset - markLength], [abLeft - markOffset, abBottom - markOffset]],
-// 右下-水平
-[[abRight + markOffset, abBottom - markOffset], [abRight + markOffset + markLength, abBottom - markOffset]],
-// 右下-垂直
-[[abRight + markOffset, abBottom - markOffset - markLength], [abRight + markOffset, abBottom - markOffset]]
-];
-for (var i = 0; i < marks.length; i++) {
-var path = layer.pathItems.add();
-path.setEntirePath(marks[i]);
-path.filled = false;
-path.stroked = true;
-path.strokeWidth = 0.25;
-path.strokeColor = makeRGBColor(0, 0, 0);
-path.name = 'TrimMark';
+
+var params = {};
+if (paramsJSON) {
+  try { params = (typeof paramsJSON === 'string') ? JSON.parse(paramsJSON) : paramsJSON; } catch(e) { params = {}; }
 }
+
+var bleed = params.bleed || { top: 3, right: 3, bottom: 3, left: 3 };
+var marks = params.marks || { trim: true, registration: true, colorBar: false };
+var markLength = 10;
+var markOffset = (bleed.top || 3) + 2;
+
+if (marks.trim) {
+  var trimMarks = [
+    [[abLeft - markOffset - markLength, abTop + markOffset], [abLeft - markOffset, abTop + markOffset]],
+    [[abLeft - markOffset, abTop + markOffset + markLength], [abLeft - markOffset, abTop + markOffset]],
+    [[abRight + markOffset, abTop + markOffset], [abRight + markOffset + markLength, abTop + markOffset]],
+    [[abRight + markOffset, abTop + markOffset + markLength], [abRight + markOffset, abTop + markOffset]],
+    [[abLeft - markOffset - markLength, abBottom - markOffset], [abLeft - markOffset, abBottom - markOffset]],
+    [[abLeft - markOffset, abBottom - markOffset - markLength], [abLeft - markOffset, abBottom - markOffset]],
+    [[abRight + markOffset, abBottom - markOffset], [abRight + markOffset + markLength, abBottom - markOffset]],
+    [[abRight + markOffset, abBottom - markOffset - markLength], [abRight + markOffset, abBottom - markOffset]]
+  ];
+  for (var i = 0; i < trimMarks.length; i++) {
+    var path = layer.pathItems.add();
+    path.setEntirePath(trimMarks[i]);
+    path.filled = false;
+    path.stroked = true;
+    path.strokeWidth = 0.25;
+    path.strokeColor = makeRGBColor(0, 0, 0);
+    path.name = 'TrimMark';
+  }
+}
+
+if (marks.registration) {
+  _addRegistrationMarks(layer, abRect);
+}
+
+if (params.visualize) {
+  var bleedRect = layer.pathItems.rectangle(abTop, abLeft, abRight - abLeft, abTop - abBottom);
+  bleedRect.filled = false;
+  bleedRect.stroked = true;
+  bleedRect.strokeWidth = 0.5;
+  bleedRect.strokeDashes = [4, 2];
+  bleedRect.strokeColor = makeRGBColor(255, 55, 95);
+  bleedRect.name = 'BleedOutline';
+}
+
 layer.printable = true;
 layer.locked = true;
-return JSON.stringify({ success: true, count: marks.length });
+_pushUndoRecord('printmarks', { action: 'add' });
+return JSON.stringify({ success: true });
 } catch (e) {
 return JSON.stringify({ success: false, error: e.message });
 }

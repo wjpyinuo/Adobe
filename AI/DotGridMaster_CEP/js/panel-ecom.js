@@ -476,10 +476,10 @@
 
   function _calculateSafeZoneRects(docW, docH, margins) {
     return [
-      { x: 0, y: 0, width: docW, height: margins.top, name: 'SafeZone_Top' },
-      { x: 0, y: docH - margins.bottom, width: docW, height: margins.bottom, name: 'SafeZone_Bottom' },
-      { x: 0, y: margins.top, width: margins.left, height: docH - margins.top - margins.bottom, name: 'SafeZone_Left' },
-      { x: docW - margins.right, y: margins.top, width: margins.right, height: docH - margins.top - margins.bottom, name: 'SafeZone_Right' }
+      { x: 0, y: 0, w: docW, h: margins.top, name: 'SafeZone_Top' },
+      { x: 0, y: docH - margins.bottom, w: docW, h: margins.bottom, name: 'SafeZone_Bottom' },
+      { x: 0, y: margins.top, w: margins.left, h: docH - margins.top - margins.bottom, name: 'SafeZone_Left' },
+      { x: docW - margins.right, y: margins.top, w: margins.right, h: docH - margins.top - margins.bottom, name: 'SafeZone_Right' }
     ];
   }
 

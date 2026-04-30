@@ -29,8 +29,6 @@ const Calculator = {
       if (c === 0) { x = mL; }
       else if (c === cols) { x = w - mR; }
       else {
-        x = mL + c * colWidth + (c - 1) * gH;
-        guides.push({ orientation: 'vertical', position: x });
         x = mL + c * colWidth + c * gH;
       }
       guides.push({ orientation: 'vertical', position: x });
@@ -41,8 +39,6 @@ const Calculator = {
       if (r === 0) { y = mT; }
       else if (r === rows) { y = h - mB; }
       else {
-        y = mT + r * rowHeight + (r - 1) * gV;
-        guides.push({ orientation: 'horizontal', position: y });
         y = mT + r * rowHeight + r * gV;
       }
       guides.push({ orientation: 'horizontal', position: y });
@@ -185,9 +181,9 @@ describe('Calculator.calculateGrid', () => {
       marginTop: 0, marginRight: 0, marginBottom: 0, marginLeft: 0
     });
 
-    // 3 列 = 6 条垂直线（算法在每个内部分割点生成一对线）
+    // 3 列 = 4 条垂直线（左边界 + 2 条内部线 + 右边界）
     const verticals = result.guides.filter(g => g.orientation === 'vertical');
-    assert.equal(verticals.length, 6);
+    assert.equal(verticals.length, 4);
     // 1 行 = 2 条水平线（上下边界）
     const horizontals = result.guides.filter(g => g.orientation === 'horizontal');
     assert.equal(horizontals.length, 2);
