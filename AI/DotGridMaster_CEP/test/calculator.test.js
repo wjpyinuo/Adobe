@@ -34,24 +34,18 @@ const Calculator = {
     var totalGutterV = (rows - 1) * gV;
     var rowHeight = (availH - totalGutterV) / rows;
 
-    for (var c = 0; c <= cols; c++) {
-      var x;
-      if (c === 0) { x = mL; }
-      else if (c === cols) { x = w - mR; }
-      else {
-        x = mL + c * colWidth + c * gH;
-      }
-      guides.push({ orientation: 'vertical', position: x });
+    for (var c = 0; c < cols; c++) {
+      var colLeft = mL + c * (colWidth + gH);
+      var colRight = colLeft + colWidth;
+      guides.push({ orientation: 'vertical', position: colLeft });
+      guides.push({ orientation: 'vertical', position: colRight });
     }
 
-    for (var r = 0; r <= rows; r++) {
-      var y;
-      if (r === 0) { y = mT; }
-      else if (r === rows) { y = h - mB; }
-      else {
-        y = mT + r * rowHeight + r * gV;
-      }
-      guides.push({ orientation: 'horizontal', position: y });
+    for (var r = 0; r < rows; r++) {
+      var rowTop = mT + r * (rowHeight + gV);
+      var rowBottom = rowTop + rowHeight;
+      guides.push({ orientation: 'horizontal', position: rowTop });
+      guides.push({ orientation: 'horizontal', position: rowBottom });
     }
 
     return { guides: guides, meta: { colWidth: colWidth, rowHeight: rowHeight } };
@@ -191,9 +185,9 @@ describe('Calculator.calculateGrid', () => {
       marginTop: 0, marginRight: 0, marginBottom: 0, marginLeft: 0
     });
 
-    // 3 列 = 4 条垂直线（左边界 + 2 条内部线 + 右边界）
+    // 3 列 = 6 条垂直线（每列左右边界）
     const verticals = result.guides.filter(g => g.orientation === 'vertical');
-    assert.equal(verticals.length, 4);
+    assert.equal(verticals.length, 6);
     // 1 行 = 2 条水平线（上下边界）
     const horizontals = result.guides.filter(g => g.orientation === 'horizontal');
     assert.equal(horizontals.length, 2);
@@ -215,6 +209,14 @@ describe('Calculator.calculateGrid', () => {
     // 最后一条垂直线应在 docWidth - marginRight = 950
     const verticals = result.guides.filter(g => g.orientation === 'vertical');
     assert.equal(verticals[verticals.length - 1].position, 950);
+    // 所有列内容宽度应相等
+    const colWidths = [];
+    for (let i = 0; i < verticals.length; i += 2) {
+      colWidths.push(verticals[i+1].position - verticals[i].position);
+    }
+    for (let i = 1; i < colWidths.length; i++) {
+      assert.ok(Math.abs(colWidths[i] - colWidths[0]) < 0.01);
+    }
   });
 
   it('应正确计算带间距的网格', () => {
@@ -241,6 +243,8 @@ describe('Calculator.calculateGrid', () => {
     assert.equal(verticals.length, 2);
     assert.equal(verticals[0].position, 0);
     assert.equal(verticals[1].position, 500);
+    // All column content widths should be equal
+    assert.equal(verticals[1].position - verticals[0].position, 500);
   });
 });
 
@@ -390,20 +394,17 @@ describe('Calculator.calculateGrid 单位转换', () => {
     });
 
     const verticals = result.guides.filter(g => g.orientation === 'vertical');
-    assert.equal(verticals.length, 7);
+    // 6 cols = 12 guides (left+right per col)
+    assert.equal(verticals.length, 12);
 
-    // colWidth should be (595.28 - 5*56.693) / 6 = (595.28 - 283.465) / 6 = 51.97
     const expectedGutter = 20 * 2.83465; // 56.693pt
     const expectedColWidth = (docW - 5 * expectedGutter) / 6;
     assert.ok(Math.abs(result.meta.colWidth - expectedColWidth) < 0.1);
 
-    // All columns should be equal width
-    for (let i = 1; i < verticals.length - 1; i++) {
-      const gap = verticals[i].position - verticals[i-1].position;
-      // Gap between guides = colWidth + gutter (except first/last)
-      if (i === 1) {
-        assert.ok(Math.abs(gap - (expectedColWidth + expectedGutter)) < 0.1);
-      }
+    // All content columns should be equal width
+    for (let i = 0; i < verticals.length; i += 2) {
+      const colW = verticals[i+1].position - verticals[i].position;
+      assert.ok(Math.abs(colW - expectedColWidth) < 0.1);
     }
   });
 

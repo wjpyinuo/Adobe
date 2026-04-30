@@ -226,24 +226,20 @@ var DotGridMaster = DotGridMaster || {};
       var totalGutterV = (rows - 1) * gV;
       var rowHeight = (availH - totalGutterV) / rows;
 
-      for (var c = 0; c <= cols; c++) {
-        var x;
-        if (c === 0) { x = mL; }
-        else if (c === cols) { x = w - mR; }
-        else {
-          x = mL + c * colWidth + c * gH;
-        }
-        guides.push({ orientation: 'vertical', position: x });
+      // 生成列的左右边界 guide（每个内容列等宽）
+      for (var c = 0; c < cols; c++) {
+        var colLeft = mL + c * (colWidth + gH);
+        var colRight = colLeft + colWidth;
+        guides.push({ orientation: 'vertical', position: colLeft });
+        guides.push({ orientation: 'vertical', position: colRight });
       }
 
-      for (var r = 0; r <= rows; r++) {
-        var y;
-        if (r === 0) { y = mT; }
-        else if (r === rows) { y = h - mB; }
-        else {
-          y = mT + r * rowHeight + r * gV;
-        }
-        guides.push({ orientation: 'horizontal', position: y });
+      // 生成行的上下边界 guide（每个内容行等高）
+      for (var r = 0; r < rows; r++) {
+        var rowTop = mT + r * (rowHeight + gV);
+        var rowBottom = rowTop + rowHeight;
+        guides.push({ orientation: 'horizontal', position: rowTop });
+        guides.push({ orientation: 'horizontal', position: rowBottom });
       }
 
       return { guides: guides, meta: { colWidth: colWidth, rowHeight: rowHeight } };
