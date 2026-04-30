@@ -1,4 +1,4 @@
-# DotGridMaster 全模块深度调试手册
+# DotGuide 全模块深度调试手册
 
 ---
 
@@ -59,7 +59,7 @@ CEP 面板内嵌 Chromium，可通过远程调试端口连接 DevTools。
 ```gm-toast
 <?xml version="1.0" encoding="UTF-8"?>          
 <ExtensionList>          
-<Extension Id="com.yourname.dotgridmaster.main">          
+<Extension Id="com.yourname.dotguide.main">          
 <HostList>          
 <Host Name="ILST" Port="8088" />          
 </HostList>          
@@ -382,7 +382,7 @@ runOne();
 * 运行全部诊断          
 */          
 function runAll() {          
-console.group('[DotGridMaster] CEP 通信全面诊断');          
+console.group('[DotGuide] CEP 通信全面诊断');          
 
 var step1 = testCSInterface();          
 if (!step1) {          
@@ -881,7 +881,7 @@ DEBUG.log('composition', '黄金分割线 X 坐标: ' + (target.left + golden).t
 
 电商模块通常涉及复杂的图层叠加（如“促销价”、“原价”占位符）。调试建议：
 
-1. **分层检查**：在 `hostscript.jsx` 中添加函数，强制返回当前所有 `DotGridMaster_` 前缀的图层名称列表，以便检查是否产生图层堆积。
+1. **分层检查**：在 `hostscript.jsx` 中添加函数，强制返回当前所有 `DotGuide_` 前缀的图层名称列表，以便检查是否产生图层堆积。
 2. **JSON 数据完整性**：在 `BatchProcessor` 中捕获 `JSON.parse` 错误，如果解析失败，直接在控制台输出原始字符串，检查是否有未转义的特殊字符。
 
 
@@ -973,7 +973,7 @@ console.log('生成的批处理脚本:', script);
 
 ---
 
-**调试总结**：DotGridMaster的稳定性核心在于\*\*“通信协议一致性”\*\*。始终保持 JSX 与 JS 之间的数据交互为 JSON
+**调试总结**：DotGuide的稳定性核心在于\*\*“通信协议一致性”\*\*。始终保持 JSX 与 JS 之间的数据交互为 JSON
 字符串格式，并利用`__GM_DEBUG`工具集进行模块化监控。
 
 如果你在某一个具体模块（如批处理逻辑）中遇到了无法复现的偶发 Bug，建议开启 `HostInterceptor` 并导出日志，我可以帮你分析日志中的调用时序。
