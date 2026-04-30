@@ -178,12 +178,12 @@
             { name: '配图区', x: 580, y: 30, w: 260, h: 323, color: '#0D99FF' },
             { name: '副标题', x: 60, y: 200, w: 400, h: 60, color: '#5856D6' }
           ], desc: '公众号首图，2.35:1 比例' },
-        { id: 'wx-miniapp-banner', name: '小程序 Banner 750×400', width: 750, height: 400, unit: 'px',
+        { id: 'wx-miniapp-banner', name: '小程序 Banner 750×560', width: 750, height: 560, unit: 'px',
           safeZone: { top: 20, right: 30, bottom: 20, left: 30 },
           zones: [
-            { name: '核心内容', x: 30, y: 20, w: 690, h: 360, color: '#0D99FF' },
+            { name: '核心内容', x: 30, y: 20, w: 690, h: 520, color: '#0D99FF' },
             { name: '文案', x: 50, y: 80, w: 350, h: 100, color: '#07C160' },
-            { name: 'CTA', x: 50, y: 250, w: 160, h: 50, color: '#FF9500' }
+            { name: 'CTA', x: 50, y: 380, w: 160, h: 50, color: '#FF9500' }
           ], desc: '小程序首页轮播图' }
       ]
     }

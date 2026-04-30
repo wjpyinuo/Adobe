@@ -1353,8 +1353,7 @@ function diagnosticTest() {
     rect.opacity = 50;
     rect.name = 'DotGridMaster_DIAG_TEST';
 
-    alert("DotGridMaster Diagnostic:\nLayer: " + layer.name + "\nLocked: " + layer.locked + "\nABRect: " + abRect.join(", ") + "\nRect: " + rect.name);
-
+    // 仅返回诊断数据，不弹窗（由前端 Toast 展示）
     return JSON.stringify({
       success: true,
       data: {

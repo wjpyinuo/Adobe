@@ -7,7 +7,6 @@
     "CSInterface": "readonly",
     "DotGridMaster": "readonly",
     "UndoManager": "readonly",
-    "BatchProcessor": "readonly",
     "app": "readonly",
     "RulerUnits": "readonly",
     "DocumentColorSpace": "readonly",

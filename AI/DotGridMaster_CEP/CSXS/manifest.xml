@@ -11,8 +11,8 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
 <ExecutionEnvironment>
 <HostList>
-<!-- Illustrator -->
-<Host Name="ILST" Version="[27.0,99.9]" />
+<!-- Illustrator 2024+ (v28.0+) -->
+<Host Name="ILST" Version="[28.0,99.9]" />
 </HostList>
 <LocaleList>
 <Locale Code="All" />

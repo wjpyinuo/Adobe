@@ -136,6 +136,23 @@
       }).then(function () { GM.showToast('印刷标记已生成', 'success'); })
       .catch(function (err) { GM.showToast('生成失败: ' + err.message, 'error'); });
     }));
+
+    // 色标独立按钮
+    var colorBarBtn = document.createElement('button');
+    colorBarBtn.textContent = '🎨 添加 CMYK 色标';
+    colorBarBtn.style.cssText =
+      'width:100%;padding:7px;border-radius:4px;font-size:11px;margin-top:4px;' +
+      'background:var(--gm-bg-tertiary);color:var(--gm-text-secondary);' +
+      'border:1px solid var(--gm-border-default);cursor:pointer;transition:all 0.15s;';
+    colorBarBtn.addEventListener('mouseenter', function () { colorBarBtn.style.borderColor = 'var(--gm-accent-primary)'; colorBarBtn.style.color = 'var(--gm-accent-primary)'; });
+    colorBarBtn.addEventListener('mouseleave', function () { colorBarBtn.style.borderColor = 'var(--gm-border-default)'; colorBarBtn.style.color = 'var(--gm-text-secondary)'; });
+    colorBarBtn.addEventListener('click', function () {
+      if (!GM.currentDocInfo) { GM.showToast('请先打开文档', 'warning'); return; }
+      GM.HostAdapter.addColorBar().then(function () {
+        GM.showToast('CMYK 色标已添加', 'success');
+      }).catch(function (err) { GM.showToast('添加失败: ' + err.message, 'error'); });
+    });
+    container.appendChild(colorBarBtn);
   };
 
   function _drawPrintPreview(canvas) {

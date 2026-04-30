@@ -34,7 +34,7 @@
 ```
 dotgridmaster-cep/
 ├── CSXS/
-│   └── manifest.xml              ← CEP 清单（仅 Illustrator）
+│   └── manifest.xml              ← CEP 清单（仅 Illustrator 2024+）
 ├── .debug                        ← 调试端口（ILST:8088）
 ├── index.html                    ← 面板入口（脚本加载顺序）
 ├── setup.bat / setup.sh          ← 一键安装脚本
@@ -56,14 +56,12 @@ dotgridmaster-cep/
 │   ├── panel-ui.js               ← UI 设备安全区面板
 │   ├── panel-settings.js         ← 设置面板
 │   ├── undo-manager.js           ← 撤销/重做系统
-│   ├── batch-processor.js        ← 批处理引擎
 │   ├── performance-monitor.js    ← 性能监控
-│   ├── preset-manager.js         ← 预设管理
+│   ├── preset-manager.js         ← 预设扩展（合并额外内置预设到 core.js）
 │   └── index.js                  ← 主入口（UI 构建、Tab 路由、初始化）
 │
 ├── jsx/
-│   ├── hostscript.jsx            ← ExtendScript 宿主脚本（41 个函数）
-│   └── print-marks.jsx           ← 印刷标记
+│   └── hostscript.jsx            ← ExtendScript 宿主脚本（41+ 个函数）
 │
 ├── icons/
 │   ├── icon-light.svg            ← 亮色主题图标
@@ -123,7 +121,7 @@ npm run lint -- --fix  # 自动修复
 | 印刷出血 | `panel-print.js` | 裁切标记/色标/注册标记/出血可视化 |
 | UI 安全区 | `panel-ui.js` | iPhone/Android/iPad 状态栏/导航栏/标签栏 |
 | 撤销/重做 | `undo-manager.js` | 30 步历史，命令模式 |
-| 批处理 | `batch-processor.js` | 合并 ExtendScript 调用，减少通信开销 |
+| 性能监控 | `performance-monitor.js` | 执行时间统计 |
 | 预设管理 | `preset-manager.js` | 内置 + 自定义预设，支持导入/导出 |
 
 ---

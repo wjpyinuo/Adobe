@@ -185,7 +185,7 @@
       GM.HostAdapter.clearAll().then(function () { GM.showToast('已清除所有辅助线', 'success'); });
     }
 
-    if ((e.ctrlKey || e.metaKey) && e.key >= '1' && e.key <= '6') {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key >= '1' && e.key <= '6') {
       e.preventDefault();
       var tabIds = ['grid', 'composition', 'ecom', 'print', 'ui', 'settings'];
       var idx = parseInt(e.key) - 1;
