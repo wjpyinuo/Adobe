@@ -1,5 +1,5 @@
 /**
- * DotGridMaster CEP — 主入口
+ * DotGuide CEP — 主入口
  * 负责：UI 构建、Tab 路由、键盘快捷键、文档监听、初始化
  *
  * 加载顺序（index.html）：
@@ -16,8 +16,8 @@
 (function () {
   'use strict';
 
-  var GM = window.DotGridMaster;
-  if (!GM) { console.error('DotGridMaster core.js not loaded'); return; }
+  var GM = window.DotGuide;
+  if (!GM) { console.error('DotGuide core.js not loaded'); return; }
 
   // ============================
   // 面板 UI 构建
@@ -38,7 +38,7 @@
         'padding:10px 12px;border-bottom:1px solid var(--gm-border-default);' +
         'display:flex;align-items:center;justify-content:space-between;';
       header.innerHTML =
-        '<div style="font-size:13px;font-weight:600;">⊞ DotGridMaster <span style="font-size:9px;font-weight:400;color:var(--gm-text-secondary);">v1.0.1</span></div>' +
+        '<div style="font-size:13px;font-weight:600;">⊞ DotGuide <span style="font-size:9px;font-weight:400;color:var(--gm-text-secondary);">v1.0.1</span></div>' +
         '<div id="doc-info" style="font-size:10px;color:var(--gm-text-secondary);">未检测到文档</div>';
       root.appendChild(header);
 
@@ -237,4 +237,3 @@
   }
 
 })();
-
