@@ -3,12 +3,14 @@
  * 负责：UI 构建、Tab 路由、键盘快捷键、文档监听、初始化
  *
  * 加载顺序（index.html）：
- *   CSInterface.js → themeManager.js → lib/dotgridmaster-core.js →
+ *   CSInterface.js → themeManager.js →
  *   core.js → ui-components.js →
  *   panel-grid.js → panel-composition.js → panel-ecom.js →
  *   panel-print.js → panel-ui.js → panel-settings.js →
  *   undo-manager.js → performance-monitor.js → preset-manager.js →
- *   batch-processor.js → index.js
+ *   index.js
+ *
+ * BUG-7 修复: 移除 BatchProcessor 死代码
  */
 
 (function () {
@@ -27,7 +29,6 @@
     var root = document.getElementById('dotgridmaster-root');
     if (!root) return;
 
-    // 首次构建：创建完整 DOM 结构
     if (!_uiBuilt) {
       root.innerHTML = '';
 
@@ -80,7 +81,7 @@
       });
       root.appendChild(tabBar);
 
-      // 内容区：所有面板一次性创建，通过 display 切换
+      // 内容区
       var content = document.createElement('div');
       content.id = 'panel-content';
       content.style.cssText = 'flex:1;overflow-y:auto;padding:12px;';
@@ -146,7 +147,6 @@
       _uiBuilt = true;
     }
 
-    // 切换 Tab 显隐 + 更新 Tab 样式
     switchTab(GM.currentTab);
     GM.refreshDocInfo();
   }
@@ -154,7 +154,6 @@
   function switchTab(tabId) {
     GM.currentTab = tabId;
 
-    // 更新 Tab 按钮样式
     var tabBtns = document.querySelectorAll('.gm-tab-btn');
     for (var i = 0; i < tabBtns.length; i++) {
       var btn = tabBtns[i];
@@ -163,7 +162,6 @@
       btn.style.borderBottomColor = isActive ? 'var(--gm-accent-primary)' : 'transparent';
     }
 
-    // 切换面板显隐
     var panels = document.querySelectorAll('#panel-content > div[data-panel]');
     for (var j = 0; j < panels.length; j++) {
       panels[j].style.display = panels[j].dataset.panel === tabId ? 'block' : 'none';
@@ -175,7 +173,6 @@
   // ============================
 
   document.addEventListener('keydown', function (e) {
-    // Ctrl/Cmd + Shift + G = 应用网格
     if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'G') {
       e.preventDefault();
       if (GM.currentTab !== 'grid') switchTab('grid');
@@ -183,13 +180,11 @@
       if (applyBtn) applyBtn.click();
     }
 
-    // Ctrl/Cmd + Shift + D = 清除全部
     if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'D') {
       e.preventDefault();
       GM.HostAdapter.clearAll().then(function () { GM.showToast('已清除所有辅助线', 'success'); });
     }
 
-    // Ctrl + 1-6 = Tab 切换
     if ((e.ctrlKey || e.metaKey) && e.key >= '1' && e.key <= '6') {
       e.preventDefault();
       var tabIds = ['grid', 'composition', 'ecom', 'print', 'ui', 'settings'];
@@ -216,27 +211,25 @@
   });
 
   // ============================
-  // 初始化
+  // 初始化 (BUG-7 修复: 移除 BatchProcessor.init())
   // ============================
 
   function init() {
     GM.PresetManager.init();
     buildUI();
 
-    // 初始化 P3 模块
+    // 初始化系统模块
     if (typeof UndoManager !== 'undefined' && UndoManager.init) UndoManager.init();
     if (typeof PerfMonitor !== 'undefined' && PerfMonitor.setEnabled) PerfMonitor.setEnabled(false);
-    if (typeof BatchProcessor !== 'undefined' && BatchProcessor.init) BatchProcessor.init();
+    // BatchProcessor 已移除 — 死代码，从未被实际调用
 
-    // 初始化预览系统（默认关闭，用户可在设置中开启）
+    // 初始化预览系统（默认关闭）
     var previewEnabled = GM.Storage.get('preview_enabled');
     GM.setPreviewEnabled(!!previewEnabled);
 
-    // 延迟刷新文档信息
     setTimeout(GM.refreshDocInfo, 1000);
   }
 
-  // DOM Ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
