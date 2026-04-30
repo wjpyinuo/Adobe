@@ -1,6 +1,8 @@
 /**
  * DotGridMaster Panel — 构图
  * 依赖：core.js, ui-components.js
+ *
+ * BUG-6 修复: 黄金螺旋算法使用标准对数螺旋
  */
 
 (function (GM) {
@@ -81,7 +83,6 @@
       }
 
       if (compositionState.type === 'golden-spiral') {
-        // 黄金螺旋使用平滑曲线绘制
         var spiralPoints = _buildSpiralPoints(GM.currentDocInfo.width, GM.currentDocInfo.height);
         promises.push(GM.HostAdapter.addSpiralPath(spiralPoints, compositionState.color, 0.75));
       } else if (compositionState.type === 'diagonal' || compositionState.showAsPaths) {
@@ -94,25 +95,48 @@
     }));
   };
 
-
-
-  // 构建黄金螺旋控制点
+  /**
+   * BUG-6 修复: 黄金螺旋控制点 — 使用标准斐波那契对数螺旋
+   *
+   * 公式: r = a * φ^(θ / (π/2))
+   * 其中 φ = 黄金比例，a = 初始半径
+   * 每旋转 90° (π/2)，半径放大 φ 倍
+   * 同时正确处理纵横比缩放
+   */
   function _buildSpiralPoints(w, h) {
     var phi = 1.618033988749895;
     var points = [];
-    var x = 0, y = 0, cw = w, ch = h;
-    var steps = 100;
+    var steps = 200; // 更多点数，曲线更平滑
 
-    for (var i = 0; i < steps; i++) {
+    // 螺旋从中心开始
+    var cx = w / 2;
+    var cy = h / 2;
+
+    // 初始半径（基于画面短边）
+    var minDim = Math.min(w, h);
+    var a = minDim * 0.01; // 起始半径
+
+    // 总旋转角度：足够多圈以覆盖画面
+    var totalAngle = Math.PI * 2 * 4; // 4 圈
+    var quarterAngle = Math.PI / 2;   // 90°
+
+    for (var i = 0; i <= steps; i++) {
       var t = i / steps;
-      var angle = t * Math.PI * 2 * 2; // 2 full rotations
-      var radius = Math.pow(phi, angle / (Math.PI * 2)) * 10;
-      var cx = w / 2 + radius * Math.cos(angle) * (w / h);
-      var cy = h / 2 + radius * Math.sin(angle);
-      if (cx >= 0 && cx <= w && cy >= 0 && cy <= h) {
-        points.push({ x: cx, y: cy });
+      var theta = t * totalAngle;
+
+      // 对数螺旋: r = a * φ^(θ / (π/2))
+      var r = a * Math.pow(phi, theta / quarterAngle);
+
+      // 纵横比修正：x 方向按 w/h 缩放，使螺旋在非正方形画布上不变形
+      var px = cx + r * Math.cos(theta) * (w / h);
+      var py = cy + r * Math.sin(theta);
+
+      // 仅保留画面内的点
+      if (px >= 0 && px <= w && py >= 0 && py <= h) {
+        points.push({ x: px, y: py });
       }
     }
+
     return points;
   }
 
