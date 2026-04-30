@@ -1,5 +1,5 @@
 /**
- * DotGridMaster Panel — 网格
+ * DotGuide Panel — 网格
  * 依赖：core.js, ui-components.js
  *
  * 修复:
@@ -334,5 +334,4 @@
     return val.toFixed(1);
   }
 
-})(DotGridMaster);
-
+})(DotGuide);
