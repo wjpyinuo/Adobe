@@ -107,8 +107,8 @@
       // 底部操作栏
       var footer = document.createElement('div');
       footer.style.cssText =
-        'padding:8px 10px;border-top:1px solid var(--gm-border-default);' +
-        'display:flex;gap:8px;flex-shrink:0;min-height:36px;align-items:center;';
+        'padding:8px 10px 12px 10px;border-top:1px solid var(--gm-border-default);' +
+        'display:flex;gap:8px;flex-shrink:0;align-items:center;';
 
       var undoBtn = document.createElement('button');
       undoBtn.id = 'btn-undo';
