@@ -1,6 +1,6 @@
 # Changelog
 
-本文件记录 DotGridMaster CEP 的主要变更。
+本文件记录 DotGuide CEP 的主要变更。
 
 格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
 版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
@@ -25,7 +25,7 @@
 ## [1.0.1] - 2026-05-01
 
 ### 变更
-- 项目更名为 DotGridMaster_CEP（原 GridMaster_CEP）
+- 项目更名为 DotGuide_CEP（原 DotGuide_CEP）
 - 更新所有命名空间、配置、文档中的项目名称
 - 移除废弃的 BatchProcessor 模块及其测试
 - 统一 PresetManager 实现，删除重复定义
