@@ -14,6 +14,8 @@
   };
 
   GM.renderPrintPanel = function (container) {
+    container.innerHTML = '';
+
     // 出血设置
     var bleedSection = GM.createSection('出血 (Bleed)');
 

@@ -194,6 +194,8 @@
   // ============================
 
   GM.renderEcomPanel = function (container) {
+    container.innerHTML = '';
+
     var platformSection = GM.createSection('选择平台');
     var platformGrid = document.createElement('div');
     platformGrid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;';

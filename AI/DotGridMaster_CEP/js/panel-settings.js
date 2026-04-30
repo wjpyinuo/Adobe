@@ -7,6 +7,8 @@
   'use strict';
 
   GM.renderSettingsPanel = function (container) {
+    container.innerHTML = '';
+
     // 版本信息
     var aboutSection = GM.createSection('关于');
     var aboutCard = document.createElement('div');

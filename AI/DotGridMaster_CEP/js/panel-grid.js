@@ -76,6 +76,9 @@
   }
 
   GM.renderGridPanel = function (container) {
+    // 清空容器，防止重复渲染
+    container.innerHTML = '';
+
     // 预设
     var presetSection = GM.createSection('快速预设');
     presetSection.appendChild(GM.createPresetList('grid', function (preset) {

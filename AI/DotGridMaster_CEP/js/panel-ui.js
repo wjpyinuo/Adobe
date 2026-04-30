@@ -9,6 +9,8 @@
   var uiState = { selectedPreset: null };
 
   GM.renderUIPanel = function (container) {
+    container.innerHTML = '';
+
     // 设备预设
     var presetSection = GM.createSection('选择设备');
     presetSection.appendChild(GM.createPresetList('ui', function (preset) {

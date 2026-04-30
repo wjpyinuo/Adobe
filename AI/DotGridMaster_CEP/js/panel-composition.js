@@ -16,6 +16,8 @@
   };
 
   GM.renderCompositionPanel = function (container) {
+    container.innerHTML = '';
+
     // 预设
     var presetSection = GM.createSection('构图模式');
     presetSection.appendChild(GM.createPresetList('composition', function (preset) {
