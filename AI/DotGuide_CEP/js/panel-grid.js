@@ -34,6 +34,8 @@
   }
 
   function _saveState() {
+    GM.Storage.set('grid_state', gridState);
+  }
 
   /**
    * 实时预览：根据当前显示选项状态，立即更新画布
@@ -65,19 +67,23 @@
       });
     }
 
-    // 先全部清除，再按当前开关状态重建
-    Promise.all([
-      GM.HostAdapter.clearGuides(),
-      GM.HostAdapter.clearGridOverlay(),
-      GM.HostAdapter.clearGutterGuides()
-    ]).then(function () {
+    // 每个 clear 独立 catch，避免一个失败阻塞全部
+    var clear1 = GM.HostAdapter.clearGuides().catch(function() {});
+    var clear2 = GM.HostAdapter.clearGridOverlay().catch(function() {});
+    var clear3 = GM.HostAdapter.clearGutterGuides().catch(function() {});
+
+    Promise.all([clear1, clear2, clear3]).then(function () {
       var promises = [];
 
       if (gridState.showGuides && result.guides.length > 0) {
-        promises.push(GM.HostAdapter.addGuides(result.guides));
+        promises.push(GM.HostAdapter.addGuides(result.guides).catch(function(e) {
+          console.error('[DotGuide] addGuides 失败:', e);
+        }));
       }
       if (gridState.showGutterGuides && gutterGuides.length > 0) {
-        promises.push(GM.HostAdapter.addGutterGuides(gutterGuides));
+        promises.push(GM.HostAdapter.addGutterGuides(gutterGuides).catch(function(e) {
+          console.error('[DotGuide] addGutterGuides 失败:', e);
+        }));
       }
       if (gridState.showCellOverlay) {
         promises.push(GM.HostAdapter.addGridOverlay({
@@ -86,61 +92,19 @@
           marginTop: gridState.marginTop, marginRight: gridState.marginRight,
           marginBottom: gridState.marginBottom, marginLeft: gridState.marginLeft,
           color: gridState.overlayColor, opacity: gridState.overlayOpacity
+        }).catch(function(e) {
+          console.error('[DotGuide] addGridOverlay 失败:', e);
         }));
       }
 
-      return Promise.all(promises);
+      if (promises.length > 0) {
+        return Promise.all(promises);
+      }
     }).then(function () {
       _saveState();
     }).catch(function (err) {
       console.error('[DotGuide] 实时预览失败:', err);
     });
-  }
-    GM.Storage.set('grid_state', gridState);
-  }
-
-  /**
-   * 计算间距边界辅助线
-   * 在每个间距的左右（或上下）边缘各加一条参考线
-   */
-  function _calcGutterGuides(opts) {
-    var w = opts.docWidth, h = opts.docHeight;
-    var cols = opts.columns || 1, rows = opts.rows || 1;
-    var gH = opts.gutterH || 0, gV = opts.gutterV || 0;
-    var mT = opts.marginTop || 0, mR = opts.marginRight || 0;
-    var mB = opts.marginBottom || 0, mL = opts.marginLeft || 0;
-
-    var guides = [];
-    if (gH <= 0 && gV <= 0) return guides;
-
-    var availW = w - mL - mR;
-    var availH = h - mT - mB;
-    var totalGutterH = (cols - 1) * gH;
-    var totalGutterV = (rows - 1) * gV;
-    var colWidth = (availW - totalGutterH) / cols;
-    var rowHeight = (availH - totalGutterV) / rows;
-
-    // 列间距边界（垂直线）
-    if (gH > 0 && cols > 1) {
-      var x = mL + colWidth;
-      for (var c = 0; c < cols - 1; c++) {
-        guides.push({ orientation: 'vertical', position: x });
-        guides.push({ orientation: 'vertical', position: x + gH });
-        x += colWidth + gH;
-      }
-    }
-
-    // 行间距边界（水平线）
-    if (gV > 0 && rows > 1) {
-      var y = mT + rowHeight;
-      for (var r = 0; r < rows - 1; r++) {
-        guides.push({ orientation: 'horizontal', position: y });
-        guides.push({ orientation: 'horizontal', position: y + gV });
-        y += rowHeight + gV;
-      }
-    }
-
-    return guides;
   }
 
   GM.renderGridPanel = function (container) {
