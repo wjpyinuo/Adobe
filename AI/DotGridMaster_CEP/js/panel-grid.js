@@ -92,7 +92,7 @@
       gridState.marginLeft = preset.marginLeft;
       GM.renderGridPanel(container);
       GM.showToast('已加载预设: ' + preset.name, 'info');
-    }));
+    }, function () { GM.renderGridPanel(container); }));
     container.appendChild(presetSection);
 
     // 列/行设置
@@ -335,3 +335,4 @@
   }
 
 })(DotGridMaster);
+
