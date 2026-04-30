@@ -23,7 +23,7 @@
     presetSection.appendChild(GM.createPresetList('composition', function (preset) {
       compositionState.type = preset.type;
       GM.renderCompositionPanel(container);
-    }));
+    }, function () { GM.renderCompositionPanel(container); }));
     container.appendChild(presetSection);
 
     // 当前模式
@@ -154,3 +154,4 @@
   }
 
 })(DotGridMaster);
+
