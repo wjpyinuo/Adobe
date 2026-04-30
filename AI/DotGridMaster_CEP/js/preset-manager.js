@@ -1,5 +1,5 @@
 /**
- * DotGridMaster — 预设扩展
+ * DotGuide — 预设扩展
  * 将额外的内置预设合并到 core.js 中的 GM.PresetManager
  *
  * 依赖：core.js (GM.PresetManager 已在 core.js 中定义)
@@ -11,9 +11,9 @@
 (function () {
   'use strict';
 
-  var GM = (typeof DotGridMaster !== 'undefined') ? DotGridMaster : null;
+  var GM = (typeof DotGuide !== 'undefined') ? DotGuide : null;
   if (!GM || !GM.PresetManager) {
-    console.warn('[DotGridMaster] preset-manager.js: core.js 未加载或 GM.PresetManager 不存在');
+    console.warn('[DotGuide] preset-manager.js: core.js 未加载或 GM.PresetManager 不存在');
     return;
   }
 
@@ -41,7 +41,7 @@
   GM.PresetManager._presets.grid = existing;
 
   if (added > 0) {
-    console.log('[DotGridMaster] preset-manager.js: 追加了 ' + added + ' 个额外网格预设');
+    console.log('[DotGuide] preset-manager.js: 追加了 ' + added + ' 个额外网格预设');
   }
 
 })();
