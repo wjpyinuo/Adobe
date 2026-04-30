@@ -127,9 +127,9 @@
       }).el);
     } else {
       marginSection.appendChild(GM.createNumberInput('上', gridState.marginTop, 0, 500, 1, function (v) { gridState.marginTop = v; }).el);
-      marginSection.appendChild(GM.createNumberInput('右', gridState.marginRight, 0, 500, 1, function (v) { gridState.marginRight = v; }).el);
       marginSection.appendChild(GM.createNumberInput('下', gridState.marginBottom, 0, 500, 1, function (v) { gridState.marginBottom = v; }).el);
       marginSection.appendChild(GM.createNumberInput('左', gridState.marginLeft, 0, 500, 1, function (v) { gridState.marginLeft = v; }).el);
+      marginSection.appendChild(GM.createNumberInput('右', gridState.marginRight, 0, 500, 1, function (v) { gridState.marginRight = v; }).el);
     }
     container.appendChild(marginSection);
 
