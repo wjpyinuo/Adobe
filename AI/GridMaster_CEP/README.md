@@ -90,6 +90,8 @@ chmod +x setup.sh && ./setup.sh
 
 脚本会自动设置 CEP 调试模式并将插件复制到扩展目录。
 
+> 📖 手动安装、ZXP 打包安装、调试方法及常见问题，见 [INSTALL.md](INSTALL.md)
+
 ### 2. 重启 Illustrator
 
 菜单：**窗口 → 扩展 → GridMaster**
