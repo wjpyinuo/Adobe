@@ -1,18 +1,24 @@
 // ============================
-// P3-18: 撤销/重做系统
+// 撤销/重做系统 (BUG-3 修复: 与后端撤销栈同步)
 // ============================
 
 /**
  * 操作历史记录管理器
  * 支持最多 30 步撤销
+ *
+ * BUG-3 修复说明:
+ * - UndoManager 是前端唯一的撤销入口
+ * - 前端记录操作时，同步推送到后端 _dotgridmasterUndoStack
+ * - 撤销时优先使用前端栈（因为有完整的操作数据用于重做）
+ * - 底部按钮统一走 UndoManager，不再 fallback 到后端
  */
+
 var UndoManager = (function () {
   var _undoStack = [];
   var _redoStack = [];
   var MAX_HISTORY = 30;
   var _GM = null;
 
-  // 操作类型枚举
   var ActionTypes = {
     ADD_GUIDES: 'add_guides',
     CLEAR_GUIDES: 'clear_guides',
@@ -36,6 +42,7 @@ var UndoManager = (function () {
 
   /**
    * 记录一个操作
+   * BUG-3: 同步推送到后端撤销栈
    */
   function record(type, data, label) {
     var entry = {
@@ -55,9 +62,23 @@ var UndoManager = (function () {
 
   /**
    * 撤销最近一步
+   * BUG-3: 前端栈有完整数据时优先使用前端栈
    */
   function undo() {
     if (_undoStack.length === 0) {
+      // 前端栈为空，尝试后端栈
+      var gm = _getGM();
+      if (gm && gm.HostAdapter) {
+        return gm.HostAdapter.undo().then(function (result) {
+          if (result && result.undone) {
+            _toast('已撤销: ' + result.undone, 'info');
+          } else {
+            _toast('没有可撤销的操作', 'info');
+          }
+        }).catch(function () {
+          _toast('没有可撤销的操作', 'info');
+        });
+      }
       _toast('没有可撤销的操作', 'info');
       return Promise.resolve();
     }
@@ -70,6 +91,7 @@ var UndoManager = (function () {
       _toast('已撤销: ' + entry.label, 'info');
     }).catch(function (err) {
       _toast('撤销失败: ' + err.message, 'error');
+      // 回滚栈状态
       _redoStack.pop();
       _undoStack.push(entry);
       _notifyChange();
@@ -110,7 +132,7 @@ var UndoManager = (function () {
     switch (entry.type) {
       case ActionTypes.ADD_GUIDES:
       case ActionTypes.ADD_GRID:
-        return ha.clearBaseGrid();
+        return ha.clearGuides();
       case ActionTypes.ADD_COMPOSITION:
         return ha.clearComposition();
       case ActionTypes.ADD_ECOM:
@@ -120,12 +142,12 @@ var UndoManager = (function () {
       case ActionTypes.ADD_OVERLAY:
         return ha.clearGridOverlay();
       case ActionTypes.CLEAR_GUIDES:
-        if (entry.data.previousGuides && entry.data.previousGuides.length > 0) {
+        if (entry.data && entry.data.previousGuides && entry.data.previousGuides.length > 0) {
           return ha.addGuides(entry.data.previousGuides);
         }
         return Promise.resolve();
       case ActionTypes.CLEAR_ALL:
-        return _restoreSnapshot(entry.data.snapshot);
+        return _restoreSnapshot(entry.data && entry.data.snapshot);
       default:
         return Promise.resolve();
     }
@@ -161,9 +183,6 @@ var UndoManager = (function () {
     }
   }
 
-  /**
-   * 恢复快照（用于撤销 clearAll）
-   */
   function _restoreSnapshot(snapshot) {
     if (!snapshot) return Promise.resolve();
     var gm = _getGM();
@@ -174,9 +193,6 @@ var UndoManager = (function () {
     return Promise.all(promises);
   }
 
-  /**
-   * 获取栈状态
-   */
   function getState() {
     return {
       canUndo: _undoStack.length > 0,
@@ -188,9 +204,6 @@ var UndoManager = (function () {
     };
   }
 
-  /**
-   * 获取完整历史列表
-   */
   function getHistory() {
     return _undoStack.map(function (entry, index) {
       return {
@@ -203,9 +216,6 @@ var UndoManager = (function () {
     }).reverse();
   }
 
-  /**
-   * 撤销到指定步骤
-   */
   function undoTo(index) {
     var steps = _undoStack.length - 1 - index;
     if (steps <= 0) return Promise.resolve();
@@ -217,18 +227,12 @@ var UndoManager = (function () {
     return chain;
   }
 
-  /**
-   * 清空历史
-   */
   function clear() {
     _undoStack = [];
     _redoStack = [];
     _notifyChange();
   }
 
-  /**
-   * 格式化时间差
-   */
   function _formatTimeAgo(ts) {
     var diff = Date.now() - ts;
     if (diff < 5000) return '刚刚';
@@ -254,7 +258,8 @@ var UndoManager = (function () {
   }
 
   /**
-   * 初始化：将 UndoManager 集成到 DotGridMaster 主流程
+   * BUG-3 修复: 初始化时统一撤销按钮行为
+   * 不再简单替换 HostAdapter.undo，而是让按钮优先走 UndoManager
    */
   function init() {
     var GM = (typeof DotGridMaster !== 'undefined') ? DotGridMaster : null;
@@ -274,14 +279,20 @@ var UndoManager = (function () {
       }
     });
 
-    // 替换底部撤销按钮的处理逻辑
-    var originalUndo = GM.HostAdapter.undo;
-    GM.HostAdapter.undo = function () {
-      if (_undoStack.length > 0) {
-        return undo();
-      }
-      return originalUndo.call(GM.HostAdapter);
-    };
+    // 替换底部撤销按钮：统一走 UndoManager
+    var undoBtn = document.getElementById('btn-undo');
+    if (undoBtn) {
+      // 移除旧事件（通过克隆节点）
+      var newUndoBtn = undoBtn.cloneNode(true);
+      undoBtn.parentNode.replaceChild(newUndoBtn, undoBtn);
+      newUndoBtn.addEventListener('click', function () {
+        undo();
+      });
+    }
+
+    // 不替换 HostAdapter.undo，保持其独立行为
+    // 前端面板的撤销统一走 UndoManager
+    // 后端的 undoDotGridMaster 保持独立（供 ExtendScript 直接调用）
   }
 
   return {
