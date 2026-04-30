@@ -1,5 +1,5 @@
 /**
- * DotGridMaster Panel — UI 设备安全区
+ * DotGuide Panel — UI 设备安全区
  * 依赖：core.js, ui-components.js
  */
 
@@ -123,5 +123,4 @@
     }
   };
 
-})(DotGridMaster);
-
+})(DotGuide);
