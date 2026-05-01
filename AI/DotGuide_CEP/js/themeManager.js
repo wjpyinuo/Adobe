@@ -34,8 +34,8 @@ Math.min(g + 22, 255),
 Math.min(b + 22, 255)
 ));
 root.style.setProperty('--gm-text-primary', '#ffffff');
-root.style.setProperty('--gm-text-secondary', '#b0b0b0');
-root.style.setProperty('--gm-text-tertiary', '#888888');
+root.style.setProperty('--gm-text-secondary', '#cccccc');
+root.style.setProperty('--gm-text-tertiary', '#aaaaaa');
 root.style.setProperty('--gm-border-default', rgbToHex(
 Math.min(r + 35, 255),
 Math.min(g + 35, 255),
@@ -60,7 +60,7 @@ Math.max(b - 20, 0)
 ));
 root.style.setProperty('--gm-text-primary', '#1a1a1a');
 root.style.setProperty('--gm-text-secondary', '#555555');
-root.style.setProperty('--gm-text-tertiary', '#777777');
+root.style.setProperty('--gm-text-tertiary', '#888888');
 root.style.setProperty('--gm-border-default', rgbToHex(
 Math.max(r - 30, 0),
 Math.max(g - 30, 0),
