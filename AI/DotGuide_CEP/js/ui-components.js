@@ -150,7 +150,7 @@
   GM.createPresetList = function (category, onSelect, onDelete) {
     var presets = GM.PresetManager.getAll(category);
     var wrap = document.createElement('div');
-    wrap.style.cssText = 'display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;';
+    wrap.style.cssText = 'display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;align-items:flex-start;';
 
     // 跟踪当前选中的预设 ID
     var selectedId = null;
@@ -181,7 +181,8 @@
         nameBtn.dataset.presetId = preset.id;
         nameBtn.style.cssText =
           'padding:5px 9px;font-size:var(--gm-font-size-sm);cursor:pointer;border:none;outline:none;' +
-          'background:var(--gm-bg-tertiary);color:var(--gm-text-primary);transition:all 0.15s;line-height:1;';
+          'background:var(--gm-bg-tertiary);color:var(--gm-text-primary);transition:all 0.15s;line-height:1;' +
+          'white-space:nowrap;flex-shrink:0;text-decoration:none;overflow:hidden;text-overflow:ellipsis;';
         nameBtn.addEventListener('mouseenter', function () {
           if (nameBtn.dataset.presetId !== selectedId) {
             nameBtn.style.background = 'var(--gm-bg-hover)';
@@ -234,7 +235,8 @@
         btn.style.cssText =
           'padding:5px 9px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-sm);cursor:pointer;' +
           'background:var(--gm-bg-tertiary);color:var(--gm-text-primary);' +
-          'border:1px solid var(--gm-border-default);transition:all 0.15s;line-height:1;';
+          'border:1px solid var(--gm-border-default);transition:all 0.15s;line-height:1;' +
+          'white-space:nowrap;flex-shrink:0;text-decoration:none;';
 
         btn.addEventListener('mouseenter', function () {
           if (btn.dataset.presetId !== selectedId) {
