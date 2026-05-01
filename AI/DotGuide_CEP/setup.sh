@@ -2,7 +2,7 @@
 set -e
 
 echo "=========================================="
-echo "  DotGuide CEP 安装脚本 (macOS)"
+echo "  墨规 DotGuide CEP 安装脚本 (macOS)"
 echo "=========================================="
 echo ""
 

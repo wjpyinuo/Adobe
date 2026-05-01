@@ -38,7 +38,7 @@
         'padding:10px 12px;border-bottom:1px solid var(--gm-border-default);' +
         'display:flex;align-items:center;justify-content:space-between;';
       header.innerHTML =
-        '<div style="font-size:13px;font-weight:600;">⊞ DotGuide <span style="font-size:9px;font-weight:400;color:var(--gm-text-secondary);">v1.0.1</span></div>' +
+        '<div style="font-size:13px;font-weight:600;">⊞ 墨规 <span style="font-size:9px;font-weight:400;color:var(--gm-text-secondary);">DotGuide v1.0.1</span></div>' +
         '<div id="doc-info" style="font-size:10px;color:var(--gm-text-secondary);">未检测到文档</div>';
       root.appendChild(header);
 

@@ -1,7 +1,7 @@
 @echo off
 chcp 437 >nul 2>&1
 echo ==========================================
-echo   DotGuide CEP Setup (Windows)
+echo   墨规 DotGuide CEP Setup (Windows)
 echo ==========================================
 echo.
 
