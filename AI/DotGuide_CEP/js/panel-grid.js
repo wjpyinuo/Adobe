@@ -68,6 +68,7 @@
     if (gridState.showGutterGuides && (gridState.gutterH > 0 || gridState.gutterV > 0)) {
       gutterGuides = _calcGutterGuides({
         docWidth: GM.currentDocInfo.width, docHeight: GM.currentDocInfo.height,
+        docUnit: GM.currentDocInfo.unit || 'px',
         columns: gridState.columns, rows: gridState.rows,
         gutterH: gridState.gutterH, gutterV: gridState.gutterV,
         marginTop: gridState.marginTop, marginRight: gridState.marginRight,
@@ -97,7 +98,8 @@
         var docUnit = GM.currentDocInfo.unit || 'px';
         promises.push(GM.HostAdapter.addGridOverlay({
           columns: gridState.columns, rows: gridState.rows,
-          gutterH: gridState.gutterH, gutterV: gridState.gutterV,
+          gutterH: _convertMargin(gridState.gutterH, docUnit),
+          gutterV: _convertMargin(gridState.gutterV, docUnit),
           marginTop: _convertMargin(gridState.marginTop, docUnit),
           marginRight: _convertMargin(gridState.marginRight, docUnit),
           marginBottom: _convertMargin(gridState.marginBottom, docUnit),
@@ -126,9 +128,13 @@
   function _calcGutterGuides(opts) {
     var w = opts.docWidth, h = opts.docHeight;
     var cols = opts.columns || 1, rows = opts.rows || 1;
-    var gH = opts.gutterH || 0, gV = opts.gutterV || 0;
-    var mT = opts.marginTop || 0, mR = opts.marginRight || 0;
-    var mB = opts.marginBottom || 0, mL = opts.marginLeft || 0;
+    var docUnit = opts.docUnit || 'px';
+    var gH = _convertMargin(opts.gutterH || 0, docUnit);
+    var gV = _convertMargin(opts.gutterV || 0, docUnit);
+    var mT = _convertMargin(opts.marginTop || 0, docUnit);
+    var mR = _convertMargin(opts.marginRight || 0, docUnit);
+    var mB = _convertMargin(opts.marginBottom || 0, docUnit);
+    var mL = _convertMargin(opts.marginLeft || 0, docUnit);
 
     var guides = [];
     if (gH <= 0 && gV <= 0) return guides;
@@ -302,6 +308,7 @@
       if (gridState.showGutterGuides && (gridState.gutterH > 0 || gridState.gutterV > 0)) {
         gutterGuides = _calcGutterGuides({
           docWidth: GM.currentDocInfo.width, docHeight: GM.currentDocInfo.height,
+          docUnit: GM.currentDocInfo.unit || 'px',
           columns: gridState.columns, rows: gridState.rows,
           gutterH: gridState.gutterH, gutterV: gridState.gutterV,
           marginTop: gridState.marginTop, marginRight: gridState.marginRight,
@@ -333,8 +340,8 @@
           promises.push(GM.HostAdapter.addGridOverlay({
             columns: gridState.columns,
             rows: gridState.rows,
-            gutterH: gridState.gutterH,
-            gutterV: gridState.gutterV,
+            gutterH: _convertMargin(gridState.gutterH, docUnit),
+            gutterV: _convertMargin(gridState.gutterV, docUnit),
             marginTop: _convertMargin(gridState.marginTop, docUnit),
             marginRight: _convertMargin(gridState.marginRight, docUnit),
             marginBottom: _convertMargin(gridState.marginBottom, docUnit),
