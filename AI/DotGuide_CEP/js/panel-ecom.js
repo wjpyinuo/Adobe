@@ -461,39 +461,42 @@
     if (!GM.currentDocInfo) return Promise.reject(new Error('No document'));
     var scaleX = GM.currentDocInfo.width / tpl.width;
     var scaleY = GM.currentDocInfo.height / tpl.height;
-    var promises = [];
 
-    // 先清除旧内容（防止重复叠加）
-    promises.push(GM.HostAdapter.clearGuides());
-    promises.push(GM.HostAdapter.clearEcom());
+    // BUG-3 修复: 先清除旧内容，完成后再添加新内容（原子操作）
+    return Promise.all([
+      GM.HostAdapter.clearGuides(),
+      GM.HostAdapter.clearEcom()
+    ]).then(function () {
+      var promises = [];
 
-    if (state.safeZone && tpl.safeZone) {
-      var sz = tpl.safeZone;
-      promises.push(GM.HostAdapter.addGuides([
-        { orientation: 'horizontal', position: sz.top * scaleY },
-        { orientation: 'horizontal', position: GM.currentDocInfo.height - sz.bottom * scaleY },
-        { orientation: 'vertical', position: sz.left * scaleX },
-        { orientation: 'vertical', position: GM.currentDocInfo.width - sz.right * scaleX }
-      ]));
-      promises.push(GM.HostAdapter.addEcomZones(_calculateSafeZoneRects(
-        GM.currentDocInfo.width, GM.currentDocInfo.height,
-        { top: sz.top * scaleY, right: sz.right * scaleX, bottom: sz.bottom * scaleY, left: sz.left * scaleX }
-      ), state.safeZoneColor, state.safeZoneOpacity));
-    }
+      if (state.safeZone && tpl.safeZone) {
+        var sz = tpl.safeZone;
+        promises.push(GM.HostAdapter.addGuides([
+          { orientation: 'horizontal', position: sz.top * scaleY },
+          { orientation: 'horizontal', position: GM.currentDocInfo.height - sz.bottom * scaleY },
+          { orientation: 'vertical', position: sz.left * scaleX },
+          { orientation: 'vertical', position: GM.currentDocInfo.width - sz.right * scaleX }
+        ]));
+        promises.push(GM.HostAdapter.addEcomZones(_calculateSafeZoneRects(
+          GM.currentDocInfo.width, GM.currentDocInfo.height,
+          { top: sz.top * scaleY, right: sz.right * scaleX, bottom: sz.bottom * scaleY, left: sz.left * scaleX }
+        ), state.safeZoneColor, state.safeZoneOpacity));
+      }
 
-    // BUG-5 修复: 使用 w/h 字段名（与 JSX 端 r.w || r.width 一致）
-    var zoneRects = [], zoneLabels = [];
-    for (var i = 0; i < tpl.zones.length; i++) {
-      var zone = tpl.zones[i];
-      var zx = zone.x * scaleX, zy = zone.y * scaleY;
-      var zw = zone.w * scaleX, zh = zone.h * scaleY;
-      zoneRects.push({ x: zx, y: zy, w: zw, h: zh, color: zone.color, opacity: 6, strokeColor: zone.color, strokeWidth: 0.5, name: zone.name });
-      if (state.showLabels) zoneLabels.push({ text: zone.name, x: zx + 4, y: zy + 12, size: 8, color: zone.color });
-    }
-    if (zoneRects.length > 0) promises.push(GM.HostAdapter.addEcomFunctionZones(zoneRects));
-    if (zoneLabels.length > 0) promises.push(GM.HostAdapter.addEcomLabels(zoneLabels));
+      // BUG-5 修复: 使用 w/h 字段名（与 JSX 端 r.w || r.width 一致）
+      var zoneRects = [], zoneLabels = [];
+      for (var i = 0; i < tpl.zones.length; i++) {
+        var zone = tpl.zones[i];
+        var zx = zone.x * scaleX, zy = zone.y * scaleY;
+        var zw = zone.w * scaleX, zh = zone.h * scaleY;
+        zoneRects.push({ x: zx, y: zy, w: zw, h: zh, color: zone.color, opacity: 6, strokeColor: zone.color, strokeWidth: 0.5, name: zone.name });
+        if (state.showLabels) zoneLabels.push({ text: zone.name, x: zx + 4, y: zy + 12, size: 8, color: zone.color });
+      }
+      if (zoneRects.length > 0) promises.push(GM.HostAdapter.addEcomFunctionZones(zoneRects));
+      if (zoneLabels.length > 0) promises.push(GM.HostAdapter.addEcomLabels(zoneLabels));
 
-    return Promise.all(promises).then(function () {
+      return Promise.all(promises);
+    }).then(function () {
       GM.showToast('电商模板已应用: ' + tpl.name, 'success');
     }).catch(function (err) { GM.showToast('应用失败: ' + err.message, 'error'); });
   }

@@ -6,12 +6,18 @@
   "globals": {
     "CSInterface": "readonly",
     "GridDebugger": "readonly",
+    "DotGuide": "writable",
+    "UndoManager": "readonly",
+    "PerfMonitor": "readonly",
     "app": "readonly",
     "RulerUnits": "readonly",
     "DocumentColorSpace": "readonly",
+    "PointType": "readonly",
     "RGBColor": "readonly",
     "CMYKColor": "readonly",
-    "Promise": "readonly"
+    "Promise": "readonly",
+    "localStorage": "readonly",
+    "performance": "readonly"
   },
   "parserOptions": {
     "ecmaVersion": 2020

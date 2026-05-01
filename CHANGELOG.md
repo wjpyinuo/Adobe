@@ -64,3 +64,15 @@
 - ISSUE-16: preset-manager.test.js 内置预设数据与 core.js 不一致
 - ISSUE-17: enable-debug.reg 包含 CSXS 9/10（低于最低运行时要求）
 - 微信小程序 Banner 尺寸更新为 750×560
+
+## [1.0.2] - 2026-05-02
+
+### 修复
+- BUG-1: 实时预览竞态条件 — 快速切换参数时旧预览可能覆盖新预览，添加版本号机制
+- BUG-3: 电商模板应用时清除与添加操作非原子 — clear 和 add 并行执行可能导致残留，改为先 clear 再 add
+- BUG-5: 批量操作硬编码网格参数 — "对所有画板应用当前网格" 忽略用户当前设置，改为读取 gridState
+- BUG-6: 重做网格操作缺少 overlay 颜色/透明度 — gridParams 未包含 overlayColor/overlayOpacity
+- BUG-11: gridState 从 localStorage 恢复时缺少字段验证 — 旧版数据缺少新字段导致 undefined，添加逐字段 fallback
+
+### 新增
+- GM.getGridState() 公开方法，供其他模块读取当前网格参数

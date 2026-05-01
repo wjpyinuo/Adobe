@@ -54,11 +54,18 @@
           if (index >= boards.length) { GM.showToast('已对 ' + boards.length + ' 个画板应用网格', 'success'); return; }
           var board = boards[index];
           return GM.HostAdapter.setActiveArtboard(board.index).then(function () {
+            // BUG-5 修复: 使用当前网格状态，而非硬编码参数
+            var currentState = (typeof GM.getGridState === 'function') ? GM.getGridState() : {
+              columns: 12, rows: 1, gutterH: 20, gutterV: 0,
+              marginTop: 0, marginRight: 0, marginBottom: 0, marginLeft: 0
+            };
             var result = GM.Calculator.calculateGrid({
               docWidth: board.width, docHeight: board.height,
               docUnit: GM.currentDocInfo ? GM.currentDocInfo.unit : 'px',
-              columns: 12, rows: 1, gutterH: 20, gutterV: 0,
-              marginTop: 0, marginRight: 0, marginBottom: 0, marginLeft: 0
+              columns: currentState.columns, rows: currentState.rows,
+              gutterH: currentState.gutterH, gutterV: currentState.gutterV,
+              marginTop: currentState.marginTop, marginRight: currentState.marginRight,
+              marginBottom: currentState.marginBottom, marginLeft: currentState.marginLeft
             });
             return GM.HostAdapter.addGuides(result.guides);
           }).then(function () { return applyToBoard(index + 1); });

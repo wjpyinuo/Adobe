@@ -15,7 +15,8 @@
 (function (GM) {
   'use strict';
 
-  var gridState = GM.Storage.get('grid_state') || {
+  // 默认值
+  var _gridDefaults = {
     columns: 12, rows: 1,
     gutterH: 0, gutterV: 0,
     marginTop: 0, marginRight: 0, marginBottom: 0, marginLeft: 0,
@@ -27,11 +28,25 @@
     overlayOpacity: 15
   };
 
+  // BUG-11 修复: 从 localStorage 恢复时逐字段 fallback，防止旧版数据缺少新字段
+  var _savedGridState = GM.Storage.get('grid_state');
+  var gridState = {};
+  for (var _key in _gridDefaults) {
+    if (_gridDefaults.hasOwnProperty(_key)) {
+      gridState[_key] = (_savedGridState && _savedGridState[_key] !== undefined)
+        ? _savedGridState[_key]
+        : _gridDefaults[_key];
+    }
+  }
+
   // 修复: localStorage 中旧版 opacity 过高(35)，强制修正为合理范围
   if (gridState.overlayOpacity > 20) {
     gridState.overlayOpacity = 15;
     GM.Storage.set('grid_state', gridState);
   }
+
+  // BUG-1 修复: 实时预览版本号，防止快速切换参数导致的竞态条件
+  var _previewVersion = 0;
 
   // 单位转换：将输入值（默认px）转换为文档单位，与 Calculator.calculateGrid 保持一致
   function _convertMargin(val, docUnit) {
@@ -45,6 +60,16 @@
     GM.Storage.set('grid_state', gridState);
   }
 
+  // 暴露当前网格状态，供其他模块（如 settings 批量操作）读取
+  GM.getGridState = function () {
+    return {
+      columns: gridState.columns, rows: gridState.rows,
+      gutterH: gridState.gutterH, gutterV: gridState.gutterV,
+      marginTop: gridState.marginTop, marginRight: gridState.marginRight,
+      marginBottom: gridState.marginBottom, marginLeft: gridState.marginLeft
+    };
+  };
+
   /**
    * 实时预览：根据当前显示选项状态，立即更新画布
    * 无需点击"应用网格"即可看到效果
@@ -54,6 +79,9 @@
       GM.showToast('请先打开文档', 'warning');
       return;
     }
+
+    // BUG-1 修复: 递增版本号，只有最新一次预览才会写入画布
+    var myVersion = ++_previewVersion;
 
     var result = GM.Calculator.calculateGrid({
       docWidth: GM.currentDocInfo.width, docHeight: GM.currentDocInfo.height,
@@ -82,6 +110,9 @@
     var clear3 = GM.HostAdapter.clearGutterGuides().catch(function() {});
 
     Promise.all([clear1, clear2, clear3]).then(function () {
+      // BUG-1 修复: 清除完成后检查版本号，若已过期则跳过添加
+      if (myVersion !== _previewVersion) return;
+
       var promises = [];
 
       if (gridState.showGuides && result.guides.length > 0) {
@@ -114,7 +145,7 @@
         return Promise.all(promises);
       }
     }).then(function () {
-      _saveState();
+      if (myVersion === _previewVersion) _saveState();
     }).catch(function (err) {
       console.error('[DotGuide] 实时预览失败:', err);
     });
@@ -361,7 +392,8 @@
               columns: gridState.columns, rows: gridState.rows,
               gutterH: gridState.gutterH, gutterV: gridState.gutterV,
               marginTop: gridState.marginTop, marginRight: gridState.marginRight,
-              marginBottom: gridState.marginBottom, marginLeft: gridState.marginLeft
+              marginBottom: gridState.marginBottom, marginLeft: gridState.marginLeft,
+              color: gridState.overlayColor, opacity: gridState.overlayOpacity
             }},
             '网格 ' + gridState.columns + '×' + gridState.rows
           );
