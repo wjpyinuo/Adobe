@@ -94,7 +94,7 @@
       // 内容区
       var content = document.createElement('div');
       content.id = 'panel-content';
-      content.style.cssText = 'flex:1;overflow-y:auto;padding:8px;position:relative;z-index:1;';
+      content.style.cssText = 'flex:1;overflow-y:auto;overflow-x:hidden;padding:8px;position:relative;z-index:1;';
 
       var panels = [
         { id: 'grid', render: GM.renderGridPanel },
@@ -119,7 +119,7 @@
       footer.style.cssText =
         'padding:8px;border-top:1px solid var(--gm-border-subtle);' +
         'display:flex;gap:8px;flex-shrink:0;align-items:center;' +
-        'background:var(--gm-bg-secondary);overflow:hidden;position:relative;z-index:2;';
+        'background:var(--gm-bg-secondary);position:relative;z-index:2;';
 
       var undoBtn = document.createElement('button');
       undoBtn.id = 'btn-undo';
