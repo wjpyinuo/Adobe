@@ -2,7 +2,7 @@
 <ExtensionManifest Version="6.0"
 ExtensionBundleId="com.dotguide.cep"
 ExtensionBundleVersion="1.0.1"
-ExtensionBundleName="DotGuide"
+ExtensionBundleName="墨规 DotGuide"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
 <ExtensionList>
@@ -38,7 +38,7 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 </Lifecycle>
 <UI>
 <Type>Panel</Type>
-<Menu>DotGuide</Menu>
+<Menu>墨规 DotGuide</Menu>
 <Geometry>
 <Size>
 <Height>600</Height>

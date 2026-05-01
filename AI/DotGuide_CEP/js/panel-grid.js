@@ -33,6 +33,14 @@
     GM.Storage.set('grid_state', gridState);
   }
 
+  // 单位转换：将输入值（默认px）转换为文档单位，与 Calculator.calculateGrid 保持一致
+  function _convertMargin(val, docUnit) {
+    if (docUnit === 'pt') return val * 2.83465;
+    if (docUnit === 'in') return val / 25.4;
+    if (docUnit === 'cm') return val * 0.1;
+    return val; // px 和 mm 无需转换
+  }
+
   function _saveState() {
     GM.Storage.set('grid_state', gridState);
   }
@@ -86,11 +94,14 @@
         }));
       }
       if (gridState.showCellOverlay) {
+        var docUnit = GM.currentDocInfo.unit || 'px';
         promises.push(GM.HostAdapter.addGridOverlay({
           columns: gridState.columns, rows: gridState.rows,
           gutterH: gridState.gutterH, gutterV: gridState.gutterV,
-          marginTop: gridState.marginTop, marginRight: gridState.marginRight,
-          marginBottom: gridState.marginBottom, marginLeft: gridState.marginLeft,
+          marginTop: _convertMargin(gridState.marginTop, docUnit),
+          marginRight: _convertMargin(gridState.marginRight, docUnit),
+          marginBottom: _convertMargin(gridState.marginBottom, docUnit),
+          marginLeft: _convertMargin(gridState.marginLeft, docUnit),
           color: gridState.overlayColor, opacity: gridState.overlayOpacity
         }).catch(function(e) {
           console.error('[DotGuide] addGridOverlay 失败:', e);
@@ -318,15 +329,16 @@
 
         // 添加单元格覆盖层（可视化间距）
         if (gridState.showCellOverlay) {
+          var docUnit = GM.currentDocInfo.unit || 'px';
           promises.push(GM.HostAdapter.addGridOverlay({
             columns: gridState.columns,
             rows: gridState.rows,
             gutterH: gridState.gutterH,
             gutterV: gridState.gutterV,
-            marginTop: gridState.marginTop,
-            marginRight: gridState.marginRight,
-            marginBottom: gridState.marginBottom,
-            marginLeft: gridState.marginLeft,
+            marginTop: _convertMargin(gridState.marginTop, docUnit),
+            marginRight: _convertMargin(gridState.marginRight, docUnit),
+            marginBottom: _convertMargin(gridState.marginBottom, docUnit),
+            marginLeft: _convertMargin(gridState.marginLeft, docUnit),
             color: gridState.overlayColor,
             opacity: gridState.overlayOpacity
           }));
