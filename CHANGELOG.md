@@ -65,6 +65,18 @@
 - ISSUE-17: enable-debug.reg 包含 CSXS 9/10（低于最低运行时要求）
 - 微信小程序 Banner 尺寸更新为 750×560
 
+## [1.0.3] - 2026-05-02
+
+### 修复
+- BUG-F: addEcomLabels 未指定字体 — 标签文字继承用户当前活动文本样式，可能不可读
+- BUG-H: 切换文档后面板未刷新 — documentAfterActivate 只更新尺寸显示，不重渲染当前面板
+- ISSUE-4: preset-manager.test.js 内置预设数据与 core.js 不同步 — 补全所有内置预设
+- _convertMargin 注释误导为"默认px"，实际输入值为 mm，修正注释
+
+### 变更
+- package.json 版本号同步为 1.0.2
+- manifest.xml 版本号同步为 1.0.2
+
 ## [1.0.2] - 2026-05-02
 
 ### 修复

@@ -16,7 +16,7 @@
     aboutCard.innerHTML =
       '<div style="font-size:14px;font-weight:700;margin-bottom:4px;">⊞ DotGuide</div>' +
       '<div style="font-size:var(--gm-font-size-sm);color:var(--gm-text-primary);line-height:1.6;">' +
-      '版本: 1.0.2 (CEP)<br>引擎: DotGuide Core<br>兼容: Illustrator 2024+ (v28.0+)<br>架构: CEP + ExtendScript</div>';
+      '版本: 1.0.3 (CEP)<br>引擎: DotGuide Core<br>兼容: Illustrator 2024+ (v28.0+)<br>架构: CEP + ExtendScript</div>';
     aboutSection.appendChild(aboutCard);
     container.appendChild(aboutSection);
 

@@ -48,12 +48,13 @@
   // BUG-1 修复: 实时预览版本号，防止快速切换参数导致的竞态条件
   var _previewVersion = 0;
 
-  // 单位转换：将输入值（默认px）转换为文档单位，与 Calculator.calculateGrid 保持一致
+  // 单位转换：将输入值（mm）转换为文档单位，与 Calculator.calculateGrid 保持一致
+  // 输入值来自 UI 控件，始终以 mm 为单位
   function _convertMargin(val, docUnit) {
     if (docUnit === 'pt') return val * 2.83465;
     if (docUnit === 'in') return val / 25.4;
     if (docUnit === 'cm') return val * 0.1;
-    return val; // px 和 mm 无需转换
+    return val; // mm 和 px 无需转换
   }
 
   function _saveState() {

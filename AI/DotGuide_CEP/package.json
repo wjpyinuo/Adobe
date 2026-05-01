@@ -1,6 +1,6 @@
 {
   "name": "dotguide-cep",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "DotGuide — Adobe Illustrator CEP 插件（网格/构图/电商/印刷/UI）",
   "private": true,
   "scripts": {

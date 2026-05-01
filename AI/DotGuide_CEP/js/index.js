@@ -48,7 +48,7 @@
         'display:flex;align-items:center;justify-content:space-between;flex-shrink:0;' +
         'background:var(--gm-bg-secondary);';
       header.innerHTML =
-        '<div style="font-size:var(--gm-font-size-lg);font-weight:700;letter-spacing:-0.2px;">⊞ 墨规 <span style="font-size:var(--gm-font-size-xs);font-weight:400;color:var(--gm-text-tertiary);margin-left:2px;">v1.0.2</span></div>' +
+        '<div style="font-size:var(--gm-font-size-lg);font-weight:700;letter-spacing:-0.2px;">⊞ 墨规 <span style="font-size:var(--gm-font-size-xs);font-weight:400;color:var(--gm-text-tertiary);margin-left:2px;">v1.0.3</span></div>' +
         '<div id="doc-info" style="font-size:var(--gm-font-size-xs);color:var(--gm-text-tertiary);">未检测到文档</div>';
       root.appendChild(header);
 
@@ -182,6 +182,27 @@
     }
   }
 
+  // BUG-H 修复: 刷新当前面板（文档切换后调用）
+  var _panelRenderMap = {
+    grid: function () { return typeof GM.renderGridPanel === 'function' ? GM.renderGridPanel : null; },
+    composition: function () { return typeof GM.renderCompositionPanel === 'function' ? GM.renderCompositionPanel : null; },
+    ecom: function () { return typeof GM.renderEcomPanel === 'function' ? GM.renderEcomPanel : null; },
+    print: function () { return typeof GM.renderPrintPanel === 'function' ? GM.renderPrintPanel : null; },
+    ui: function () { return typeof GM.renderUIPanel === 'function' ? GM.renderUIPanel : null; },
+    settings: function () { return typeof GM.renderSettingsPanel === 'function' ? GM.renderSettingsPanel : null; }
+  };
+
+  function _refreshCurrentPanel() {
+    var tabId = GM.currentTab;
+    var container = document.querySelector('#panel-content > div[data-panel="' + tabId + '"]');
+    if (!container) return;
+    var renderFn = _panelRenderMap[tabId] ? _panelRenderMap[tabId]() : null;
+    if (renderFn) {
+      container.innerHTML = '';
+      renderFn(container);
+    }
+  }
+
   // ============================
   // 键盘快捷键
   // ============================
@@ -213,6 +234,8 @@
 
   GM._csInterface.addEventListener('documentAfterActivate', function () {
     GM.refreshDocInfo();
+    // BUG-H 修复: 切换文档后刷新当前面板，避免显示旧文档数据
+    _refreshCurrentPanel();
   });
 
   GM._csInterface.addEventListener('documentAfterClose', function () {

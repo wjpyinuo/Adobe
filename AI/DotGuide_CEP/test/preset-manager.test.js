@@ -64,15 +64,34 @@ function createPresetManager() {
       composition: [
         { id: 'comp_thirds', name: '三分法', isBuiltIn: true, type: 'rule-of-thirds' },
         { id: 'comp_golden', name: '黄金分割', isBuiltIn: true, type: 'golden-ratio' },
+        { id: 'comp_diagonal', name: '对角线', isBuiltIn: true, type: 'diagonal' },
+        { id: 'comp_center', name: '中心十字', isBuiltIn: true, type: 'center-cross' },
+        { id: 'comp_spiral', name: '黄金螺旋', isBuiltIn: true, type: 'golden-spiral' },
       ],
       ecom: [
         { id: 'ecom_taobao_main', name: '淘宝主图 800×800', isBuiltIn: true, platform: 'taobao', width: 800, height: 800, safeZone: { top: 50, right: 30, bottom: 110, left: 30 } },
+        { id: 'ecom_jd_main', name: '京东主图 800×800', isBuiltIn: true, platform: 'jd', width: 800, height: 800, safeZone: { top: 40, right: 20, bottom: 100, left: 20 } },
+        { id: 'ecom_pdd_main', name: '拼多多主图 750×750', isBuiltIn: true, platform: 'pdd', width: 750, height: 750, safeZone: { top: 45, right: 25, bottom: 120, left: 25 } },
+        { id: 'ecom_douyin_main', name: '抖音商品图 800×800', isBuiltIn: true, platform: 'douyin', width: 800, height: 800, safeZone: { top: 60, right: 30, bottom: 130, left: 30 } },
+        { id: 'ecom_xhs', name: '小红书封面 1080×1440', isBuiltIn: true, platform: 'xiaohongshu', width: 1080, height: 1440, safeZone: { top: 80, right: 40, bottom: 160, left: 40 } },
       ],
       print: [
         { id: 'print_a4', name: 'A4 (210×297mm)', isBuiltIn: true, width: 210, height: 297, unit: 'mm', bleed: 3 },
+        { id: 'print_a3', name: 'A3 (297×420mm)', isBuiltIn: true, width: 297, height: 420, unit: 'mm', bleed: 3 },
+        { id: 'print_namecard', name: '名片 (90×54mm)', isBuiltIn: true, width: 90, height: 54, unit: 'mm', bleed: 2 },
+        { id: 'print_poster_b2', name: '海报 B2 (515×728mm)', isBuiltIn: true, width: 515, height: 728, unit: 'mm', bleed: 3 },
+        { id: 'print_trifold', name: '三折页 (297×210mm)', isBuiltIn: true, width: 297, height: 210, unit: 'mm', bleed: 3, folds: 2 },
       ],
       ui: [
         { id: 'ui_iphone15', name: 'iPhone 15 (393×852)', isBuiltIn: true, device: 'iphone15', width: 393, height: 852, statusBar: 59, homeIndicator: 34, navBar: 44, tabBar: 49 },
+        { id: 'ui_iphone15pro_max', name: 'iPhone 15 Pro Max (430×932)', isBuiltIn: true, device: 'iphone15promax', width: 430, height: 932, statusBar: 59, homeIndicator: 34, navBar: 44, tabBar: 49 },
+        { id: 'ui_iphone16', name: 'iPhone 16 (393×852)', isBuiltIn: true, device: 'iphone16', width: 393, height: 852, statusBar: 59, homeIndicator: 34, navBar: 44, tabBar: 49 },
+        { id: 'ui_iphone16_pro', name: 'iPhone 16 Pro (402×874)', isBuiltIn: true, device: 'iphone16pro', width: 402, height: 874, statusBar: 62, homeIndicator: 34, navBar: 44, tabBar: 49 },
+        { id: 'ui_iphone16_pro_max', name: 'iPhone 16 Pro Max (440×956)', isBuiltIn: true, device: 'iphone16promax', width: 440, height: 956, statusBar: 62, homeIndicator: 34, navBar: 44, tabBar: 49 },
+        { id: 'ui_android_common', name: 'Android 通用 (360×800)', isBuiltIn: true, device: 'android', width: 360, height: 800, statusBar: 24, navBar: 56, tabBar: 48, homeIndicator: 0 },
+        { id: 'ui_android_pixel9', name: 'Pixel 9 (412×915)', isBuiltIn: true, device: 'pixel9', width: 412, height: 915, statusBar: 24, navBar: 56, tabBar: 48, homeIndicator: 0 },
+        { id: 'ui_ipad_pro_11', name: 'iPad Pro 11" (834×1194)', isBuiltIn: true, device: 'ipadpro11', width: 834, height: 1194, statusBar: 24, homeIndicator: 20, navBar: 44, tabBar: 49 },
+        { id: 'ui_ipad_air_m2', name: 'iPad Air M2 11" (820×1180)', isBuiltIn: true, device: 'ipadairm2', width: 820, height: 1180, statusBar: 24, homeIndicator: 20, navBar: 44, tabBar: 49 }
       ]
     };
   }

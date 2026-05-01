@@ -1284,12 +1284,23 @@ function addEcomLabels(labelsJSON) {
     var abRect = doc.artboards[abIndex].artboardRect;
     var abLeft = abRect[0];
     var abTop = abRect[1];
+    // BUG-F 修复: 指定字体，避免继承用户当前活动文本样式
+    var defaultFont = null;
+    try {
+      defaultFont = app.textFonts.getByName('ArialMT');
+    } catch (fe) {
+      try { defaultFont = app.textFonts.getByName('Helvetica Neue'); } catch (fe2) {}
+    }
+
     for (var i = 0; i < labels.length; i++) {
       var lb = labels[i];
       var textFrame = layer.textFrames.add();
       textFrame.contents = lb.text || lb.name || '';
       textFrame.position = [abLeft + (lb.x || 0), abTop - (lb.y || 0)];
       textFrame.textRange.characterAttributes.size = lb.fontSize || lb.size || 8;
+      if (defaultFont) {
+        try { textFrame.textRange.characterAttributes.textFont = defaultFont; } catch (fe) {}
+      }
       var rgb = hexToRGB(lb.color || '#FFFFFF');
       textFrame.textRange.characterAttributes.fillColor = makeRGBColor(rgb.r, rgb.g, rgb.b);
     }
