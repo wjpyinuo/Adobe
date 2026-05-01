@@ -1,5 +1,6 @@
 # 调试配置（发布前删除）
 .debug
+debug/
 
 # Node
 node_modules/
