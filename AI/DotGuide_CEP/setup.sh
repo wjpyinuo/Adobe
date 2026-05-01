@@ -11,7 +11,7 @@ echo "[1/2] 设置 CEP 开发模式..."
 for v in 11 12 13 14 15; do
     defaults write com.adobe.CSXS.$v PlayerDebugMode 1 2>/dev/null || true
 done
-echo "    ✓ 已设置 CSXS 9-15 PlayerDebugMode=1"
+echo "    ✓ 已设置 CSXS 11-15 PlayerDebugMode=1"
 
 # 2. 安装到 CEP 扩展目录
 echo ""

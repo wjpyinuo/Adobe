@@ -353,6 +353,47 @@
     labelRow.appendChild(labelLabel);
     labelRow.appendChild(GM.createToggleSwitch(ecomState.showLabels, function (v) { ecomState.showLabels = v; }));
     optionsSection.appendChild(labelRow);
+
+    // 安全区域颜色
+    var colorRow = document.createElement('div');
+    colorRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
+    var colorLabel = document.createElement('span');
+    colorLabel.style.cssText = 'font-size:11px;color:var(--gm-text-secondary);';
+    colorLabel.textContent = '安全区域颜色';
+    colorRow.appendChild(colorLabel);
+    var colorInput = document.createElement('input');
+    colorInput.type = 'color';
+    colorInput.value = ecomState.safeZoneColor || '#FF6B00';
+    colorInput.style.cssText = 'width:32px;height:22px;border:1px solid var(--gm-border-default);border-radius:3px;background:transparent;cursor:pointer;padding:0;';
+    colorInput.addEventListener('input', function () {
+      ecomState.safeZoneColor = colorInput.value;
+    });
+    colorRow.appendChild(colorInput);
+    optionsSection.appendChild(colorRow);
+
+    // 安全区域透明度
+    var opacityRow = document.createElement('div');
+    opacityRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
+    var opacityLabel = document.createElement('span');
+    opacityLabel.style.cssText = 'font-size:11px;color:var(--gm-text-secondary);';
+    opacityLabel.textContent = '安全区域透明度';
+    opacityRow.appendChild(opacityLabel);
+    var opacityInput = document.createElement('input');
+    opacityInput.type = 'number';
+    opacityInput.min = '1';
+    opacityInput.max = '50';
+    opacityInput.value = ecomState.safeZoneOpacity || 12;
+    opacityInput.style.cssText = 'width:50px;height:22px;border:1px solid var(--gm-border-default);border-radius:3px;background:var(--gm-bg-secondary);color:var(--gm-text-primary);font-size:11px;text-align:center;padding:0 4px;';
+    opacityInput.addEventListener('change', function () {
+      var v = parseInt(opacityInput.value, 10);
+      if (v < 1) v = 1;
+      if (v > 50) v = 50;
+      ecomState.safeZoneOpacity = v;
+      opacityInput.value = v;
+    });
+    opacityRow.appendChild(opacityInput);
+    optionsSection.appendChild(opacityRow);
+
     container.appendChild(optionsSection);
 
     var actionsSection = GM.createSection('操作');

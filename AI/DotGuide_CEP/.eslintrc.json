@@ -5,9 +5,7 @@
   },
   "globals": {
     "CSInterface": "readonly",
-    "DotGuide": "writable",
-    "UndoManager": "writable",
-    "PerfMonitor": "writable",
+    "GridDebugger": "readonly",
     "app": "readonly",
     "RulerUnits": "readonly",
     "DocumentColorSpace": "readonly",
