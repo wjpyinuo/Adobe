@@ -15,7 +15,7 @@
     aboutCard.style.cssText = 'padding:12px;border-radius:var(--gm-radius-sm);background:var(--gm-bg-secondary);border:1px solid var(--gm-border-default);margin-bottom:12px;';
     aboutCard.innerHTML =
       '<div style="font-size:14px;font-weight:700;margin-bottom:4px;">⊞ DotGuide</div>' +
-      '<div style="font-size:var(--gm-font-size-sm);color:var(--gm-text-secondary);line-height:1.6;">' +
+      '<div style="font-size:var(--gm-font-size-sm);color:var(--gm-text-primary);line-height:1.6;">' +
       '版本: 1.0.2 (CEP)<br>引擎: DotGuide Core<br>兼容: Illustrator 2024+ (v28.0+)<br>架构: CEP + ExtendScript</div>';
     aboutSection.appendChild(aboutCard);
     container.appendChild(aboutSection);
@@ -25,7 +25,7 @@
     var previewRow = document.createElement('div');
     previewRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
     var previewLabel = document.createElement('span');
-    previewLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
+    previewLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-primary);line-height:1;';
     previewLabel.textContent = '启用实时预览（网格/构图）';
     previewRow.appendChild(previewLabel);
     var previewToggle = GM.createToggleSwitch(!!GM.Storage.get('preview_enabled'), function (v) {
@@ -81,7 +81,7 @@
 
     var exportBtn = document.createElement('button');
     exportBtn.textContent = '📤 导出所有预设';
-    exportBtn.style.cssText = 'width:100%;padding:6px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-md);background:var(--gm-bg-tertiary);color:var(--gm-text-secondary);border:1px solid var(--gm-border-default);cursor:pointer;margin-bottom:6px;';
+    exportBtn.style.cssText = 'width:100%;padding:6px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-md);background:var(--gm-bg-tertiary);color:var(--gm-text-primary);border:1px solid var(--gm-border-default);cursor:pointer;margin-bottom:6px;';
     exportBtn.addEventListener('click', function () {
       var data = GM.Storage.get('custom_presets');
       if (!data || Object.keys(data).length === 0) { GM.showToast('没有自定义预设可导出', 'warning'); return; }
@@ -123,7 +123,7 @@
     var debugSection = GM.createSection('调试');
     var refreshBtn = document.createElement('button');
     refreshBtn.textContent = '🔄 刷新文档信息';
-    refreshBtn.style.cssText = 'width:100%;padding:6px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-md);background:var(--gm-bg-tertiary);color:var(--gm-text-secondary);border:1px solid var(--gm-border-default);cursor:pointer;margin-bottom:6px;';
+    refreshBtn.style.cssText = 'width:100%;padding:6px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-md);background:var(--gm-bg-tertiary);color:var(--gm-text-primary);border:1px solid var(--gm-border-default);cursor:pointer;margin-bottom:6px;';
     refreshBtn.addEventListener('click', function () { GM.refreshDocInfo(); GM.showToast('已刷新', 'info'); });
     debugSection.appendChild(refreshBtn);
 

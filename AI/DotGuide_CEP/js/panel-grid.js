@@ -265,7 +265,7 @@
     var guideRow = document.createElement('div');
     guideRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
     var guideLabel = document.createElement('span');
-    guideLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
+    guideLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-primary);line-height:1;';
     guideLabel.textContent = '显示参考线';
     guideRow.appendChild(guideLabel);
     guideRow.appendChild(GM.createToggleSwitch(gridState.showGuides, function (v) {
@@ -277,7 +277,7 @@
     var gutterGuideRow = document.createElement('div');
     gutterGuideRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
     var gutterGuideLabel = document.createElement('span');
-    gutterGuideLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
+    gutterGuideLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-primary);line-height:1;';
     gutterGuideLabel.textContent = '显示间距边界线';
     gutterGuideRow.appendChild(gutterGuideLabel);
     gutterGuideRow.appendChild(GM.createToggleSwitch(gridState.showGutterGuides, function (v) {
@@ -289,7 +289,7 @@
     var overlayRow = document.createElement('div');
     overlayRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
     var overlayLabel = document.createElement('span');
-    overlayLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
+    overlayLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-primary);line-height:1;';
     overlayLabel.textContent = '显示色块';
     overlayRow.appendChild(overlayLabel);
     overlayRow.appendChild(GM.createToggleSwitch(gridState.showCellOverlay, function (v) {
@@ -312,7 +312,7 @@
       var previewText = document.createElement('div');
       previewText.style.cssText =
         'padding:8px 10px;border-radius:var(--gm-radius-sm);background:var(--gm-bg-secondary);' +
-        'font-size:var(--gm-font-size-sm);color:var(--gm-text-secondary);line-height:1.8;';
+        'font-size:var(--gm-font-size-sm);color:var(--gm-text-primary);line-height:1.8;';
       previewText.innerHTML =
         '可用区域: ' + _fmt(availW) + ' × ' + _fmt(availH) + '<br>' +
         '单元格: ' + _fmt(colWidth) + ' × ' + _fmt(rowHeight) + '<br>' +
@@ -436,7 +436,7 @@
     saveBtn.textContent = '💾 保存为预设';
     saveBtn.style.cssText =
       'width:100%;padding:6px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-md);' +
-      'background:var(--gm-bg-tertiary);color:var(--gm-text-secondary);' +
+      'background:var(--gm-bg-tertiary);color:var(--gm-text-primary);' +
       'border:1px solid var(--gm-border-default);cursor:pointer;margin-top:6px;';
     saveBtn.addEventListener('click', function () {
       var name = prompt('预设名称：');

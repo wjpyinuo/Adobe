@@ -13,13 +13,12 @@
   GM.createSection = function (title) {
     var section = document.createElement('div');
     section.style.cssText = 'margin-bottom:var(--gm-section-gap);' +
-      'background:var(--gm-bg-card);border-radius:var(--gm-radius-md);' +
-      'padding:10px 11px;border:1px solid var(--gm-border-default);';
+      'padding:2px 0;';
     if (title) {
       var titleEl = document.createElement('div');
       titleEl.style.cssText =
         'font-size:var(--gm-font-size-xs);font-weight:600;color:var(--gm-text-tertiary);' +
-        'margin-bottom:8px;letter-spacing:0.4px;line-height:1;';
+        'margin-bottom:7px;letter-spacing:0.3px;line-height:1;';
       titleEl.textContent = title;
       section.appendChild(titleEl);
     }
@@ -37,7 +36,7 @@
       'margin-bottom:6px;height:28px;';
 
     var labelEl = document.createElement('span');
-    labelEl.style.cssText = 'font-size:var(--gm-font-size-sm);color:var(--gm-text-secondary);line-height:1;';
+    labelEl.style.cssText = 'font-size:var(--gm-font-size-sm);color:var(--gm-text-primary);line-height:1;';
     labelEl.textContent = label;
 
     var inputWrap = document.createElement('div');
@@ -52,7 +51,7 @@
     var btnMinus = document.createElement('button');
     btnMinus.textContent = '−';
     btnMinus.style.cssText = btnStyle;
-    btnMinus.addEventListener('mouseenter', function () { btnMinus.style.color = 'var(--gm-text-primary)'; btnMinus.style.borderColor = 'var(--gm-accent-primary)'; });
+    btnMinus.addEventListener('mouseenter', function () { btnMinus.style.color = 'var(--gm-accent-primary)'; btnMinus.style.borderColor = 'var(--gm-accent-primary)'; });
     btnMinus.addEventListener('mouseleave', function () { btnMinus.style.color = 'var(--gm-text-secondary)'; btnMinus.style.borderColor = 'var(--gm-border-default)'; });
 
     var input = document.createElement('input');
@@ -71,7 +70,7 @@
     var btnPlus = document.createElement('button');
     btnPlus.textContent = '+';
     btnPlus.style.cssText = btnStyle;
-    btnPlus.addEventListener('mouseenter', function () { btnPlus.style.color = 'var(--gm-text-primary)'; btnPlus.style.borderColor = 'var(--gm-accent-primary)'; });
+    btnPlus.addEventListener('mouseenter', function () { btnPlus.style.color = 'var(--gm-accent-primary)'; btnPlus.style.borderColor = 'var(--gm-accent-primary)'; });
     btnPlus.addEventListener('mouseleave', function () { btnPlus.style.color = 'var(--gm-text-secondary)'; btnPlus.style.borderColor = 'var(--gm-border-default)'; });
 
     btnMinus.addEventListener('click', function () {
@@ -117,7 +116,7 @@
       'margin-bottom:6px;height:28px;';
 
     var labelEl = document.createElement('span');
-    labelEl.style.cssText = 'font-size:var(--gm-font-size-sm);color:var(--gm-text-secondary);line-height:1;';
+    labelEl.style.cssText = 'font-size:var(--gm-font-size-sm);color:var(--gm-text-primary);line-height:1;';
     labelEl.textContent = label;
 
     var select = document.createElement('select');

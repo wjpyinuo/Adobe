@@ -28,7 +28,7 @@
       infoCard.style.cssText = 'padding:10px;border-radius:var(--gm-radius-sm);background:var(--gm-bg-secondary);border:1px solid var(--gm-border-default);margin-bottom:8px;';
       infoCard.innerHTML =
         '<div style="font-size:var(--gm-font-size-lg);font-weight:600;margin-bottom:6px;">' + preset.name + '</div>' +
-        '<div style="font-size:var(--gm-font-size-sm);color:var(--gm-text-secondary);line-height:1.6;">' +
+        '<div style="font-size:var(--gm-font-size-sm);color:var(--gm-text-primary);line-height:1.6;">' +
         '逻辑分辨率: ' + preset.width + '×' + preset.height + ' pt<br>' +
         '状态栏: ' + preset.statusBar + 'pt<br>' +
         '导航栏: ' + preset.navBar + 'pt<br>' +
@@ -106,7 +106,7 @@
       // 仅参考线
       var guidesOnlyBtn = document.createElement('button');
       guidesOnlyBtn.textContent = '仅添加参考线（无覆盖层）';
-      guidesOnlyBtn.style.cssText = 'width:100%;padding:6px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-md);background:var(--gm-bg-tertiary);color:var(--gm-text-secondary);border:1px solid var(--gm-border-default);cursor:pointer;margin-top:6px;';
+      guidesOnlyBtn.style.cssText = 'width:100%;padding:6px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-md);background:var(--gm-bg-tertiary);color:var(--gm-text-primary);border:1px solid var(--gm-border-default);cursor:pointer;margin-top:6px;';
       guidesOnlyBtn.addEventListener('click', function () {
         if (!GM.currentDocInfo) { GM.showToast('请先打开文档', 'warning'); return; }
         var result = GM.Calculator.calculateUISafeZone(preset, GM.currentDocInfo.width, GM.currentDocInfo.height);
@@ -117,7 +117,7 @@
 
     } else {
       var hint = document.createElement('div');
-      hint.style.cssText = 'text-align:center;padding:30px 10px;color:var(--gm-text-secondary);font-size:var(--gm-font-size-md);';
+      hint.style.cssText = 'text-align:center;padding:30px 10px;color:var(--gm-text-primary);font-size:var(--gm-font-size-md);';
       hint.textContent = '👆 请先选择一个设备预设';
       container.appendChild(hint);
     }

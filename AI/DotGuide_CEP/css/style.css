@@ -1,22 +1,22 @@
 /* DotGuide CEP 面板样式 */
 
 :root {
-  /* 默认暗色主题，会被 themeManager 动态覆盖 */
+  /* 统一暗色主题 — 参考电商设计：沉稳、干净、单一暖色调 */
   --gm-bg-primary: #1a1a1a;
-  --gm-bg-secondary: #222222;
-  --gm-bg-tertiary: #2c2c2c;
-  --gm-bg-hover: #343434;
-  --gm-bg-card: #222222;
-  --gm-text-primary: #eaeaea;
-  --gm-text-secondary: #b0b0b0;
-  --gm-text-tertiary: #808080;
-  --gm-border-default: #363636;
-  --gm-border-subtle: #2e2e2e;
-  --gm-accent-primary: #0d99ff;
+  --gm-bg-secondary: #212121;
+  --gm-bg-tertiary: #2a2a2a;
+  --gm-bg-hover: #313131;
+  --gm-bg-card: #212121;
+  --gm-text-primary: #ffffff;
+  --gm-text-secondary: #999999;
+  --gm-text-tertiary: #666666;
+  --gm-border-default: #333333;
+  --gm-border-subtle: #2a2a2a;
+  --gm-accent-primary: #e85d3a;
   --gm-accent-success: #34c759;
   --gm-accent-warning: #ffd60a;
   --gm-accent-danger: #ff3b30;
-  --gm-accent-banner: #e8442a;
+  --gm-accent-banner: #c44125;
   --gm-radius-sm: 5px;
   --gm-radius-md: 8px;
   --gm-font-size-xs: 10px;
@@ -25,7 +25,7 @@
   --gm-font-size-lg: 13px;
   --gm-font-size-xl: 14px;
   --gm-line-height: 1.5;
-  --gm-section-gap: 10px;
+  --gm-section-gap: 8px;
 }
 
 * {
@@ -62,17 +62,17 @@ body {
 
 /* 滚动条 */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 4px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.12);
-  border-radius: 3px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.18);
 }
 
 /* 按钮基础样式 */

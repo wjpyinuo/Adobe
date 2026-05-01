@@ -49,7 +49,7 @@
     infoSection.appendChild(infoText);
 
     var descText = document.createElement('div');
-    descText.style.cssText = 'font-size:var(--gm-font-size-sm);color:var(--gm-text-secondary);line-height:1.5;margin-bottom:10px;';
+    descText.style.cssText = 'font-size:var(--gm-font-size-sm);color:var(--gm-text-primary);line-height:1.5;margin-bottom:10px;';
     descText.textContent = descriptions[compositionState.type] || '';
     infoSection.appendChild(descText);
     container.appendChild(infoSection);

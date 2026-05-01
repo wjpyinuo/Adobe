@@ -22,7 +22,7 @@
     var linkRow = document.createElement('div');
     linkRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
     var linkLabel = document.createElement('span');
-    linkLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
+    linkLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-primary);line-height:1;';
     linkLabel.textContent = '四边等距';
     linkRow.appendChild(linkLabel);
     linkRow.appendChild(GM.createToggleSwitch(printState.bleedLinked, function (v) {
@@ -57,7 +57,7 @@
           'flex:1;padding:4px 2px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-xs);cursor:pointer;' +
           'border:1px solid ' + (isActive ? 'var(--gm-accent-primary)' : 'var(--gm-border-default)') + ';' +
           'background:' + (isActive ? 'var(--gm-accent-primary)' : 'var(--gm-bg-secondary)') + ';' +
-          'color:' + (isActive ? '#fff' : 'var(--gm-text-secondary)') + ';';
+          'color:' + (isActive ? '#fff' : 'var(--gm-text-primary)') + ';';
         btn.addEventListener('click', function () {
           printState.bleedTop = preset.value; printState.bleedRight = preset.value;
           printState.bleedBottom = preset.value; printState.bleedLeft = preset.value;
@@ -84,7 +84,7 @@
         var row = document.createElement('div');
         row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;';
         var label = document.createElement('span');
-        label.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
+        label.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-primary);line-height:1;';
         label.textContent = opt.icon + ' ' + opt.label;
         row.appendChild(label);
         row.appendChild(GM.createToggleSwitch(printState[opt.key], function (v) { printState[opt.key] = v; }));
@@ -144,7 +144,7 @@
     colorBarBtn.textContent = '🎨 添加 CMYK 色标';
     colorBarBtn.style.cssText =
       'width:100%;padding:7px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-md);margin-top:4px;' +
-      'background:var(--gm-bg-tertiary);color:var(--gm-text-secondary);' +
+      'background:var(--gm-bg-tertiary);color:var(--gm-text-primary);' +
       'border:1px solid var(--gm-border-default);cursor:pointer;transition:all 0.15s;';
     colorBarBtn.addEventListener('mouseenter', function () { colorBarBtn.style.borderColor = 'var(--gm-accent-primary)'; colorBarBtn.style.color = 'var(--gm-accent-primary)'; });
     colorBarBtn.addEventListener('mouseleave', function () { colorBarBtn.style.borderColor = 'var(--gm-border-default)'; colorBarBtn.style.color = 'var(--gm-text-secondary)'; });

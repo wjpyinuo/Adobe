@@ -218,7 +218,7 @@
         icon.textContent = platform.icon;
 
         var name = document.createElement('div');
-        name.style.cssText = 'font-size:var(--gm-font-size-xs);color:' + (isSelected ? '#fff' : 'var(--gm-text-secondary)') + ';';
+        name.style.cssText = 'font-size:var(--gm-font-size-xs);color:' + (isSelected ? '#fff' : 'var(--gm-text-primary)') + ';';
         name.textContent = platform.name;
 
         btn.appendChild(icon);
@@ -339,7 +339,7 @@
     var safeRow = document.createElement('div');
     safeRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
     var safeLabel = document.createElement('span');
-    safeLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
+    safeLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-primary);line-height:1;';
     safeLabel.textContent = '显示安全区域';
     safeRow.appendChild(safeLabel);
     safeRow.appendChild(GM.createToggleSwitch(ecomState.safeZone, function (v) { ecomState.safeZone = v; }));
@@ -348,7 +348,7 @@
     var labelRow = document.createElement('div');
     labelRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
     var labelLabel = document.createElement('span');
-    labelLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
+    labelLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-primary);line-height:1;';
     labelLabel.textContent = '显示区域标签';
     labelRow.appendChild(labelLabel);
     labelRow.appendChild(GM.createToggleSwitch(ecomState.showLabels, function (v) { ecomState.showLabels = v; }));
@@ -358,7 +358,7 @@
     var colorRow = document.createElement('div');
     colorRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
     var colorLabel = document.createElement('span');
-    colorLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
+    colorLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-primary);line-height:1;';
     colorLabel.textContent = '安全区域颜色';
     colorRow.appendChild(colorLabel);
     var colorInput = document.createElement('input');
@@ -375,7 +375,7 @@
     var opacityRow = document.createElement('div');
     opacityRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
     var opacityLabel = document.createElement('span');
-    opacityLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
+    opacityLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-primary);line-height:1;';
     opacityLabel.textContent = '安全区域透明度';
     opacityRow.appendChild(opacityLabel);
     var opacityInput = document.createElement('input');
@@ -426,10 +426,10 @@
     safeOnlyBtn.textContent = '🛡 仅应用安全区域';
     safeOnlyBtn.style.cssText =
       'width:100%;padding:7px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-md);margin-top:4px;' +
-      'background:var(--gm-bg-tertiary);color:var(--gm-text-secondary);' +
+      'background:var(--gm-bg-tertiary);color:var(--gm-text-primary);' +
       'border:1px solid var(--gm-border-default);cursor:pointer;transition:all 0.15s;';
     safeOnlyBtn.addEventListener('mouseenter', function () { safeOnlyBtn.style.borderColor = '#FF9500'; safeOnlyBtn.style.color = '#FF9500'; });
-    safeOnlyBtn.addEventListener('mouseleave', function () { safeOnlyBtn.style.borderColor = 'var(--gm-border-default)'; safeOnlyBtn.style.color = 'var(--gm-text-secondary)'; });
+    safeOnlyBtn.addEventListener('mouseleave', function () { safeOnlyBtn.style.borderColor = 'var(--gm-border-default)'; safeOnlyBtn.style.color = 'var(--gm-text-primary)'; });
     safeOnlyBtn.addEventListener('click', function () {
       if (!GM.currentDocInfo) { GM.showToast('请先打开文档', 'warning'); return; }
       _applyEcomSafeZoneOnly(tpl);
@@ -440,10 +440,10 @@
     newDocBtn.textContent = '📄 以此尺寸新建文档';
     newDocBtn.style.cssText =
       'width:100%;padding:7px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-md);margin-top:4px;' +
-      'background:var(--gm-bg-tertiary);color:var(--gm-text-secondary);' +
+      'background:var(--gm-bg-tertiary);color:var(--gm-text-primary);' +
       'border:1px solid var(--gm-border-default);cursor:pointer;transition:all 0.15s;';
     newDocBtn.addEventListener('mouseenter', function () { newDocBtn.style.borderColor = 'var(--gm-accent-primary)'; newDocBtn.style.color = 'var(--gm-accent-primary)'; });
-    newDocBtn.addEventListener('mouseleave', function () { newDocBtn.style.borderColor = 'var(--gm-border-default)'; newDocBtn.style.color = 'var(--gm-text-secondary)'; });
+    newDocBtn.addEventListener('mouseleave', function () { newDocBtn.style.borderColor = 'var(--gm-border-default)'; newDocBtn.style.color = 'var(--gm-text-primary)'; });
     newDocBtn.addEventListener('click', function () {
       GM.HostAdapter.createDocument(tpl.width, tpl.height, tpl.name).then(function () {
         GM.showToast('已创建 ' + tpl.width + '×' + tpl.height + ' 文档', 'success');

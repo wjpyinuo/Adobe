@@ -81,7 +81,7 @@
           switchTab(tab.id);
         });
         btn.addEventListener('mouseenter', function () {
-          if (tab.id !== GM.currentTab) btn.style.color = 'var(--gm-text-secondary)';
+          if (tab.id !== GM.currentTab) btn.style.color = 'var(--gm-text-primary)';
         });
         btn.addEventListener('mouseleave', function () {
           if (tab.id !== GM.currentTab) btn.style.color = 'var(--gm-text-tertiary)';
@@ -126,11 +126,11 @@
       undoBtn.textContent = '↩ 撤销';
       undoBtn.style.cssText =
         'flex:1;padding:7px 10px;border-radius:var(--gm-radius-sm);' +
-        'background:var(--gm-bg-tertiary);color:var(--gm-text-secondary);' +
+        'background:var(--gm-bg-tertiary);color:var(--gm-text-primary);' +
         'font-size:var(--gm-font-size-sm);border:1px solid var(--gm-border-default);cursor:pointer;transition:all 0.15s;' +
         'white-space:nowrap;text-align:center;line-height:1;';
       undoBtn.addEventListener('mouseenter', function () { undoBtn.style.borderColor = 'var(--gm-accent-primary)'; undoBtn.style.color = 'var(--gm-accent-primary)'; });
-      undoBtn.addEventListener('mouseleave', function () { undoBtn.style.borderColor = 'var(--gm-border-default)'; undoBtn.style.color = 'var(--gm-text-secondary)'; });
+      undoBtn.addEventListener('mouseleave', function () { undoBtn.style.borderColor = 'var(--gm-border-default)'; undoBtn.style.color = 'var(--gm-text-primary)'; });
       undoBtn.addEventListener('click', function () {
         GM.HostAdapter.undo().then(function (r) {
           if (r && r.undone) GM.showToast('已撤销: ' + r.undone + ' (剩余' + r.remaining + '步)', 'info');
