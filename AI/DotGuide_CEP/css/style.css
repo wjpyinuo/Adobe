@@ -6,19 +6,25 @@
   --gm-bg-secondary: #2a2a2a;
   --gm-bg-tertiary: #333333;
   --gm-bg-hover: #3a3a3a;
-  --gm-text-primary: #e0e0e0;
-  --gm-text-secondary: #999999;
-  --gm-text-tertiary: #666666;
-  --gm-border-default: #444444;
+  --gm-bg-card: #252525;
+  --gm-text-primary: #e8e8e8;
+  --gm-text-secondary: #a8a8a8;
+  --gm-text-tertiary: #787878;
+  --gm-border-default: #3a3a3a;
+  --gm-border-subtle: #303030;
   --gm-accent-primary: #0d99ff;
   --gm-accent-success: #34c759;
   --gm-accent-warning: #ffd60a;
   --gm-accent-danger: #ff3b30;
   --gm-radius-sm: 4px;
   --gm-radius-md: 6px;
+  --gm-font-size-xs: 9px;
   --gm-font-size-sm: 10px;
-  --gm-font-size-md: 12px;
-  --gm-font-size-lg: 14px;
+  --gm-font-size-md: 11px;
+  --gm-font-size-lg: 12px;
+  --gm-font-size-xl: 13px;
+  --gm-line-height: 1.45;
+  --gm-section-gap: 14px;
 }
 
 * {
@@ -38,9 +44,11 @@ body {
   color: var(--gm-text-primary);
   font-family: 'Adobe Clean', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   font-size: var(--gm-font-size-md);
+  line-height: var(--gm-line-height);
   overflow: hidden;
   user-select: none;
   -webkit-user-select: none;
+  -webkit-font-smoothing: antialiased;
 }
 
 #dotguide-root {
@@ -53,17 +61,17 @@ body {
 
 /* 滚动条 */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #555;
+  background: rgba(255,255,255,0.12);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #777;
+  background: rgba(255,255,255,0.2);
 }
 
 /* 按钮基础样式 */

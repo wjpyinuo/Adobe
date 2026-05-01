@@ -42,14 +42,14 @@
     var infoSection = GM.createSection('当前模式');
     var infoText = document.createElement('div');
     infoText.style.cssText =
-      'padding:8px 10px;border-radius:4px;background:var(--gm-bg-secondary);' +
-      'font-size:12px;color:var(--gm-accent-primary);font-weight:600;' +
+      'padding:8px 10px;border-radius:var(--gm-radius-sm);background:var(--gm-bg-secondary);' +
+      'font-size:var(--gm-font-size-lg);color:var(--gm-accent-primary);font-weight:600;' +
       'text-align:center;margin-bottom:8px;';
     infoText.textContent = modeNames[compositionState.type] || compositionState.type;
     infoSection.appendChild(infoText);
 
     var descText = document.createElement('div');
-    descText.style.cssText = 'font-size:10px;color:var(--gm-text-secondary);line-height:1.5;margin-bottom:10px;';
+    descText.style.cssText = 'font-size:var(--gm-font-size-sm);color:var(--gm-text-secondary);line-height:1.5;margin-bottom:10px;';
     descText.textContent = descriptions[compositionState.type] || '';
     infoSection.appendChild(descText);
     container.appendChild(infoSection);

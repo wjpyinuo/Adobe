@@ -236,7 +236,7 @@
     var lockBtn = document.createElement('button');
     lockBtn.textContent = gridState.marginLock ? '🔗 统一边距' : '🔓 独立边距';
     lockBtn.style.cssText =
-      'padding:3px 8px;border-radius:3px;font-size:10px;cursor:pointer;' +
+      'padding:3px 8px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-sm);cursor:pointer;' +
       'background:' + (gridState.marginLock ? 'var(--gm-accent-primary)' : 'var(--gm-bg-tertiary)') + ';' +
       'color:#fff;border:none;';
     lockBtn.addEventListener('click', function () {
@@ -265,7 +265,7 @@
     var guideRow = document.createElement('div');
     guideRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
     var guideLabel = document.createElement('span');
-    guideLabel.style.cssText = 'font-size:11px;color:var(--gm-text-secondary);';
+    guideLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
     guideLabel.textContent = '显示参考线';
     guideRow.appendChild(guideLabel);
     guideRow.appendChild(GM.createToggleSwitch(gridState.showGuides, function (v) {
@@ -277,7 +277,7 @@
     var gutterGuideRow = document.createElement('div');
     gutterGuideRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
     var gutterGuideLabel = document.createElement('span');
-    gutterGuideLabel.style.cssText = 'font-size:11px;color:var(--gm-text-secondary);';
+    gutterGuideLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
     gutterGuideLabel.textContent = '显示间距边界线';
     gutterGuideRow.appendChild(gutterGuideLabel);
     gutterGuideRow.appendChild(GM.createToggleSwitch(gridState.showGutterGuides, function (v) {
@@ -289,7 +289,7 @@
     var overlayRow = document.createElement('div');
     overlayRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
     var overlayLabel = document.createElement('span');
-    overlayLabel.style.cssText = 'font-size:11px;color:var(--gm-text-secondary);';
+    overlayLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
     overlayLabel.textContent = '显示色块';
     overlayRow.appendChild(overlayLabel);
     overlayRow.appendChild(GM.createToggleSwitch(gridState.showCellOverlay, function (v) {
@@ -311,8 +311,8 @@
 
       var previewText = document.createElement('div');
       previewText.style.cssText =
-        'padding:8px 10px;border-radius:4px;background:var(--gm-bg-secondary);' +
-        'font-size:10px;color:var(--gm-text-secondary);line-height:1.8;';
+        'padding:8px 10px;border-radius:var(--gm-radius-sm);background:var(--gm-bg-secondary);' +
+        'font-size:var(--gm-font-size-sm);color:var(--gm-text-secondary);line-height:1.8;';
       previewText.innerHTML =
         '可用区域: ' + _fmt(availW) + ' × ' + _fmt(availH) + '<br>' +
         '单元格: ' + _fmt(colWidth) + ' × ' + _fmt(rowHeight) + '<br>' +
@@ -413,7 +413,7 @@
     var clearBtn = document.createElement('button');
     clearBtn.textContent = '✕ 清除网格';
     clearBtn.style.cssText =
-      'width:100%;padding:7px;border-radius:4px;font-size:11px;margin-top:4px;' +
+      'width:100%;padding:7px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-md);margin-top:4px;' +
       'background:var(--gm-bg-tertiary);color:var(--gm-accent-danger);' +
       'border:1px solid var(--gm-border-default);cursor:pointer;transition:all 0.15s;';
     clearBtn.addEventListener('mouseenter', function () { clearBtn.style.borderColor = 'var(--gm-accent-danger)'; });
@@ -435,7 +435,7 @@
     var saveBtn = document.createElement('button');
     saveBtn.textContent = '💾 保存为预设';
     saveBtn.style.cssText =
-      'width:100%;padding:6px;border-radius:4px;font-size:11px;' +
+      'width:100%;padding:6px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-md);' +
       'background:var(--gm-bg-tertiary);color:var(--gm-text-secondary);' +
       'border:1px solid var(--gm-border-default);cursor:pointer;margin-top:6px;';
     saveBtn.addEventListener('click', function () {

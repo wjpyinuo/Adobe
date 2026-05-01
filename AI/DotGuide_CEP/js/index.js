@@ -35,19 +35,19 @@
       // 顶部标题栏
       var header = document.createElement('div');
       header.style.cssText =
-        'padding:10px 12px;border-bottom:1px solid var(--gm-border-default);' +
-        'display:flex;align-items:center;justify-content:space-between;';
+        'padding:10px 12px 9px 12px;border-bottom:1px solid var(--gm-border-subtle);' +
+        'display:flex;align-items:center;justify-content:space-between;flex-shrink:0;';
       header.innerHTML =
-        '<div style="font-size:13px;font-weight:600;">⊞ 墨规 <span style="font-size:9px;font-weight:400;color:var(--gm-text-secondary);">DotGuide v1.0.1</span></div>' +
-        '<div id="doc-info" style="font-size:10px;color:var(--gm-text-secondary);">未检测到文档</div>';
+        '<div style="font-size:var(--gm-font-size-xl);font-weight:700;letter-spacing:-0.2px;">⊞ 墨规 <span style="font-size:var(--gm-font-size-xs);font-weight:400;color:var(--gm-text-tertiary);margin-left:2px;">v1.0.2</span></div>' +
+        '<div id="doc-info" style="font-size:var(--gm-font-size-sm);color:var(--gm-text-tertiary);">未检测到文档</div>';
       root.appendChild(header);
 
       // Tab 栏
       var tabBar = document.createElement('div');
       tabBar.id = 'gm-tab-bar';
       tabBar.style.cssText =
-        'display:flex;border-bottom:1px solid var(--gm-border-default);' +
-        'padding:0 8px;gap:0;overflow-x:auto;';
+        'display:flex;border-bottom:1px solid var(--gm-border-subtle);' +
+        'padding:0 10px;gap:0;overflow-x:auto;flex-shrink:0;background:var(--gm-bg-secondary);';
 
       var tabDefs = [
         { id: 'grid', label: '网格' },
@@ -64,17 +64,17 @@
         btn.dataset.tab = tab.id;
         btn.className = 'gm-tab-btn';
         btn.style.cssText =
-          'padding:8px 10px;font-size:11px;background:none;border:none;' +
-          'border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:all 0.15s;';
+          'padding:9px 10px;font-size:var(--gm-font-size-md);background:none;border:none;color:var(--gm-text-tertiary);' +
+          'border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:all 0.15s;font-weight:500;';
 
         btn.addEventListener('click', function () {
           switchTab(tab.id);
         });
         btn.addEventListener('mouseenter', function () {
-          if (tab.id !== GM.currentTab) btn.style.color = 'var(--gm-text-primary)';
+          if (tab.id !== GM.currentTab) btn.style.color = 'var(--gm-text-secondary)';
         });
         btn.addEventListener('mouseleave', function () {
-          if (tab.id !== GM.currentTab) btn.style.color = 'var(--gm-text-secondary)';
+          if (tab.id !== GM.currentTab) btn.style.color = 'var(--gm-text-tertiary)';
         });
 
         tabBar.appendChild(btn);
@@ -84,7 +84,7 @@
       // 内容区
       var content = document.createElement('div');
       content.id = 'panel-content';
-      content.style.cssText = 'flex:1;overflow-y:auto;padding:12px;';
+      content.style.cssText = 'flex:1;overflow-y:auto;padding:10px 10px 8px 10px;';
 
       var panels = [
         { id: 'grid', render: GM.renderGridPanel },
@@ -107,18 +107,18 @@
       // 底部操作栏
       var footer = document.createElement('div');
       footer.style.cssText =
-        'padding:8px 8px 10px 8px;border-top:1px solid var(--gm-border-default);' +
+        'padding:8px 10px 10px 10px;border-top:1px solid var(--gm-border-subtle);' +
         'display:flex;gap:8px;flex-shrink:0;align-items:center;' +
-        'margin:0 4px 6px 4px;';
+        'margin:0;background:var(--gm-bg-secondary);';
 
       var undoBtn = document.createElement('button');
       undoBtn.id = 'btn-undo';
       undoBtn.textContent = '↩ 撤销';
       undoBtn.style.cssText =
-        'flex:1;padding:7px 10px;border-radius:4px;' +
+        'flex:1;padding:7px 10px;border-radius:var(--gm-radius-sm);' +
         'background:var(--gm-bg-tertiary);color:var(--gm-text-secondary);' +
-        'font-size:11px;border:1px solid var(--gm-border-default);cursor:pointer;transition:all 0.15s;' +
-        'white-space:nowrap;text-align:center;';
+        'font-size:var(--gm-font-size-md);border:1px solid var(--gm-border-default);cursor:pointer;transition:all 0.15s;' +
+        'white-space:nowrap;text-align:center;line-height:1;';
       undoBtn.addEventListener('mouseenter', function () { undoBtn.style.borderColor = 'var(--gm-accent-primary)'; undoBtn.style.color = 'var(--gm-accent-primary)'; });
       undoBtn.addEventListener('mouseleave', function () { undoBtn.style.borderColor = 'var(--gm-border-default)'; undoBtn.style.color = 'var(--gm-text-secondary)'; });
       undoBtn.addEventListener('click', function () {
@@ -133,11 +133,10 @@
       clearBtn.id = 'btn-clear-all';
       clearBtn.textContent = '✕ 清除全部';
       clearBtn.style.cssText =
-        'flex:1;padding:7px 10px;border-radius:6px;' +
-        'background:rgba(255,59,48,0.12);color:var(--gm-accent-danger);' +
-        'font-size:11px;border:1px solid var(--gm-accent-danger);cursor:pointer;transition:all 0.15s;' +
-        'white-space:nowrap;text-align:center;font-weight:500;' +
-        'overflow:hidden;';
+        'flex:1;padding:7px 10px;border-radius:var(--gm-radius-sm);' +
+        'background:rgba(255,59,48,0.08);color:var(--gm-accent-danger);' +
+        'font-size:var(--gm-font-size-md);border:1px solid rgba(255,59,48,0.3);cursor:pointer;transition:all 0.15s;' +
+        'white-space:nowrap;text-align:center;font-weight:500;line-height:1;';
       clearBtn.addEventListener('mouseenter', function () { clearBtn.style.borderColor = 'var(--gm-accent-danger)'; clearBtn.style.background = 'rgba(255,59,48,0.1)'; });
       clearBtn.addEventListener('mouseleave', function () { clearBtn.style.borderColor = 'var(--gm-border-default)'; clearBtn.style.background = 'var(--gm-bg-tertiary)'; });
       clearBtn.addEventListener('click', function () {
@@ -162,8 +161,9 @@
     for (var i = 0; i < tabBtns.length; i++) {
       var btn = tabBtns[i];
       var isActive = btn.dataset.tab === tabId;
-      btn.style.color = isActive ? 'var(--gm-accent-primary)' : 'var(--gm-text-secondary)';
+      btn.style.color = isActive ? 'var(--gm-accent-primary)' : 'var(--gm-text-tertiary)';
       btn.style.borderBottomColor = isActive ? 'var(--gm-accent-primary)' : 'transparent';
+      btn.style.fontWeight = isActive ? '600' : '500';
     }
 
     var panels = document.querySelectorAll('#panel-content > div[data-panel]');

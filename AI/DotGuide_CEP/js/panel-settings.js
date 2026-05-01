@@ -12,11 +12,11 @@
     // 版本信息
     var aboutSection = GM.createSection('关于');
     var aboutCard = document.createElement('div');
-    aboutCard.style.cssText = 'padding:12px;border-radius:4px;background:var(--gm-bg-secondary);border:1px solid var(--gm-border-default);margin-bottom:12px;';
+    aboutCard.style.cssText = 'padding:12px;border-radius:var(--gm-radius-sm);background:var(--gm-bg-secondary);border:1px solid var(--gm-border-default);margin-bottom:12px;';
     aboutCard.innerHTML =
       '<div style="font-size:14px;font-weight:700;margin-bottom:4px;">⊞ DotGuide</div>' +
-      '<div style="font-size:10px;color:var(--gm-text-secondary);line-height:1.6;">' +
-      '版本: 1.0.1 (CEP)<br>引擎: DotGuide Core<br>兼容: Illustrator 2024+ (v28.0+)<br>架构: CEP + ExtendScript</div>';
+      '<div style="font-size:var(--gm-font-size-sm);color:var(--gm-text-secondary);line-height:1.6;">' +
+      '版本: 1.0.2 (CEP)<br>引擎: DotGuide Core<br>兼容: Illustrator 2024+ (v28.0+)<br>架构: CEP + ExtendScript</div>';
     aboutSection.appendChild(aboutCard);
     container.appendChild(aboutSection);
 
@@ -25,7 +25,7 @@
     var previewRow = document.createElement('div');
     previewRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
     var previewLabel = document.createElement('span');
-    previewLabel.style.cssText = 'font-size:11px;color:var(--gm-text-secondary);';
+    previewLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
     previewLabel.textContent = '启用实时预览（网格/构图）';
     previewRow.appendChild(previewLabel);
     var previewToggle = GM.createToggleSwitch(!!GM.Storage.get('preview_enabled'), function (v) {
@@ -36,7 +36,7 @@
     previewSection.appendChild(previewRow);
 
     var previewHint = document.createElement('div');
-    previewHint.style.cssText = 'font-size:9px;color:var(--gm-text-tertiary);margin-bottom:6px;';
+    previewHint.style.cssText = 'font-size:var(--gm-font-size-xs);color:var(--gm-text-tertiary);margin-bottom:6px;';
     previewHint.textContent = '开启后，修改网格/构图参数时会在画布上实时预览效果（300ms 防抖）';
     previewSection.appendChild(previewHint);
     container.appendChild(previewSection);
@@ -45,7 +45,7 @@
     var batchSection = GM.createSection('批量操作');
     var batchAllBtn = document.createElement('button');
     batchAllBtn.textContent = '📋 对所有画板应用当前网格';
-    batchAllBtn.style.cssText = 'width:100%;padding:8px;border-radius:4px;font-size:11px;background:var(--gm-bg-tertiary);color:var(--gm-text-primary);border:1px solid var(--gm-border-default);cursor:pointer;margin-bottom:6px;';
+    batchAllBtn.style.cssText = 'width:100%;padding:8px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-md);background:var(--gm-bg-tertiary);color:var(--gm-text-primary);border:1px solid var(--gm-border-default);cursor:pointer;margin-bottom:6px;';
     batchAllBtn.addEventListener('click', function () {
       if (!GM.currentDocInfo) { GM.showToast('请先打开文档', 'warning'); return; }
       GM.HostAdapter.getAllArtboards().then(function (boards) {
@@ -81,7 +81,7 @@
 
     var exportBtn = document.createElement('button');
     exportBtn.textContent = '📤 导出所有预设';
-    exportBtn.style.cssText = 'width:100%;padding:6px;border-radius:4px;font-size:11px;background:var(--gm-bg-tertiary);color:var(--gm-text-secondary);border:1px solid var(--gm-border-default);cursor:pointer;margin-bottom:6px;';
+    exportBtn.style.cssText = 'width:100%;padding:6px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-md);background:var(--gm-bg-tertiary);color:var(--gm-text-secondary);border:1px solid var(--gm-border-default);cursor:pointer;margin-bottom:6px;';
     exportBtn.addEventListener('click', function () {
       var data = GM.Storage.get('custom_presets');
       if (!data || Object.keys(data).length === 0) { GM.showToast('没有自定义预设可导出', 'warning'); return; }
@@ -109,7 +109,7 @@
 
     var clearDataBtn = document.createElement('button');
     clearDataBtn.textContent = '🗑 清除所有自定义预设';
-    clearDataBtn.style.cssText = 'width:100%;padding:6px;border-radius:4px;font-size:11px;background:var(--gm-bg-tertiary);color:var(--gm-accent-danger);border:1px solid var(--gm-accent-danger);cursor:pointer;margin-bottom:6px;';
+    clearDataBtn.style.cssText = 'width:100%;padding:6px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-md);background:var(--gm-bg-tertiary);color:var(--gm-accent-danger);border:1px solid var(--gm-accent-danger);cursor:pointer;margin-bottom:6px;';
     clearDataBtn.addEventListener('click', function () {
       if (!confirm('确定清除所有自定义预设？此操作不可恢复。')) return;
       GM.Storage.remove('custom_presets');
@@ -123,7 +123,7 @@
     var debugSection = GM.createSection('调试');
     var refreshBtn = document.createElement('button');
     refreshBtn.textContent = '🔄 刷新文档信息';
-    refreshBtn.style.cssText = 'width:100%;padding:6px;border-radius:4px;font-size:11px;background:var(--gm-bg-tertiary);color:var(--gm-text-secondary);border:1px solid var(--gm-border-default);cursor:pointer;margin-bottom:6px;';
+    refreshBtn.style.cssText = 'width:100%;padding:6px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-md);background:var(--gm-bg-tertiary);color:var(--gm-text-secondary);border:1px solid var(--gm-border-default);cursor:pointer;margin-bottom:6px;';
     refreshBtn.addEventListener('click', function () { GM.refreshDocInfo(); GM.showToast('已刷新', 'info'); });
     debugSection.appendChild(refreshBtn);
 

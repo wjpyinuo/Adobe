@@ -22,7 +22,7 @@
     var linkRow = document.createElement('div');
     linkRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
     var linkLabel = document.createElement('span');
-    linkLabel.style.cssText = 'font-size:11px;color:var(--gm-text-secondary);';
+    linkLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
     linkLabel.textContent = '四边等距';
     linkRow.appendChild(linkLabel);
     linkRow.appendChild(GM.createToggleSwitch(printState.bleedLinked, function (v) {
@@ -54,7 +54,7 @@
         var isActive = printState.bleedTop === preset.value && printState.bleedLinked;
         btn.textContent = preset.label;
         btn.style.cssText =
-          'flex:1;padding:4px 2px;border-radius:3px;font-size:9px;cursor:pointer;' +
+          'flex:1;padding:4px 2px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-xs);cursor:pointer;' +
           'border:1px solid ' + (isActive ? 'var(--gm-accent-primary)' : 'var(--gm-border-default)') + ';' +
           'background:' + (isActive ? 'var(--gm-accent-primary)' : 'var(--gm-bg-secondary)') + ';' +
           'color:' + (isActive ? '#fff' : 'var(--gm-text-secondary)') + ';';
@@ -84,7 +84,7 @@
         var row = document.createElement('div');
         row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;';
         var label = document.createElement('span');
-        label.style.cssText = 'font-size:11px;color:var(--gm-text-secondary);';
+        label.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
         label.textContent = opt.icon + ' ' + opt.label;
         row.appendChild(label);
         row.appendChild(GM.createToggleSwitch(printState[opt.key], function (v) { printState[opt.key] = v; }));
@@ -98,7 +98,7 @@
     spineSection.appendChild(GM.createNumberInput('书脊宽度 (mm)', printState.spineWidth, 0, 50, 0.5, function (v) { printState.spineWidth = v; }).el);
 
     var foldHint = document.createElement('div');
-    foldHint.style.cssText = 'font-size:9px;color:var(--gm-text-tertiary);margin-bottom:6px;';
+    foldHint.style.cssText = 'font-size:var(--gm-font-size-xs);color:var(--gm-text-tertiary);margin-bottom:6px;';
     foldHint.textContent = '折线位置（从左边距，逗号分隔，单位mm）';
     spineSection.appendChild(foldHint);
 
@@ -106,7 +106,7 @@
     foldInput.type = 'text';
     foldInput.placeholder = '例: 100, 200, 300';
     foldInput.value = printState.foldLines.join(', ');
-    foldInput.style.cssText = 'width:100%;padding:5px 8px;border-radius:3px;font-size:11px;background:var(--gm-bg-tertiary);color:var(--gm-text-primary);border:1px solid var(--gm-border-default);box-sizing:border-box;';
+    foldInput.style.cssText = 'width:100%;padding:5px 8px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-md);background:var(--gm-bg-tertiary);color:var(--gm-text-primary);border:1px solid var(--gm-border-default);box-sizing:border-box;';
     foldInput.addEventListener('change', function () {
       var val = foldInput.value.trim();
       printState.foldLines = val === '' ? [] : val.split(',').map(function (s) { return parseFloat(s.trim()); }).filter(function (n) { return !isNaN(n) && n > 0; });
@@ -120,7 +120,7 @@
     canvasWrap.style.cssText = 'display:flex;justify-content:center;margin-bottom:10px;';
     var canvas = document.createElement('canvas');
     canvas.width = 200; canvas.height = 150;
-    canvas.style.cssText = 'background:#111;border-radius:4px;border:1px solid var(--gm-border-default);';
+    canvas.style.cssText = 'background:#111;border-radius:var(--gm-radius-sm);border:1px solid var(--gm-border-default);';
     _drawPrintPreview(canvas);
     canvasWrap.appendChild(canvas);
     previewSection.appendChild(canvasWrap);
@@ -143,7 +143,7 @@
     var colorBarBtn = document.createElement('button');
     colorBarBtn.textContent = '🎨 添加 CMYK 色标';
     colorBarBtn.style.cssText =
-      'width:100%;padding:7px;border-radius:4px;font-size:11px;margin-top:4px;' +
+      'width:100%;padding:7px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-md);margin-top:4px;' +
       'background:var(--gm-bg-tertiary);color:var(--gm-text-secondary);' +
       'border:1px solid var(--gm-border-default);cursor:pointer;transition:all 0.15s;';
     colorBarBtn.addEventListener('mouseenter', function () { colorBarBtn.style.borderColor = 'var(--gm-accent-primary)'; colorBarBtn.style.color = 'var(--gm-accent-primary)'; });

@@ -209,7 +209,7 @@
         var btn = document.createElement('div');
         btn.style.cssText =
           'display:flex;flex-direction:column;align-items:center;padding:8px 4px;' +
-          'border-radius:4px;cursor:pointer;transition:all 0.15s;' +
+          'border-radius:var(--gm-radius-sm);cursor:pointer;transition:all 0.15s;' +
           'background:' + (isSelected ? platform.color : 'var(--gm-bg-secondary)') + ';' +
           'border:1px solid ' + (isSelected ? platform.color : 'var(--gm-border-default)') + ';';
 
@@ -218,7 +218,7 @@
         icon.textContent = platform.icon;
 
         var name = document.createElement('div');
-        name.style.cssText = 'font-size:9px;color:' + (isSelected ? '#fff' : 'var(--gm-text-secondary)') + ';';
+        name.style.cssText = 'font-size:var(--gm-font-size-xs);color:' + (isSelected ? '#fff' : 'var(--gm-text-secondary)') + ';';
         name.textContent = platform.name;
 
         btn.appendChild(icon);
@@ -250,7 +250,7 @@
 
           var card = document.createElement('div');
           card.style.cssText =
-            'display:flex;align-items:center;gap:8px;padding:8px;border-radius:4px;' +
+            'display:flex;align-items:center;gap:8px;padding:8px;border-radius:var(--gm-radius-sm);' +
             'cursor:pointer;margin-bottom:4px;transition:all 0.15s;' +
             'background:' + (isSelected ? 'var(--gm-accent-primary)' : 'var(--gm-bg-secondary)') + ';' +
             'border:1px solid ' + (isSelected ? 'var(--gm-accent-primary)' : 'var(--gm-border-default)') + ';';
@@ -266,11 +266,11 @@
           info.style.cssText = 'flex:1;min-width:0;';
 
           var tplName = document.createElement('div');
-          tplName.style.cssText = 'font-size:11px;font-weight:600;color:' + (isSelected ? '#fff' : 'var(--gm-text-primary)') + ';';
+          tplName.style.cssText = 'font-size:var(--gm-font-size-md);font-weight:600;color:' + (isSelected ? '#fff' : 'var(--gm-text-primary)') + ';';
           tplName.textContent = tpl.name;
 
           var tplSize = document.createElement('div');
-          tplSize.style.cssText = 'font-size:9px;margin-top:1px;color:' + (isSelected ? 'rgba(255,255,255,0.7)' : 'var(--gm-text-tertiary)') + ';';
+          tplSize.style.cssText = 'font-size:var(--gm-font-size-xs);margin-top:1px;color:' + (isSelected ? 'rgba(255,255,255,0.7)' : 'var(--gm-text-tertiary)') + ';';
           tplSize.textContent = tpl.width + '×' + tpl.height + tpl.unit + ' · ' + tpl.desc;
 
           info.appendChild(tplName);
@@ -311,7 +311,7 @@
     var scale = maxCanvasH / Math.max(tpl.width, tpl.height);
     canvas.width = Math.round(tpl.width * scale);
     canvas.height = Math.round(tpl.height * scale);
-    canvas.style.cssText = 'background:#1a1a1a;border-radius:4px;border:1px solid var(--gm-border-default);';
+    canvas.style.cssText = 'background:#1a1a1a;border-radius:var(--gm-radius-sm);border:1px solid var(--gm-border-default);';
     _drawEcomPreview(canvas, tpl, ecomState);
     canvasWrap.appendChild(canvas);
     previewSection.appendChild(canvasWrap);
@@ -325,7 +325,7 @@
       var dot = document.createElement('div');
       dot.style.cssText = 'width:8px;height:8px;border-radius:2px;background:' + zone.color + ';';
       var zoneName = document.createElement('span');
-      zoneName.style.cssText = 'font-size:9px;color:var(--gm-text-tertiary);';
+      zoneName.style.cssText = 'font-size:var(--gm-font-size-xs);color:var(--gm-text-tertiary);';
       zoneName.textContent = zone.name;
       legendItem.appendChild(dot);
       legendItem.appendChild(zoneName);
@@ -339,7 +339,7 @@
     var safeRow = document.createElement('div');
     safeRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
     var safeLabel = document.createElement('span');
-    safeLabel.style.cssText = 'font-size:11px;color:var(--gm-text-secondary);';
+    safeLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
     safeLabel.textContent = '显示安全区域';
     safeRow.appendChild(safeLabel);
     safeRow.appendChild(GM.createToggleSwitch(ecomState.safeZone, function (v) { ecomState.safeZone = v; }));
@@ -348,7 +348,7 @@
     var labelRow = document.createElement('div');
     labelRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
     var labelLabel = document.createElement('span');
-    labelLabel.style.cssText = 'font-size:11px;color:var(--gm-text-secondary);';
+    labelLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
     labelLabel.textContent = '显示区域标签';
     labelRow.appendChild(labelLabel);
     labelRow.appendChild(GM.createToggleSwitch(ecomState.showLabels, function (v) { ecomState.showLabels = v; }));
@@ -358,13 +358,13 @@
     var colorRow = document.createElement('div');
     colorRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
     var colorLabel = document.createElement('span');
-    colorLabel.style.cssText = 'font-size:11px;color:var(--gm-text-secondary);';
+    colorLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
     colorLabel.textContent = '安全区域颜色';
     colorRow.appendChild(colorLabel);
     var colorInput = document.createElement('input');
     colorInput.type = 'color';
     colorInput.value = ecomState.safeZoneColor || '#FF6B00';
-    colorInput.style.cssText = 'width:32px;height:22px;border:1px solid var(--gm-border-default);border-radius:3px;background:transparent;cursor:pointer;padding:0;';
+    colorInput.style.cssText = 'width:32px;height:22px;border:1px solid var(--gm-border-default);border-radius:var(--gm-radius-sm);background:transparent;cursor:pointer;padding:0;';
     colorInput.addEventListener('input', function () {
       ecomState.safeZoneColor = colorInput.value;
     });
@@ -375,7 +375,7 @@
     var opacityRow = document.createElement('div');
     opacityRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
     var opacityLabel = document.createElement('span');
-    opacityLabel.style.cssText = 'font-size:11px;color:var(--gm-text-secondary);';
+    opacityLabel.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
     opacityLabel.textContent = '安全区域透明度';
     opacityRow.appendChild(opacityLabel);
     var opacityInput = document.createElement('input');
@@ -383,7 +383,7 @@
     opacityInput.min = '1';
     opacityInput.max = '50';
     opacityInput.value = ecomState.safeZoneOpacity || 12;
-    opacityInput.style.cssText = 'width:50px;height:22px;border:1px solid var(--gm-border-default);border-radius:3px;background:var(--gm-bg-secondary);color:var(--gm-text-primary);font-size:11px;text-align:center;padding:0 4px;';
+    opacityInput.style.cssText = 'width:50px;height:22px;border:1px solid var(--gm-border-default);border-radius:var(--gm-radius-sm);background:var(--gm-bg-secondary);color:var(--gm-text-primary);font-size:var(--gm-font-size-md);text-align:center;padding:0 4px;';
     opacityInput.addEventListener('change', function () {
       var v = parseInt(opacityInput.value, 10);
       if (v < 1) v = 1;
@@ -398,7 +398,7 @@
 
     var actionsSection = GM.createSection('操作');
     var sizeHint = document.createElement('div');
-    sizeHint.style.cssText = 'font-size:10px;color:var(--gm-text-tertiary);margin-bottom:8px;padding:6px;background:var(--gm-bg-tertiary);border-radius:3px;text-align:center;';
+    sizeHint.style.cssText = 'font-size:var(--gm-font-size-sm);color:var(--gm-text-tertiary);margin-bottom:8px;padding:6px;background:var(--gm-bg-tertiary);border-radius:var(--gm-radius-sm);text-align:center;';
 
     if (GM.currentDocInfo) {
       var sizeMatch = GM.currentDocInfo.width === tpl.width && GM.currentDocInfo.height === tpl.height;
@@ -425,7 +425,7 @@
     var safeOnlyBtn = document.createElement('button');
     safeOnlyBtn.textContent = '🛡 仅应用安全区域';
     safeOnlyBtn.style.cssText =
-      'width:100%;padding:7px;border-radius:4px;font-size:11px;margin-top:4px;' +
+      'width:100%;padding:7px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-md);margin-top:4px;' +
       'background:var(--gm-bg-tertiary);color:var(--gm-text-secondary);' +
       'border:1px solid var(--gm-border-default);cursor:pointer;transition:all 0.15s;';
     safeOnlyBtn.addEventListener('mouseenter', function () { safeOnlyBtn.style.borderColor = '#FF9500'; safeOnlyBtn.style.color = '#FF9500'; });
@@ -439,7 +439,7 @@
     var newDocBtn = document.createElement('button');
     newDocBtn.textContent = '📄 以此尺寸新建文档';
     newDocBtn.style.cssText =
-      'width:100%;padding:7px;border-radius:4px;font-size:11px;margin-top:4px;' +
+      'width:100%;padding:7px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-md);margin-top:4px;' +
       'background:var(--gm-bg-tertiary);color:var(--gm-text-secondary);' +
       'border:1px solid var(--gm-border-default);cursor:pointer;transition:all 0.15s;';
     newDocBtn.addEventListener('mouseenter', function () { newDocBtn.style.borderColor = 'var(--gm-accent-primary)'; newDocBtn.style.color = 'var(--gm-accent-primary)'; });

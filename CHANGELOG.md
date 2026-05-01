@@ -73,6 +73,19 @@
 - BUG-5: 批量操作硬编码网格参数 — "对所有画板应用当前网格" 忽略用户当前设置，改为读取 gridState
 - BUG-6: 重做网格操作缺少 overlay 颜色/透明度 — gridParams 未包含 overlayColor/overlayOpacity
 - BUG-11: gridState 从 localStorage 恢复时缺少字段验证 — 旧版数据缺少新字段导致 undefined，添加逐字段 fallback
+- ESLint: 补充全局变量声明 (DotGuide/UndoManager/PerfMonitor/PointType 等)
 
 ### 新增
 - GM.getGridState() 公开方法，供其他模块读取当前网格参数
+
+### UI 优化
+- Section 卡片化：每个区块加背景卡片 + 细边框，层次一目了然
+- 色板对比度提升：`--gm-text-tertiary` 从 #666 调至 #787（对比度 3.6:1 → 4.8:1）
+- 文字行高统一：全局 `line-height: 1.45`，控件标签 `line-height: 1`
+- 字号体系规范化：引入 xs/sm/md/lg/xl 五级 CSS 变量，消除硬编码
+- 输入控件优化：± 按钮加 hover 反馈，输入框背景区分更清晰
+- Tab 栏：加背景色区分内容区，选中态加粗
+- 底部操作栏：与内容区视觉分离，清除按钮降低视觉权重
+- 滚动条：更细（5px），半透明轨道
+- 头部/底部：背景色与内容区分层
+- 版本号更新至 1.0.2
