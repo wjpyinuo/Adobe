@@ -24,50 +24,50 @@ var root = document.documentElement;
 if (isDark) {
 root.style.setProperty('--gm-bg-primary', rgbToHex(r, g, b));
 root.style.setProperty('--gm-bg-secondary', rgbToHex(
-Math.min(r + 8, 255),
-Math.min(g + 8, 255),
-Math.min(b + 8, 255)
+Math.min(r + 12, 255),
+Math.min(g + 12, 255),
+Math.min(b + 12, 255)
 ));
 root.style.setProperty('--gm-bg-tertiary', rgbToHex(
-Math.min(r + 16, 255),
-Math.min(g + 16, 255),
-Math.min(b + 16, 255)
+Math.min(r + 22, 255),
+Math.min(g + 22, 255),
+Math.min(b + 22, 255)
 ));
 root.style.setProperty('--gm-text-primary', '#ffffff');
-root.style.setProperty('--gm-text-secondary', '#999999');
-root.style.setProperty('--gm-text-tertiary', '#666666');
+root.style.setProperty('--gm-text-secondary', '#b0b0b0');
+root.style.setProperty('--gm-text-tertiary', '#888888');
 root.style.setProperty('--gm-border-default', rgbToHex(
-Math.min(r + 28, 255),
-Math.min(g + 28, 255),
-Math.min(b + 28, 255)
+Math.min(r + 35, 255),
+Math.min(g + 35, 255),
+Math.min(b + 35, 255)
 ));
 root.style.setProperty('--gm-border-subtle', rgbToHex(
-Math.min(r + 14, 255),
-Math.min(g + 14, 255),
-Math.min(b + 14, 255)
+Math.min(r + 18, 255),
+Math.min(g + 18, 255),
+Math.min(b + 18, 255)
 ));
 } else {
 root.style.setProperty('--gm-bg-primary', rgbToHex(r, g, b));
 root.style.setProperty('--gm-bg-secondary', rgbToHex(
-Math.max(r - 8, 0),
-Math.max(g - 8, 0),
-Math.max(b - 8, 0)
+Math.max(r - 10, 0),
+Math.max(g - 10, 0),
+Math.max(b - 10, 0)
 ));
 root.style.setProperty('--gm-bg-tertiary', rgbToHex(
-Math.max(r - 16, 0),
-Math.max(g - 16, 0),
-Math.max(b - 16, 0)
+Math.max(r - 20, 0),
+Math.max(g - 20, 0),
+Math.max(b - 20, 0)
 ));
 root.style.setProperty('--gm-text-primary', '#1a1a1a');
-root.style.setProperty('--gm-text-secondary', '#666666');
-root.style.setProperty('--gm-text-tertiary', '#999999');
+root.style.setProperty('--gm-text-secondary', '#555555');
+root.style.setProperty('--gm-text-tertiary', '#777777');
 root.style.setProperty('--gm-border-default', rgbToHex(
-Math.max(r - 25, 0),
-Math.max(g - 25, 0),
-Math.max(b - 25, 0)
+Math.max(r - 30, 0),
+Math.max(g - 30, 0),
+Math.max(b - 30, 0)
 ));
 root.style.setProperty('--gm-border-subtle', rgbToHex(
-Math.max(r - 12, 0),
+Math.max(r - 15, 0),
 Math.max(g - 12, 0),
 Math.max(b - 12, 0)
 ));
