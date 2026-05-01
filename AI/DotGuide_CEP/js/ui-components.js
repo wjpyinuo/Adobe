@@ -14,12 +14,12 @@
     var section = document.createElement('div');
     section.style.cssText = 'margin-bottom:var(--gm-section-gap);' +
       'background:var(--gm-bg-card);border-radius:var(--gm-radius-md);' +
-      'padding:10px 11px;border:1px solid var(--gm-border-subtle);';
+      'padding:10px 11px;border:1px solid var(--gm-border-default);';
     if (title) {
       var titleEl = document.createElement('div');
       titleEl.style.cssText =
-        'font-size:var(--gm-font-size-sm);font-weight:600;color:var(--gm-text-tertiary);' +
-        'margin-bottom:9px;letter-spacing:0.3px;line-height:1;';
+        'font-size:var(--gm-font-size-xs);font-weight:600;color:var(--gm-text-tertiary);' +
+        'margin-bottom:8px;letter-spacing:0.4px;line-height:1;';
       titleEl.textContent = title;
       section.appendChild(titleEl);
     }
@@ -34,18 +34,18 @@
     var row = document.createElement('div');
     row.style.cssText =
       'display:flex;align-items:center;justify-content:space-between;' +
-      'margin-bottom:7px;height:26px;';
+      'margin-bottom:6px;height:28px;';
 
     var labelEl = document.createElement('span');
-    labelEl.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
+    labelEl.style.cssText = 'font-size:var(--gm-font-size-sm);color:var(--gm-text-secondary);line-height:1;';
     labelEl.textContent = label;
 
     var inputWrap = document.createElement('div');
     inputWrap.style.cssText = 'display:flex;align-items:center;gap:1px;';
 
     var btnStyle =
-      'width:24px;height:22px;border-radius:var(--gm-radius-sm);background:var(--gm-bg-tertiary);' +
-      'color:var(--gm-text-secondary);font-size:14px;display:flex;align-items:center;' +
+      'width:26px;height:24px;border-radius:var(--gm-radius-sm);background:var(--gm-bg-tertiary);' +
+      'color:var(--gm-text-secondary);font-size:15px;display:flex;align-items:center;' +
       'justify-content:center;cursor:pointer;border:1px solid var(--gm-border-default);' +
       'transition:all 0.12s;';
 
@@ -62,7 +62,7 @@
     input.max = max;
     input.step = step || 1;
     input.style.cssText =
-      'width:48px;height:22px;text-align:center;border-radius:0;' +
+      'width:50px;height:24px;text-align:center;border-radius:0;' +
       'background:var(--gm-bg-secondary);color:var(--gm-text-primary);' +
       'border:1px solid var(--gm-border-default);border-left:none;border-right:none;' +
       'font-size:var(--gm-font-size-md);-moz-appearance:textfield;' +
@@ -114,17 +114,17 @@
     var row = document.createElement('div');
     row.style.cssText =
       'display:flex;align-items:center;justify-content:space-between;' +
-      'margin-bottom:7px;height:26px;';
+      'margin-bottom:6px;height:28px;';
 
     var labelEl = document.createElement('span');
-    labelEl.style.cssText = 'font-size:var(--gm-font-size-md);color:var(--gm-text-secondary);line-height:1;';
+    labelEl.style.cssText = 'font-size:var(--gm-font-size-sm);color:var(--gm-text-secondary);line-height:1;';
     labelEl.textContent = label;
 
     var select = document.createElement('select');
     select.style.cssText =
-      'width:130px;height:22px;border-radius:var(--gm-radius-sm);' +
+      'width:130px;height:24px;border-radius:var(--gm-radius-sm);' +
       'background:var(--gm-bg-tertiary);color:var(--gm-text-primary);' +
-      'border:1px solid var(--gm-border-default);font-size:var(--gm-font-size-md);padding:0 4px;';
+      'border:1px solid var(--gm-border-default);font-size:var(--gm-font-size-sm);padding:0 4px;';
 
     options.forEach(function (opt) {
       var option = document.createElement('option');
@@ -181,7 +181,7 @@
         nameBtn.dataset.presetBtn = '1';
         nameBtn.dataset.presetId = preset.id;
         nameBtn.style.cssText =
-          'padding:4px 8px;font-size:var(--gm-font-size-sm);cursor:pointer;border:none;outline:none;' +
+          'padding:5px 9px;font-size:var(--gm-font-size-sm);cursor:pointer;border:none;outline:none;' +
           'background:var(--gm-bg-tertiary);color:var(--gm-text-primary);transition:all 0.15s;line-height:1;';
         nameBtn.addEventListener('mouseenter', function () {
           if (nameBtn.dataset.presetId !== selectedId) {
@@ -233,7 +233,7 @@
         btn.dataset.presetBtn = '1';
         btn.dataset.presetId = preset.id;
         btn.style.cssText =
-          'padding:4px 8px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-sm);cursor:pointer;' +
+          'padding:5px 9px;border-radius:var(--gm-radius-sm);font-size:var(--gm-font-size-sm);cursor:pointer;' +
           'background:var(--gm-bg-tertiary);color:var(--gm-text-primary);' +
           'border:1px solid var(--gm-border-default);transition:all 0.15s;line-height:1;';
 
@@ -315,13 +315,13 @@
 
   GM.createToggleSwitch = function (value, onChange) {
     var row = document.createElement('div');
-    row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;';
+    row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;';
     var toggle = document.createElement('div');
-    toggle.style.cssText = 'width:34px;height:18px;border-radius:9px;cursor:pointer;transition:all 0.2s;' +
+    toggle.style.cssText = 'width:36px;height:20px;border-radius:10px;cursor:pointer;transition:all 0.2s;' +
       'background:' + (value ? 'var(--gm-accent-primary)' : 'var(--gm-bg-tertiary)') + ';' +
       'border:1px solid ' + (value ? 'var(--gm-accent-primary)' : 'var(--gm-border-default)') + ';position:relative;';
     var knob = document.createElement('div');
-    knob.style.cssText = 'width:14px;height:14px;border-radius:50%;background:#fff;position:absolute;top:1px;transition:left 0.2s;' +
+    knob.style.cssText = 'width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:1px;transition:left 0.2s;' +
       'left:' + (value ? '17px' : '1px') + ';box-shadow:0 1px 2px rgba(0,0,0,0.35);';
     toggle.appendChild(knob);
     toggle.addEventListener('click', function () {
